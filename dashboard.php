@@ -4,6 +4,34 @@ if (!isset($_SESSION["account_id"])) {
 	header("Location: login.php");
 	exit;
 }
+
+// Get the page parameter, default to dashboard
+$page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
+
+// Define allowed pages for security
+$allowed_pages = [
+	'dashboard',
+	'families',
+	'members',
+	'accounts',
+	'reports',
+	'settings'
+];
+
+// Validate page
+if (!in_array($page, $allowed_pages)) {
+	$page = 'dashboard';
+}
+
+// Page titles mapping
+$page_titles = [
+	'dashboard' => 'Dashboard',
+	'families' => 'Families',
+	'members' => 'Members',
+	'accounts' => 'Accounts',
+	'reports' => 'Reports',
+	'settings' => 'Settings'
+];
 ?>
 
 <!DOCTYPE html>
@@ -13,7 +41,7 @@ if (!isset($_SESSION["account_id"])) {
 	<meta charset="UTF-8">
 	<link rel="icon" href="./assets/images/favicon.svg">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Dashboard - EProfile</title>
+	<title><?= $page_titles[$page] ?> - EProfile</title>
 	<link rel="stylesheet" href="./assets/css/bootstrap.min.css">
 	<link rel="stylesheet" href="./assets/css/bootstrap-icons.css">
 	<style>
@@ -95,6 +123,17 @@ if (!isset($_SESSION["account_id"])) {
 				padding-right: 0.5rem;
 			}
 		}
+
+		/* Active sidebar link styling */
+		.list-group-item.active {
+			background-color: #0d6efd;
+			border-color: #0d6efd;
+		}
+
+		/* Content area */
+		.main-content {
+			min-height: calc(100vh - 72px);
+		}
 	</style>
 </head>
 
@@ -115,27 +154,31 @@ if (!isset($_SESSION["account_id"])) {
 		</div>
 
 		<div class="list-group list-group-flush">
-			<a href="#" class="list-group-item list-group-item-action active">
+			<a href="?page=dashboard"
+				class="list-group-item list-group-item-action <?= $page == 'dashboard' ? 'active' : '' ?>">
 				<i class="bi bi-speedometer2 me-2"></i>
 				Dashboard
 			</a>
-			<a href="#" class="list-group-item list-group-item-action">
+			<a href="?page=families"
+				class="list-group-item list-group-item-action <?= $page == 'families' ? 'active' : '' ?>">
 				<i class="bi bi-people-fill me-2"></i>
 				Families
 			</a>
-			<a href="#" class="list-group-item list-group-item-action">
+			<a href="?page=members" class="list-group-item list-group-item-action <?= $page == 'members' ? 'active' : '' ?>">
 				<i class="bi bi-person-lines-fill me-2"></i>
 				Members
 			</a>
-			<a href="#" class="list-group-item list-group-item-action">
+			<a href="?page=accounts"
+				class="list-group-item list-group-item-action <?= $page == 'accounts' ? 'active' : '' ?>">
 				<i class="bi bi-person-badge-fill me-2"></i>
 				Accounts
 			</a>
-			<a href="#" class="list-group-item list-group-item-action">
+			<a href="?page=reports" class="list-group-item list-group-item-action <?= $page == 'reports' ? 'active' : '' ?>">
 				<i class="bi bi-file-earmark-bar-graph-fill me-2"></i>
 				Reports
 			</a>
-			<a href="#" class="list-group-item list-group-item-action">
+			<a href="?page=settings"
+				class="list-group-item list-group-item-action <?= $page == 'settings' ? 'active' : '' ?>">
 				<i class="bi bi-gear-fill me-2"></i>
 				Settings
 			</a>
@@ -156,27 +199,33 @@ if (!isset($_SESSION["account_id"])) {
 					<small class="text-muted">System</small>
 				</div>
 				<div class="list-group list-group-flush">
-					<a href="#" class="list-group-item list-group-item-action active">
+					<a href="?page=dashboard"
+						class="list-group-item list-group-item-action <?= $page == 'dashboard' ? 'active' : '' ?>">
 						<i class="bi bi-speedometer2 me-2"></i>
 						Dashboard
 					</a>
-					<a href="#" class="list-group-item list-group-item-action">
+					<a href="?page=families"
+						class="list-group-item list-group-item-action <?= $page == 'families' ? 'active' : '' ?>">
 						<i class="bi bi-people-fill me-2"></i>
 						Families
 					</a>
-					<a href="#" class="list-group-item list-group-item-action">
+					<a href="?page=members"
+						class="list-group-item list-group-item-action <?= $page == 'members' ? 'active' : '' ?>">
 						<i class="bi bi-person-lines-fill me-2"></i>
 						Members
 					</a>
-					<a href="#" class="list-group-item list-group-item-action">
+					<a href="?page=accounts"
+						class="list-group-item list-group-item-action <?= $page == 'accounts' ? 'active' : '' ?>">
 						<i class="bi bi-person-badge-fill me-2"></i>
 						Accounts
 					</a>
-					<a href="#" class="list-group-item list-group-item-action">
+					<a href="?page=reports"
+						class="list-group-item list-group-item-action <?= $page == 'reports' ? 'active' : '' ?>">
 						<i class="bi bi-file-earmark-bar-graph-fill me-2"></i>
 						Reports
 					</a>
-					<a href="#" class="list-group-item list-group-item-action">
+					<a href="?page=settings"
+						class="list-group-item list-group-item-action <?= $page == 'settings' ? 'active' : '' ?>">
 						<i class="bi bi-gear-fill me-2"></i>
 						Settings
 					</a>
@@ -198,7 +247,7 @@ if (!isset($_SESSION["account_id"])) {
 						</button>
 
 						<span class="navbar-brand topbar-brand">
-							Dashboard
+							<?= $page_titles[$page] ?>
 						</span>
 
 						<!-- Account Dropdown (Always on right) -->
@@ -233,49 +282,18 @@ if (!isset($_SESSION["account_id"])) {
 					</div>
 				</nav>
 
-				<!-- Main -->
-				<div class="container-fluid p-4">
-					<div class="row g-4">
-						<div class="col-md-4">
-							<div class="card shadow-sm">
-								<div class="card-body">
-									<h6 class="text-muted">Families</h6>
-									<h2>0</h2>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-md-4">
-							<div class="card shadow-sm">
-								<div class="card-body">
-									<h6 class="text-muted">Members</h6>
-									<h2>0</h2>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-md-4">
-							<div class="card shadow-sm">
-								<div class="card-body">
-									<h6 class="text-muted">Accounts</h6>
-									<h2>0</h2>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="card shadow-sm mt-4">
-						<div class="card-header fw-semibold">
-							Welcome
-						</div>
-						<div class="card-body">
-							<p class="mb-0">
-								Welcome to the Eprofiling System.
-								You are logged in as
-								<strong><?= htmlspecialchars($_SESSION["role"]); ?></strong>.
-							</p>
-						</div>
-					</div>
+				<!-- Main Content -->
+				<div class="container-fluid p-4 main-content">
+					<?php
+					// Include the appropriate page content
+					$page_file = "pages/{$page}.php";
+					if (file_exists($page_file)) {
+						include $page_file;
+					} else {
+						// Fallback to dashboard if page file doesn't exist
+						include "pages/dashboard.php";
+					}
+					?>
 				</div>
 			</div>
 		</div>
@@ -310,9 +328,8 @@ if (!isset($_SESSION["account_id"])) {
 			closeBtn.on('click', closeSidebar);
 			overlay.on('click', closeSidebar);
 
-			// Close sidebar when a link is clicked (optional)
+			// Close sidebar when a link is clicked
 			sidebar.find('.list-group-item').on('click', function () {
-				// Only close if it's not the active link
 				if (!$(this).hasClass('active')) {
 					closeSidebar();
 				}
