@@ -164,7 +164,7 @@
 						decision-making.
 					</p>
 					<div class="mt-4">
-						<a href="login.php" class="btn btn-primary btn-lg px-4">
+						<a href="register_family.php" class="btn btn-primary btn-lg px-4">
 							Register Family
 						</a>
 					</div>
@@ -184,7 +184,7 @@
 			</small>
 		</div>
 	</footer>
-	<script src="./assets/js/jquery-3.7.1.min.js"></script>
+	<script src="./assets/js/jquery.js"></script>
 	<script src="./assets/js/bootstrap.bundle.min.js"></script>
 </body>
 
