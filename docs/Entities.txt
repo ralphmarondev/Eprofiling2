@@ -1,0 +1,39 @@
+Accounts:
+    id
+    username
+    email
+    password (hashed)
+    member_id References Members(id)
+    role References Role(id)
+    is_deleted
+    create_date
+    update_date
+
+Role:
+    id
+    name
+
+Members
+    id
+    first_name
+    last_name
+    middle_name
+    suffix
+    age
+    family_id References Family(id)
+    create_date
+    update_date
+    processed_by
+
+Family
+    id
+    family_id
+    name
+    create_date
+    update_date
+    processed_by
+
+Relationship
+    id
+    member_id
+    family_id
