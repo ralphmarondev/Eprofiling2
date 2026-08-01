@@ -334,6 +334,35 @@
 		})
 		.catch(err => console.error(err))
 
+	//Populate Role Dropdown Table
+	fetch('api/accounts_fetch_roles.php')
+		.then(res => res.json())
+		.then(roles => {
+			const options = $.map(roles, function(role) {
+				return $('<option>', {
+					value: role.id,
+					text: role.name
+				});
+			});
+
+			$('#updateAccountRole').append(options);
+		})
+
+	//Populate Members Dropdown Table
+	fetch('api/accounts_fetch_members.php')
+		.then(res => res.json())
+		.then(members => {
+			const options = $.map(members, function(member) {
+				return $('<option>', {
+					value: member.id,
+					text: member.full_name
+				});
+			});
+
+			$('#updateAccountMember').append(options);
+		})
+
+
 	//View Account Stuff
 	function viewPopulateForm(accountUsername, accountRole, accountMemberFullName, accountMemberName, accountEmail, accountIsDeleted) {
 		$('#viewAccountUsername').val(accountUsername);
