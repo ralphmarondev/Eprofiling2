@@ -1,0 +1,54 @@
+Accounts:
+	id: 1
+	username: loid
+	role_id: 3
+	email: loid@gmail.com
+	password: 12345678
+	member_id: 1 (from_db)
+	is_deleted: false
+
+Family:
+	id: 1
+	family_code: FAM-FORGER
+	name: Forger
+	household_number: 123
+	household_type: nuclear
+	housing_ownership: rented
+	contact_number: 09123456789
+	address: 56, Carig Sur, Tuguegarao, Cagayan
+	status: active
+	registration_status: approved
+
+Members:
+	id: 1
+	family_id: 1 (from_db)
+	first_name: Loid 
+	last_name: Forger 
+	middle_name: Wiz
+	suffix: NULL
+	sex: male
+	date_of_birth: 2005-09-04
+	place_of_birth: Earth
+	civil_status: married
+	nationality: Japanese
+	religion: Roman Catholic
+	is_head: True
+
+
+Relationship:
+	id: 1
+	family_id: 1
+	member_id: 1
+	type: 'relative'
+
+	id: 2
+	family_id: 1
+	member_id: 2
+	type: 'relative'
+
+
+
+
+
+
+

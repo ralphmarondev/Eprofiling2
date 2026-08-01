@@ -1,114 +1,118 @@
 <?php
 require_once "../config/database.php";
-
 // ============================================
 // Optional: Clear existing data (CAUTION!)
 // ============================================
-// Uncomment these lines if you want to reset everything
-// $mysqli->query("SET FOREIGN_KEY_CHECKS = 0");
-// $mysqli->query("TRUNCATE TABLE accounts");
-// $mysqli->query("TRUNCATE TABLE members");
-// $mysqli->query("TRUNCATE TABLE family");
-// $mysqli->query("TRUNCATE TABLE relationship");
-// $mysqli->query("TRUNCATE TABLE role");
-// $mysqli->query("SET FOREIGN_KEY_CHECKS = 1");
-// echo "⚠️  Existing data cleared!\n";
+// Uncomment if you want to reset everything.
 
+$mysqli->query("SET FOREIGN_KEY_CHECKS = 0");
+$mysqli->query("TRUNCATE TABLE accounts");
+$mysqli->query("TRUNCATE TABLE members");
+$mysqli->query("TRUNCATE TABLE families");
+$mysqli->query("TRUNCATE TABLE roles");
+$mysqli->query("SET FOREIGN_KEY_CHECKS = 1");
+echo "⚠️ Existing data cleared!\n";
 // ============================================
-// Helper function to check if table is empty
+// Helper Function
 // ============================================
 function isTableEmpty($mysqli, $table)
 {
-	$result = $mysqli->query("SELECT COUNT(*) as count FROM $table");
+	$result = $mysqli->query("SELECT COUNT(*) AS total FROM {$table}");
 	$row = $result->fetch_assoc();
-	return $row['count'] == 0;
-}
 
+	return $row["total"] == 0;
+}
 // ============================================
-// STEP 1: Seed Roles (only if empty)
+// Seed Roles
 // ============================================
-if (isTableEmpty($mysqli, 'role')) {
+if (isTableEmpty($mysqli, "roles")) {
 	$roles = [
-		['name' => 'Administrator'],
-		['name' => 'Staff'],
-		['name' => 'FamilyAdmin'],
-		['name' => 'User']
+		"administrator",
+		"staff",
+		"family_admin",
+		"resident"
 	];
 
-	$stmt = $mysqli->prepare("INSERT INTO role (name) VALUES (?)");
+	$stmt = $mysqli->prepare("
+        INSERT INTO roles (name)
+        VALUES (?)
+    ");
 
 	foreach ($roles as $role) {
-		$stmt->bind_param("s", $role['name']);
-
+		$stmt->bind_param("s", $role);
 		if (!$stmt->execute()) {
-			die("Failed to seed role: " . $stmt->error);
+			die("Failed to seed roles: " . $stmt->error);
 		}
 	}
-
 	$stmt->close();
-	echo "✅ Roles seeded successfully!\n";
+	echo "✅ Roles seeded successfully.\n";
 } else {
-	echo "⏭️  Roles already exist, skipping...\n";
+	echo "⏭️ Roles already exist.\n";
 }
 
 // ============================================
-// STEP 2: Seed Accounts (only if empty)
+// Seed Administrator & Staff Accounts
 // ============================================
-if (isTableEmpty($mysqli, 'accounts')) {
+// NOTE:
+// This assumes accounts.member_id is NULLABLE.
+// If it is NOT NULL, these inserts will fail.
+// ============================================
+
+if (isTableEmpty($mysqli, "accounts")) {
 	$accounts = [
 		[
 			"username" => "admin",
 			"email" => "admin@gmail.com",
 			"password" => "adminnimda",
-			"member_id" => null,
-			"role_id" => 1 // Administrator
+			"role_id" => 1
 		],
 		[
 			"username" => "staff",
 			"email" => "staff@gmail.com",
 			"password" => "staff123",
-			"member_id" => null,
-			"role_id" => 2 // Staff
+			"role_id" => 2
 		]
 	];
 
 	$stmt = $mysqli->prepare("
-        INSERT INTO accounts (
+        INSERT INTO accounts
+        (
+            role_id,
+            member_id,
             username,
             email,
-            password,
-            member_id,
-            role_id
-        ) VALUES (?, ?, ?, ?, ?)
+            password_hash
+        )
+        VALUES
+        (
+            ?, ?, ?, ?, ?
+        )
     ");
 
 	foreach ($accounts as $account) {
-		$hashedPassword = password_hash(
+		$memberId = null;
+		$passwordHash = password_hash(
 			$account["password"],
 			PASSWORD_DEFAULT
 		);
-
 		$stmt->bind_param(
-			"sssii",
+			"iisss",
+			$account["role_id"],
+			$memberId,
 			$account["username"],
 			$account["email"],
-			$hashedPassword,
-			$account["member_id"],
-			$account["role_id"]
+			$passwordHash
 		);
-
 		if (!$stmt->execute()) {
 			die("Failed to seed account: " . $stmt->error);
 		}
 	}
-
 	$stmt->close();
-	echo "✅ Accounts seeded successfully!\n";
+	echo "✅ Accounts seeded successfully.\n";
 } else {
-	echo "⏭️  Accounts already exist, skipping...\n";
+	echo "⏭️ Accounts already exist.\n";
 }
 
 $mysqli->close();
 
 echo "\n🎉 Database seeded successfully!\n";
-?>

@@ -1,10 +1,10 @@
 Accounts:
     id
-    username
-    email
+    role_id FK -> Role(id)
+    username UNIQUE
+    email UNIQUE
     password (hashed)
-    member_id References Members(id)
-    role References Role(id)
+    member_id FK -> Members(id) UNIQUE
     is_deleted
     create_date
     update_date
@@ -12,28 +12,37 @@ Accounts:
 Role:
     id
     name
+    create_date 
+    update_date
+
+Family
+    id
+    family_code
+    name
+    household_number
+    household_type
+    housing_ownership
+    contact_number 
+    address 
+    status
+    registration_status
+    create_date
+    update_date
 
 Members
     id
+    family_id FK -> Family(id)
     first_name
     last_name
     middle_name
     suffix
-    age
-    family_id References Family(id)
+    sex
+    date_of_birth
+    place_of_birth
+    civil_status
+    nationality
+    religion 
+    is_head
+    relationship_to_head
     create_date
     update_date
-    processed_by
-
-Family
-    id
-    family_id
-    name
-    create_date
-    update_date
-    processed_by
-
-Relationship
-    id
-    member_id
-    family_id
