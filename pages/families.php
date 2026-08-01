@@ -593,10 +593,126 @@
 		}
 	}
 </style>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="assets/js/sweetalert2.all.min.js"></script>
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/bootstrap.bundle.min.js"></script>
 <script>
+	// Add this to your families page script
+	$(document).ready(function () {
+		loadFamilies();
+
+		// Handle search
+		$('#searchFamily').on('keyup', function () {
+			const searchTerm = $(this).val().toLowerCase();
+			filterFamilies(searchTerm);
+		});
+	});
+
+	function loadFamilies() {
+		$.ajax({
+			url: 'api/family_list.php',
+			method: 'GET',
+			dataType: 'json',
+			success: function (response) {
+				if (response.success) {
+					renderFamilies(response.families);
+				} else {
+					showError('Failed to load families: ' + response.message);
+				}
+			},
+			error: function () {
+				showError('Failed to load families. Please try again.');
+			}
+		});
+	}
+
+	function renderFamilies(families) {
+		const tbody = $('.table tbody');
+		tbody.empty();
+
+		if (families.length === 0) {
+			tbody.html(`
+						<tr>
+								<td colspan="7" class="text-center text-muted">
+										<i class="bi bi-inbox me-2"></i>No families registered yet
+								</td>
+						</tr>
+				`);
+			return;
+		}
+
+		families.forEach((family, index) => {
+			const statusBadge = getBadgeHtml(family.registration_status, family.registration_status_badge);
+			const row = `
+						<tr>
+								<td>${index + 1}</td>
+								<td><span class="badge bg-secondary">${family.family_code}</span></td>
+								<td><strong>${family.family_name}</strong></td>
+								<td>${family.head_name}</td>
+								<td>${statusBadge}</td>
+								<td>${family.created_at_formatted}</td>
+								<td>
+										<button class="btn btn-sm btn-outline-primary" title="View" onclick="viewFamily(${family.id})">
+												<i class="bi bi-eye"></i>
+										</button>
+										<button class="btn btn-sm btn-outline-warning" title="Edit" onclick="editFamily(${family.id})">
+												<i class="bi bi-pencil"></i>
+										</button>
+										<button class="btn btn-sm btn-outline-danger" title="Delete" onclick="deleteFamily(${family.id})">
+												<i class="bi bi-trash"></i>
+										</button>
+								</td>
+						</tr>
+				`;
+			tbody.append(row);
+		});
+
+		// Update pagination or show count
+		updatePagination(families.length);
+	}
+
+	function filterFamilies(searchTerm) {
+		$('.table tbody tr').each(function () {
+			const text = $(this).text().toLowerCase();
+			$(this).toggle(text.indexOf(searchTerm) > -1);
+		});
+	}
+
+	function getBadgeHtml(status, badgeClass) {
+		const labels = {
+			'pending': 'Pending',
+			'approved': 'Approved',
+			'rejected': 'Rejected'
+		};
+		return `<span class="badge bg-${badgeClass}">${labels[status] || status}</span>`;
+	}
+
+	function updatePagination(count) {
+		// You can implement pagination here
+		$('.pagination .total-count').text(`${count} families found`);
+	}
+
+	function viewFamily(id) {
+		// Implement view family details
+		console.log('View family:', id);
+	}
+
+	function editFamily(id) {
+		// Implement edit family
+		console.log('Edit family:', id);
+	}
+
+	function deleteFamily(id) {
+		if (confirm('Are you sure you want to delete this family?')) {
+			// Implement delete
+			console.log('Delete family:', id);
+		}
+	}
+
+	function showError(message) {
+		// Show error message
+		alert(message);
+	}
 	$(document).ready(function () {
 		let currentStep = 1;
 		const totalSteps = 4;
