@@ -483,15 +483,15 @@
 				text += `<td>${account.id}</td>`
 				text += `<td>${account.username}</td>`
 				if (account.role_id == 1) {
-					text += '<td><span class="badge bg-success">Administrator</span></td>';
+					text += `<td><span class="badge bg-success">${account.role_name}</span></td>`;
 				} else if (account.role_id == 2) {
-					text += '<td><span class="badge bg-primary">Staff</span></td>';
+					text += `<td><span class="badge bg-primary">${account.role_name}</span></td>`;
 				} else if (account.role_id == 3) {
-					text += '<td><span class="badge bg-info">Family Head</span></td>';
+					text += `<td><span class="badge bg-info">${account.role_name}</span></td>`;
 				} else if (account.role_id == 4) {
-					text += '<td><span class="badge bg-secondary">User</span></td>';
+					text += `<td><span class="badge bg-secondary">${account.role_name}</span></td>`;
 				} else {
-					text += '<td><span class="badge bg-dark">Not Applicable</span></td>';
+					text += `<td><span class="badge bg-dark">${account.role_name}</span></td>`;
 				}
 
 				if (account.is_deleted == 0) {
@@ -504,7 +504,7 @@
 
 				text += `<td>
 									<button class="btn btn-sm btn-outline-primary" title="View" data-bs-toggle="modal" data-bs-target="#viewAccountModal" onclick="` +
-					viewPopulateForm(account.username, account.role_id, account.member_id, account.email, account.is_deleted) +
+					viewPopulateForm(account.username, account.role_name, account.member_id, account.email, account.is_deleted) +
 					`")>
 										<i class="bi bi-eye" ></i>
 									</button>
@@ -521,9 +521,18 @@
 		})
 		.catch(err => console.error(err))
 
-	function viewPopulateForm(accountUsername, accountRoleID, accountMemberID, accountEmail, accountIsDeleted) {
-		// $('#viewAccountUsername').val(accountData.username);
-		// $('#viewAccountUsername').val(accountData.username);
+	function viewPopulateForm(accountUsername, accountRole, accountMember, accountEmail, accountIsDeleted) {
+		$('#viewAccountUsername').val(accountUsername);
+		$('#viewAccountRole').val(accountRole);
+
+		$('#viewAccountMember').val(accountMember);
+		$('#viewAccountEmail').val(accountEmail);
+		if (accountIsDeleted == 0) {
+			$('#viewAccountStatus').val('Active');
+		} else {
+			$('#viewAccountStatus').val('Inactive');
+		}
+
 	}
 
 	$(document).ready(function() {

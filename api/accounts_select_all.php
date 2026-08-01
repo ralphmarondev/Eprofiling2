@@ -8,7 +8,8 @@ $sql = "SELECT
           accounts.email, 
           members.id AS member_id, 
           accounts.role_id,
-          role.name AS role_name
+          role.name AS role_name,
+          accounts.is_deleted
         FROM `accounts`
         INNER JOIN `role` ON accounts.role_id = role.id
         LEFT JOIN `members` ON accounts.member_id = members.id
