@@ -290,10 +290,14 @@
 	}
 </style>
 
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
 <script>
-	$(document).ready(function () {
+	$(document).ready(function() {
 		// Add member row
-		$('#addMemberBtn').on('click', function () {
+		$('#addMemberBtn').on('click', function() {
 			const memberHTML = `
 			<div class="member-entry border rounded p-3 mb-2">
 				<div class="row g-2">
@@ -328,7 +332,7 @@
 		});
 
 		// Remove member row
-		$(document).on('click', '.remove-member', function () {
+		$(document).on('click', '.remove-member', function() {
 			const memberEntries = $('.member-entry');
 			if (memberEntries.length > 1) {
 				$(this).closest('.member-entry').remove();
@@ -339,7 +343,7 @@
 		});
 
 		// Form validation
-		$('#createFamilyForm').on('submit', function (e) {
+		$('#createFamilyForm').on('submit', function(e) {
 			// Add was-validated class for Bootstrap validation
 			if (this.checkValidity() === false) {
 				e.preventDefault();
@@ -355,7 +359,7 @@
 		});
 
 		// Reset form when modal is closed
-		$('#createFamilyModal').on('hidden.bs.modal', function () {
+		$('#createFamilyModal').on('hidden.bs.modal', function() {
 			$('#createFamilyForm')[0].reset();
 			$('#createFamilyForm').removeClass('was-validated');
 		});

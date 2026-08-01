@@ -29,6 +29,8 @@
 				</button>
 			</div>
 		</div>
+
+		<!-- Table -->
 		<div class="table-responsive">
 			<table class="table table-hover">
 				<thead>
@@ -97,8 +99,8 @@
 
 								echo
 								'<td>
-									<button class="btn btn-sm btn-outline-primary" title="View">
-										<i class="bi bi-eye"></i>
+									<button class="btn btn-sm btn-outline-primary" title="View" data-bs-toggle="modal" data-bs-target="#viewAccountModal" onclick=viewModalPopulateData(' . $userbase[$increment]["roleid"] . ')>
+										<i class="bi bi-eye" ></i>
 									</button>
 									<button class="btn btn-sm btn-outline-warning" title="Edit">
 										<i class="bi bi-pencil"></i>
@@ -152,7 +154,7 @@
 							<label for="createAccountRole" class="form-label fw-semibold">
 								Account Role <span class="text-danger">*</span>
 							</label>
-							<select class="form-select" id="createAccountRole" name="status" required>
+							<select class="form-select" id="createAccountRole" name="create_account_role" required>
 								<option value="">Select role...</option>
 								<option value="1">Administrator</option>
 								<option value="2">Staff</option>
@@ -162,10 +164,10 @@
 						</div>
 
 						<div class="col-md-6 mb-3">
-							<label for="createAccountRole" class="form-label fw-semibold">
+							<label for="createAccountMember" class="form-label fw-semibold">
 								Account Member
 							</label>
-							<select class="form-select" id="createAccountMember" name="status">
+							<select class="form-select" id="createAccountMember" name="create_account_status">
 								<option value="">Select member...</option>
 								<option value="1">Member1</option>
 								<option value="2">Member2</option>
@@ -215,11 +217,88 @@
 	</div>
 </div>
 
+<!-- View Account Modal -->
+<div class="modal fade" id="viewAccountModal" tabindex="-1" aria-labelledby="viewAccountModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="viewAccountModalLabel">
+					<i class="bi bi-people-fill me-2"></i>View Account
+				</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-12 mb-3">
+						<label for="viewAccountUsername" class="form-label fw-semibold">
+							Account Username
+						</label>
+						<input type="text" class="form-control" id="viewAccountUsername" name="view_account_username" placeholder="Account username"
+							readonly>
+						<div class="invalid-feedback">Please enter a username.</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<label for="viewAccountRole" class="form-label fw-semibold">
+							Account Role
+						</label>
+						<input type="text" class="form-control" id="viewAccountRole" name="view_account_role" placeholder="Account Role"
+							readonly>
+					</div>
+
+					<div class="col-md-6 mb-3">
+						<label for="viewAccountRole" class="form-label fw-semibold">
+							Account Member
+						</label>
+						<input type="text" class="form-control" id="viewAccountMember" name="view_account_member" placeholder="Account Member"
+							readonly>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-6 mb-3">
+						<label for="viewAccountEmail" class="form-label fw-semibold">
+							Email Address
+						</label>
+						<input type="email" class="form-control" id="viewAccountEmail" name="view_account_email" placeholder="username@example.com" readonly>
+					</div>
+					<div class="col-md-6 mb-3">
+						<label for="status" class="form-label fw-semibold">
+							Status
+						</label>
+						<input type="text" class="form-control" id="viewAccountStatus" name="view_account_status" placeholder="Account Status"
+							readonly>
+					</div>
+				</div>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Exit</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+
 <script>
 	$(document).ready(function() {
+		// Create Account Stuff
 		$('#createAccountModal').on('hidden.bs.modal', function() {
 			$('#createAccountForm')[0].reset();
 			//$('#createAccountForm').removeClass('was-validated');
 		});
+
+		// View Account Stuff
 	})
+
+	function viewModalPopulateData(data) {
+		console.log(data);
+	}
 </script>
