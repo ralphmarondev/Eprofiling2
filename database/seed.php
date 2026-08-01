@@ -4,14 +4,13 @@ require_once "../config/database.php";
 // Optional: Clear existing data (CAUTION!)
 // ============================================
 // Uncomment if you want to reset everything.
-
-$mysqli->query("SET FOREIGN_KEY_CHECKS = 0");
-$mysqli->query("TRUNCATE TABLE accounts");
-$mysqli->query("TRUNCATE TABLE members");
-$mysqli->query("TRUNCATE TABLE families");
-$mysqli->query("TRUNCATE TABLE roles");
-$mysqli->query("SET FOREIGN_KEY_CHECKS = 1");
-echo "⚠️ Existing data cleared!\n";
+// $mysqli->query("SET FOREIGN_KEY_CHECKS = 0");
+// $mysqli->query("TRUNCATE TABLE accounts");
+// $mysqli->query("TRUNCATE TABLE members");
+// $mysqli->query("TRUNCATE TABLE families");
+// $mysqli->query("TRUNCATE TABLE roles");
+// $mysqli->query("SET FOREIGN_KEY_CHECKS = 1");
+// echo "⚠️ Existing data cleared!\n";
 // ============================================
 // Helper Function
 // ============================================
