@@ -1,0 +1,36 @@
+Family:
+	- id (auto-generated)
+	- household_number (optional - barangay numbering)
+	- family_name
+	- head_of_family_id (linked to a member)
+	- address (house no, street, barangay, municipality, province)
+	- contact_number (optional - mobile/landline)
+	- data registered (system generated)
+	- registration_status (pending, approved, rejected) (on admin panel approved)
+	- date_approved (lgu only and admin)
+	- household_type (optional - Nuclear, extended, single parent)
+	- housing_ownership (optional - owned, rented, informal settler)
+
+Member:
+	- id
+	- family_id
+	- first_name
+	- middle_name
+	- last_name
+	- suffix
+	- sex
+	- date_of_birth
+	- place_of_birth
+	- civil_status
+	- nationality
+	- religion
+
+
+
+
+
+
+
+
+
+
