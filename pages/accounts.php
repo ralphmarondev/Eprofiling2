@@ -503,9 +503,8 @@
 				}
 
 				text += `<td>
-									<button class="btn btn-sm btn-outline-primary" title="View" data-bs-toggle="modal" data-bs-target="#viewAccountModal" onclick="` +
-					viewPopulateForm(account.username, account.role_name, account.member_id, account.email, account.is_deleted) +
-					`")>
+									<button class="btn btn-sm btn-outline-primary" title="View" data-bs-toggle="modal" data-bs-target="#viewAccountModal" 
+									onclick="viewPopulateForm('${account.username}', '${account.role_name}', '${account.member_id}', '${account.member_name}', '${account.email}', '${account.is_deleted}')">
 										<i class="bi bi-eye" ></i>
 									</button>
 									<button class="btn btn-sm btn-outline-warning" title="Edit" data-bs-toggle="modal" data-bs-target="#updateAccountModal")>
@@ -521,12 +520,19 @@
 		})
 		.catch(err => console.error(err))
 
-	function viewPopulateForm(accountUsername, accountRole, accountMember, accountEmail, accountIsDeleted) {
+
+	//View Account Stuff
+	function viewPopulateForm(accountUsername, accountRole, accountMemberID, accountMemberName, accountEmail, accountIsDeleted) {
 		$('#viewAccountUsername').val(accountUsername);
 		$('#viewAccountRole').val(accountRole);
+		if (accountMemberID == 'null') {
+			$('#viewAccountMember').val('Not Available');
+		} else {
+			$('#viewAccountMember').val(accountMember);
+		}
 
-		$('#viewAccountMember').val(accountMember);
 		$('#viewAccountEmail').val(accountEmail);
+
 		if (accountIsDeleted == 0) {
 			$('#viewAccountStatus').val('Active');
 		} else {
@@ -534,12 +540,4 @@
 		}
 
 	}
-
-	$(document).ready(function() {
-		// Create Account Stuff
-		$('#createAccountModal').on('hidden.bs.modal', function() {
-			$('#createAccountForm')[0].reset();
-			//$('#createAccountForm').removeClass('was-validated');
-		});
-	})
 </script>
