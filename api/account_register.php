@@ -20,12 +20,16 @@ $password = $_POST["password"] ?? "";
 $memberId = isset($_POST["member_id"]) && $_POST["member_id"] !== ""
 	? intval($_POST["member_id"])
 	: null;
-$roleId = 4; // Default User
 
+$roleId = 4; // resident
+
+// ============================================
+// Validate Required Fields
+// ============================================
 if (
 	empty($username) ||
-	empty($email) ||
-	empty($password)
+	empty($password) ||
+	$memberId === null
 ) {
 	http_response_code(400);
 
@@ -37,13 +41,38 @@ if (
 	exit;
 }
 
-// Check username
-$stmt = $mysqli->prepare("SELECT id FROM accounts WHERE username = ?");
+// ============================================
+// Validate Email (Optional)
+// ============================================
+if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+
+	http_response_code(400);
+
+	echo json_encode([
+		"success" => false,
+		"message" => "Invalid email address."
+	]);
+
+	exit;
+}
+
+// ============================================
+// Check Username
+// ============================================
+$stmt = $mysqli->prepare("
+	SELECT id
+	FROM accounts
+	WHERE username = ?
+");
+
 $stmt->bind_param("s", $username);
 $stmt->execute();
 $stmt->store_result();
 
 if ($stmt->num_rows > 0) {
+
+	$stmt->close();
+
 	echo json_encode([
 		"success" => false,
 		"message" => "Username already exists."
@@ -54,42 +83,124 @@ if ($stmt->num_rows > 0) {
 
 $stmt->close();
 
-// Check email
-$stmt = $mysqli->prepare("SELECT id FROM accounts WHERE email = ?");
-$stmt->bind_param("s", $email);
+// ============================================
+// Check Email
+// ============================================
+if (!empty($email)) {
+
+	$stmt = $mysqli->prepare("
+		SELECT id
+		FROM accounts
+		WHERE email = ?
+	");
+
+	$stmt->bind_param("s", $email);
+	$stmt->execute();
+	$stmt->store_result();
+
+	if ($stmt->num_rows > 0) {
+
+		$stmt->close();
+
+		echo json_encode([
+			"success" => false,
+			"message" => "Email already exists."
+		]);
+
+		exit;
+	}
+
+	$stmt->close();
+}
+
+// ============================================
+// Check Member Exists
+// ============================================
+$stmt = $mysqli->prepare("
+	SELECT id
+	FROM members
+	WHERE id = ?
+");
+
+$stmt->bind_param("i", $memberId);
 $stmt->execute();
 $stmt->store_result();
 
-if ($stmt->num_rows > 0) {
+if ($stmt->num_rows === 0) {
+
+	$stmt->close();
+
+	http_response_code(404);
+
 	echo json_encode([
 		"success" => false,
-		"message" => "Email already exists."
+		"message" => "Member not found."
 	]);
+
 	exit;
 }
 
 $stmt->close();
-$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+// ============================================
+// Check Member Already Has Account
+// ============================================
 $stmt = $mysqli->prepare("
-    INSERT INTO accounts
-    (
-        username,
-        email,
-        password,
-        member_id,
-        role_id
-    )
-    VALUES
-    (?, ?, ?, ?, ?)
+	SELECT id
+	FROM accounts
+	WHERE member_id = ?
+");
+
+$stmt->bind_param("i", $memberId);
+$stmt->execute();
+$stmt->store_result();
+
+if ($stmt->num_rows > 0) {
+
+	$stmt->close();
+
+	http_response_code(409);
+
+	echo json_encode([
+		"success" => false,
+		"message" => "This member already has an account."
+	]);
+
+	exit;
+}
+
+$stmt->close();
+
+// ============================================
+// Create Account
+// ============================================
+$hashedPassword = password_hash(
+	$password,
+	PASSWORD_DEFAULT
+);
+
+$stmt = $mysqli->prepare("
+	INSERT INTO accounts
+	(
+		role_id,
+		member_id,
+		username,
+		email,
+		password_hash
+	)
+	VALUES
+	(
+		?, ?, ?, ?, ?
+	)
 ");
 
 $stmt->bind_param(
-	"sssii",
+	"iisss",
+	$roleId,
+	$memberId,
 	$username,
 	$email,
-	$hashedPassword,
-	$memberId,
-	$roleId
+	$hashedPassword
 );
 
 if ($stmt->execute()) {

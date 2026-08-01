@@ -97,7 +97,7 @@ CREATE TABLE accounts (
     role_id INT NOT NULL,
     member_id INT,
     username VARCHAR(50) NOT NULL UNIQUE,
-    email VARCHAR(255) NOT NULL UNIQUE,
+    email VARCHAR(255) NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
     is_deleted BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

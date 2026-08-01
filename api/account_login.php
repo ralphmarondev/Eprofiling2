@@ -35,7 +35,7 @@ $stmt = $mysqli->prepare("
 		a.id,
 		a.username,
 		a.email,
-		a.password,
+		a.password_hash,
 		a.member_id,
 		a.role_id,
 		r.name AS role
@@ -65,7 +65,7 @@ if ($result->num_rows === 0) {
 
 $account = $result->fetch_assoc();
 
-if (!password_verify($password, $account["password"])) {
+if (!password_verify($password, $account["password_hash"])) {
 	http_response_code(401);
 	echo json_encode([
 		"success" => false,
@@ -83,7 +83,7 @@ $_SESSION["username"] = $account["username"];
 $_SESSION["role"] = $account["role"];
 
 // Remove password before returning data
-unset($account["password"]);
+unset($account["password_hash"]);
 echo json_encode([
 	"success" => true,
 	"message" => "Login successful.",
