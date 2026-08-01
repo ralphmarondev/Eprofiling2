@@ -395,6 +395,7 @@
 	</div>
 </div>
 
+<!-- Delete Account Modal -->
 <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel"
 	aria-hidden="true">
 	<div class="modal-dialog modal-lg">
@@ -481,13 +482,13 @@
 				text += "<tr>";
 				text += `<td>${account.id}</td>`
 				text += `<td>${account.username}</td>`
-				if (account.roleid == 1) {
+				if (account.role_id == 1) {
 					text += '<td><span class="badge bg-success">Administrator</span></td>';
-				} else if (account.roleid == 2) {
+				} else if (account.role_id == 2) {
 					text += '<td><span class="badge bg-primary">Staff</span></td>';
-				} else if (account.roleid == 3) {
+				} else if (account.role_id == 3) {
 					text += '<td><span class="badge bg-info">Family Head</span></td>';
-				} else if (account.roleid == 4) {
+				} else if (account.role_id == 4) {
 					text += '<td><span class="badge bg-secondary">User</span></td>';
 				} else {
 					text += '<td><span class="badge bg-dark">Not Applicable</span></td>';
@@ -502,7 +503,9 @@
 				}
 
 				text += `<td>
-									<button class="btn btn-sm btn-outline-primary" title="View" data-bs-toggle="modal" data-bs-target="#viewAccountModal")>
+									<button class="btn btn-sm btn-outline-primary" title="View" data-bs-toggle="modal" data-bs-target="#viewAccountModal" onclick="` +
+					viewPopulateForm(account.username, account.role_id, account.member_id, account.email, account.is_deleted) +
+					`")>
 										<i class="bi bi-eye" ></i>
 									</button>
 									<button class="btn btn-sm btn-outline-warning" title="Edit" data-bs-toggle="modal" data-bs-target="#updateAccountModal")>
@@ -518,13 +521,16 @@
 		})
 		.catch(err => console.error(err))
 
+	function viewPopulateForm(accountUsername, accountRoleID, accountMemberID, accountEmail, accountIsDeleted) {
+		// $('#viewAccountUsername').val(accountData.username);
+		// $('#viewAccountUsername').val(accountData.username);
+	}
+
 	$(document).ready(function() {
 		// Create Account Stuff
 		$('#createAccountModal').on('hidden.bs.modal', function() {
 			$('#createAccountForm')[0].reset();
 			//$('#createAccountForm').removeClass('was-validated');
 		});
-
-		// View Account Stuff
 	})
 </script>
