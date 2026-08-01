@@ -30,6 +30,17 @@ try {
 	$municipality = trim($_POST["municipality"] ?? "");
 	$province = trim($_POST["province"] ?? "");
 
+	// Status with default 'pending'
+	$status = trim($_POST["status"] ?? "pending");
+
+	// Validate status if provided
+	if (!empty($_POST["status"])) {
+		$validStatuses = ['active', 'inactive'];
+		if (!in_array($status, $validStatuses)) {
+			throw new Exception("Invalid status value. Allowed values: " . implode(', ', $validStatuses));
+		}
+	}
+
 	// Validate required family fields
 	if (empty($familyName)) {
 		throw new Exception("Family name is required.");
@@ -109,8 +120,8 @@ try {
 	// STEP 4: Check for Duplicates
 	// ============================================
 
-	// Check if family code exists
-	$stmt = $mysqli->prepare("SELECT id FROM family WHERE family_code = ?");
+	// Check if family code exists (fixed table name: families)
+	$stmt = $mysqli->prepare("SELECT id FROM families WHERE family_code = ?");
 	$stmt->bind_param("s", $familyCode);
 	$stmt->execute();
 	$stmt->store_result();
@@ -142,12 +153,12 @@ try {
 	}
 
 	// ============================================
-	// STEP 5: Insert Family
+	// STEP 5: Insert Family (fixed table name and columns)
 	// ============================================
 	$address = trim($houseNo . ", " . $barangay . ", " . $municipality . ", " . $province);
 
 	$stmt = $mysqli->prepare("
-        INSERT INTO family (
+        INSERT INTO families (
             family_code,
             name,
             household_number,
@@ -156,20 +167,20 @@ try {
             contact_number,
             address,
             status,
-            registration_status,
-            created_date
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, 'active', 'approved', NOW())
+            registration_status
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending')
     ");
 
 	$stmt->bind_param(
-		"sssssss",
+		"ssssssss",
 		$familyCode,
 		$familyName,
 		$householdNumber,
 		$householdType,
 		$housingOwnership,
 		$contactNumber,
-		$address
+		$address,
+		$status
 	);
 
 	if (!$stmt->execute()) {
@@ -183,6 +194,7 @@ try {
 	// STEP 6: Insert Member (Head of Family)
 	// ============================================
 	$isHead = 1;
+	$relationshipToHead = 'head';
 
 	$stmt = $mysqli->prepare("
         INSERT INTO members (
@@ -198,12 +210,12 @@ try {
             nationality,
             religion,
             is_head,
-            created_date
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+            relationship_to_head
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ");
 
 	$stmt->bind_param(
-		"issssssssssi",
+		"issssssssssis",
 		$familyId,
 		$firstName,
 		$middleName,
@@ -215,7 +227,8 @@ try {
 		$civilStatus,
 		$nationality,
 		$religion,
-		$isHead
+		$isHead,
+		$relationshipToHead
 	);
 
 	if (!$stmt->execute()) {
@@ -226,7 +239,7 @@ try {
 	$stmt->close();
 
 	// ============================================
-	// STEP 7: Insert Account
+	// STEP 7: Insert Account (fixed column names)
 	// ============================================
 	$roleId = 3; // Default FamilyAdmin role
 	$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
@@ -235,11 +248,10 @@ try {
         INSERT INTO accounts (
             username,
             email,
-            password,
+            password_hash,
             member_id,
-            role_id,
-            created_date
-        ) VALUES (?, ?, ?, ?, ?, NOW())
+            role_id
+        ) VALUES (?, ?, ?, ?, ?)
     ");
 
 	$stmt->bind_param(
@@ -259,13 +271,17 @@ try {
 	$stmt->close();
 
 	// ============================================
-	// STEP 8: Update Family with Head of Family
+	// STEP 8: Update Family with Head of Family (optional - skip if column doesn't exist)
 	// ============================================
-	// Uncomment this if you want to track head of family in family table
-	$stmt = $mysqli->prepare("UPDATE family SET head_of_family_id = ? WHERE id = ?");
+	// Note: Only run this if you've added head_of_family_id to families table
+	// For now, we'll skip this to avoid errors
+
+	/*
+	$stmt = $mysqli->prepare("UPDATE families SET head_of_family_id = ? WHERE id = ?");
 	$stmt->bind_param("ii", $memberId, $familyId);
 	$stmt->execute();
 	$stmt->close();
+	*/
 
 	// Commit transaction
 	$mysqli->commit();
@@ -281,6 +297,8 @@ try {
 			"family_id" => $familyId,
 			"family_code" => $familyCode,
 			"family_name" => $familyName,
+			"status" => $status,
+			"registration_status" => "pending",
 			"member_id" => $memberId,
 			"member_name" => trim($firstName . " " . ($middleName ? $middleName . " " : "") . $lastName),
 			"account_id" => $accountId,

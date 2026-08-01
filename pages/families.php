@@ -109,7 +109,7 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 
-			<form id="createFamilyForm" method="POST" action="api/admin_family_create.php">
+			<form id="createFamilyForm" method="POST" action="api/family_create.php">
 				<!-- Progress Steps -->
 				<div class="px-4 pt-3">
 					<div class="d-flex justify-content-between align-items-center">
@@ -858,7 +858,7 @@
 
 			// Submit to API
 			$.ajax({
-				url: 'api/admin_family_create.php',
+				url: 'api/family_create.php',
 				method: 'POST',
 				data: formData,
 				dataType: 'json',
