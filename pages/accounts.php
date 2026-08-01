@@ -42,9 +42,9 @@
 						<th>Actions</th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr>
-						<?php
+				<tbody id="accounts_data">
+					<?php
+					/*
 						$userbase = [
 							[
 								"id" => 1,
@@ -114,9 +114,8 @@
 						} else {
 							echo '<td colspan="5" class="text-center text-muted">No accounts found</td>';
 						}
-						?>
-
-					</tr>
+						*/
+					?>
 				</tbody>
 			</table>
 		</div>
@@ -473,6 +472,52 @@
 <script src="assets/js/bootstrap.bundle.min.js"></script>
 
 <script>
+	// populate table
+	fetch('api/accounts_select_all.php')
+		.then(res => res.json())
+		.then(accounts => {
+			var text = "";
+			accounts.forEach(account => {
+				text += "<tr>";
+				text += `<td>${account.id}</td>`
+				text += `<td>${account.username}</td>`
+				if (account.roleid == 1) {
+					text += '<td><span class="badge bg-success">Administrator</span></td>';
+				} else if (account.roleid == 2) {
+					text += '<td><span class="badge bg-primary">Staff</span></td>';
+				} else if (account.roleid == 3) {
+					text += '<td><span class="badge bg-info">Family Head</span></td>';
+				} else if (account.roleid == 4) {
+					text += '<td><span class="badge bg-secondary">User</span></td>';
+				} else {
+					text += '<td><span class="badge bg-dark">Not Applicable</span></td>';
+				}
+
+				if (account.is_deleted == 0) {
+					text += '<td><span class="badge bg-success">Active</span></td>';
+				} else {
+					{
+						text += '<td><span class="badge bg-secondary">Inactive</span></td>';
+					}
+				}
+
+				text += `<td>
+									<button class="btn btn-sm btn-outline-primary" title="View" data-bs-toggle="modal" data-bs-target="#viewAccountModal")>
+										<i class="bi bi-eye" ></i>
+									</button>
+									<button class="btn btn-sm btn-outline-warning" title="Edit" data-bs-toggle="modal" data-bs-target="#updateAccountModal")>
+										<i class="bi bi-pencil"></i>
+									</button>
+									<button class="btn btn-sm btn-outline-danger" title="Delete" data-bs-toggle="modal" data-bs-target="#deleteAccountModal")>
+										<i class="bi bi-trash"></i>
+									</button>
+								</td>`
+				text += "</tr>";
+			})
+			$('#accounts_data').html(text)
+		})
+		.catch(err => console.error(err))
+
 	$(document).ready(function() {
 		// Create Account Stuff
 		$('#createAccountModal').on('hidden.bs.modal', function() {
