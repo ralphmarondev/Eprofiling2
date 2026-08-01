@@ -9,6 +9,7 @@ $sql = "SELECT
           members.id AS member_id, 
           accounts.role_id,
           role.name AS role_name,
+          CONCAT(members.first_name, ' ', members.last_name) AS member_full_name,
           accounts.is_deleted
         FROM `accounts`
         INNER JOIN `role` ON accounts.role_id = role.id
