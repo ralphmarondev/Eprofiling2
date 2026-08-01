@@ -40,7 +40,7 @@ $stmt = $mysqli->prepare("
 		a.role_id,
 		r.name AS role
 	FROM accounts a
-	INNER JOIN role r
+	INNER JOIN roles r
 		ON a.role_id = r.id
 	WHERE
 		a.username = ?
