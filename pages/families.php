@@ -28,9 +28,8 @@
 				<thead>
 					<tr>
 						<th>#</th>
+						<th>Family Code</th>
 						<th>Family Name</th>
-						<th>Members</th>
-						<th>Head of Family</th>
 						<th>Status</th>
 						<th>Created</th>
 						<th>Actions</th>
@@ -40,9 +39,8 @@
 					<!-- Sample data - replace with database queries -->
 					<tr>
 						<td>1</td>
+						<td><span class="badge bg-secondary">FAM-SANTOS</span></td>
 						<td><strong>Santos Family</strong></td>
-						<td><span class="badge bg-info">5</span></td>
-						<td>Juan Santos</td>
 						<td><span class="badge bg-success">Active</span></td>
 						<td>2026-01-15</td>
 						<td>
@@ -59,9 +57,8 @@
 					</tr>
 					<tr>
 						<td>2</td>
+						<td><span class="badge bg-secondary">FAM-REYES</span></td>
 						<td><strong>Reyes Family</strong></td>
-						<td><span class="badge bg-info">3</span></td>
-						<td>Maria Reyes</td>
 						<td><span class="badge bg-success">Active</span></td>
 						<td>2026-01-20</td>
 						<td>
@@ -78,10 +75,9 @@
 					</tr>
 					<tr>
 						<td>3</td>
+						<td><span class="badge bg-secondary">FAM-GARCIA</span></td>
 						<td><strong>Garcia Family</strong></td>
-						<td><span class="badge bg-info">2</span></td>
-						<td>Pedro Garcia</td>
-						<td><span class="badge bg-secondary">Inactive</span></td>
+						<td><span class="badge bg-success">Active</span></td>
 						<td>2026-01-25</td>
 						<td>
 							<button class="btn btn-sm btn-outline-primary" title="View">
@@ -130,135 +126,57 @@
 
 			<form id="createFamilyForm" method="POST" action="api/family_create.php">
 				<div class="modal-body">
-					<!-- Family Information -->
 					<div class="row">
-						<div class="col-md-12 mb-3">
-							<label for="familyName" class="form-label fw-semibold">
-								Family Name <span class="text-danger">*</span>
-							</label>
-							<input type="text" class="form-control" id="familyName" name="family_name" placeholder="Enter family name"
-								required>
-							<div class="invalid-feedback">Please enter a family name</div>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col-md-6 mb-3">
-							<label for="headOfFamily" class="form-label fw-semibold">
-								Head of Family <span class="text-danger">*</span>
-							</label>
-							<input type="text" class="form-control" id="headOfFamily" name="head_of_family"
-								placeholder="Full name of head" required>
-							<div class="invalid-feedback">Please enter the head of family</div>
-						</div>
-
-						<div class="col-md-6 mb-3">
-							<label for="contactNumber" class="form-label fw-semibold">
-								Contact Number
-							</label>
-							<input type="tel" class="form-control" id="contactNumber" name="contact_number"
-								placeholder="e.g., 09123456789">
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col-md-6 mb-3">
-							<label for="email" class="form-label fw-semibold">
-								Email Address
-							</label>
-							<input type="email" class="form-control" id="email" name="email" placeholder="family@example.com">
-						</div>
-
-						<div class="col-md-6 mb-3">
-							<label for="status" class="form-label fw-semibold">
-								Status <span class="text-danger">*</span>
-							</label>
-							<select class="form-select" id="status" name="status" required>
-								<option value="">Select status...</option>
-								<option value="active">Active</option>
-								<option value="inactive">Inactive</option>
-							</select>
-							<div class="invalid-feedback">Please select a status</div>
-						</div>
-					</div>
-
-					<div class="mb-3">
-						<label for="address" class="form-label fw-semibold">
-							Address <span class="text-danger">*</span>
-						</label>
-						<textarea class="form-control" id="address" name="address" rows="2" placeholder="Enter complete address"
-							required></textarea>
-						<div class="invalid-feedback">Please enter an address</div>
-					</div>
-
-					<div class="row">
-						<div class="col-md-6 mb-3">
-							<label for="city" class="form-label fw-semibold">
-								City/Municipality <span class="text-danger">*</span>
-							</label>
-							<input type="text" class="form-control" id="city" name="city" placeholder="Enter city" required>
-							<div class="invalid-feedback">Please enter a city</div>
-						</div>
-
-						<div class="col-md-6 mb-3">
-							<label for="province" class="form-label fw-semibold">
-								Province <span class="text-danger">*</span>
-							</label>
-							<input type="text" class="form-control" id="province" name="province" placeholder="Enter province"
-								required>
-							<div class="invalid-feedback">Please enter a province</div>
-						</div>
-					</div>
-
-					<div class="mb-3">
-						<label for="notes" class="form-label fw-semibold">
-							Additional Notes
-						</label>
-						<textarea class="form-control" id="notes" name="notes" rows="2"
-							placeholder="Any additional information about the family"></textarea>
-					</div>
-
-					<!-- Divider -->
-					<hr>
-
-					<!-- Family Members Section -->
-					<h6 class="fw-semibold mb-3">
-						<i class="bi bi-person-lines-fill me-2"></i>Family Members
-					</h6>
-
-					<div id="membersContainer">
-						<div class="member-entry border rounded p-3 mb-2">
-							<div class="row g-2">
-								<div class="col-md-4">
-									<input type="text" class="form-control form-control-sm" placeholder="Full name" name="member_name[]">
-								</div>
-								<div class="col-md-3">
-									<select class="form-select form-select-sm" name="member_role[]">
-										<option value="head">Head</option>
-										<option value="spouse">Spouse</option>
-										<option value="child">Child</option>
-										<option value="relative">Relative</option>
-									</select>
-								</div>
-								<div class="col-md-3">
-									<select class="form-select form-select-sm" name="member_gender[]">
-										<option value="">Select Gender</option>
-										<option value="male">Male</option>
-										<option value="female">Female</option>
-									</select>
-								</div>
-								<div class="col-md-2">
-									<button type="button" class="btn btn-sm btn-outline-danger w-100 remove-member">
-										<i class="bi bi-x-circle"></i>
+						<!-- Left Column -->
+						<div class="col-md-6">
+							<!-- Family Code -->
+							<div class="mb-3">
+								<label for="familyCode" class="form-label fw-semibold">
+									Family Code <span class="text-danger">*</span>
+								</label>
+								<div class="input-group">
+									<input type="text" class="form-control" id="familyCode" name="family_code"
+										placeholder="FAM-FAMILYNAME" required>
+									<button type="button" class="btn btn-outline-secondary" id="regenerateCodeBtn" title="Generate Code">
+										<i class="bi bi-arrow-clockwise"></i>
 									</button>
 								</div>
+								<small class="text-muted">Auto-generated from family name</small>
+								<div class="invalid-feedback">Please enter a family code</div>
+							</div>
+
+							<!-- Family Name -->
+							<div class="mb-3">
+								<label for="familyName" class="form-label fw-semibold">
+									Family Name <span class="text-danger">*</span>
+								</label>
+								<input type="text" class="form-control" id="familyName" name="name" placeholder="Enter family name"
+									required>
+								<div class="invalid-feedback">Please enter a family name</div>
+							</div>
+
+							<!-- Landline (Optional) -->
+							<div class="mb-3">
+								<label for="landline" class="form-label fw-semibold">
+									Landline Number <span class="text-muted">(Optional)</span>
+								</label>
+								<input type="tel" class="form-control" id="landline" name="landline" placeholder="e.g., (02) 8123-4567">
+							</div>
+						</div>
+
+						<!-- Right Column -->
+						<div class="col-md-6">
+							<!-- Address -->
+							<div class="mb-3">
+								<label for="address" class="form-label fw-semibold">
+									Address <span class="text-danger">*</span>
+								</label>
+								<textarea class="form-control" id="address" name="address" rows="6" placeholder="Enter complete address"
+									required></textarea>
+								<div class="invalid-feedback">Please enter an address</div>
 							</div>
 						</div>
 					</div>
-
-					<button type="button" class="btn btn-outline-primary btn-sm" id="addMemberBtn">
-						<i class="bi bi-plus-circle me-1"></i> Add Member
-					</button>
 				</div>
 
 				<div class="modal-footer">
@@ -272,84 +190,67 @@
 	</div>
 </div>
 
-<style>
-	/* Member entry styling */
-	.member-entry {
-		background-color: #f8f9fa;
-		transition: all 0.2s;
-	}
-
-	.member-entry:hover {
-		background-color: #f1f3f5;
-	}
-
-	/* Form validation styling */
-	.was-validated .form-control:invalid,
-	.was-validated .form-select:invalid {
-		border-color: #dc3545;
-	}
-</style>
-
 <script>
 	$(document).ready(function () {
-		// Add member row
-		$('#addMemberBtn').on('click', function () {
-			const memberHTML = `
-			<div class="member-entry border rounded p-3 mb-2">
-				<div class="row g-2">
-					<div class="col-md-4">
-						<input type="text" class="form-control form-control-sm" 
-								 placeholder="Full name" name="member_name[]">
-					</div>
-					<div class="col-md-3">
-						<select class="form-select form-select-sm" name="member_role[]">
-							<option value="head">Head</option>
-							<option value="spouse">Spouse</option>
-							<option value="child">Child</option>
-							<option value="relative">Relative</option>
-						</select>
-					</div>
-					<div class="col-md-3">
-						<select class="form-select form-select-sm" name="member_gender[]">
-							<option value="">Select Gender</option>
-							<option value="male">Male</option>
-							<option value="female">Female</option>
-						</select>
-					</div>
-					<div class="col-md-2">
-						<button type="button" class="btn btn-sm btn-outline-danger w-100 remove-member">
-							<i class="bi bi-x-circle"></i>
-						</button>
-					</div>
-				</div>
-			</div>
-		`;
-			$('#membersContainer').append(memberHTML);
+		// Function to generate family code from family name
+		function generateFamilyCodeFromName(name) {
+			if (!name || name.trim() === '') {
+				return 'FAM-';
+			}
+			// Remove "Family" suffix if present, uppercase, remove spaces
+			let cleanName = name.replace(/\s*Family\s*/i, '').trim();
+			// Remove special characters, keep letters and numbers
+			cleanName = cleanName.replace(/[^a-zA-Z0-9]/g, '');
+			// Convert to uppercase
+			cleanName = cleanName.toUpperCase();
+
+			// If empty after cleaning, use a default
+			if (cleanName === '') {
+				return 'FAM-' + Math.random().toString(36).substring(2, 6).toUpperCase();
+			}
+
+			return `FAM-${cleanName}`;
+		}
+
+		// Auto-generate family code when family name is typed
+		$('#familyName').on('input', function () {
+			const familyName = $(this).val();
+			const code = generateFamilyCodeFromName(familyName);
+			$('#familyCode').val(code);
 		});
 
-		// Remove member row
-		$(document).on('click', '.remove-member', function () {
-			const memberEntries = $('.member-entry');
-			if (memberEntries.length > 1) {
-				$(this).closest('.member-entry').remove();
+		// Regenerate code on button click (based on current family name)
+		$('#regenerateCodeBtn').on('click', function () {
+			const familyName = $('#familyName').val();
+			if (familyName && familyName.trim() !== '') {
+				const code = generateFamilyCodeFromName(familyName);
+				$('#familyCode').val(code);
+
+				// Add visual feedback
+				const icon = $(this).find('i');
+				icon.addClass('bi-arrow-clockwise').css('animation', 'spin 0.5s linear');
+				setTimeout(() => {
+					icon.css('animation', '');
+				}, 500);
 			} else {
-				// Show warning if trying to remove last member
-				alert('At least one member is required. If you want to remove this member, please add another one first.');
+				alert('Please enter a family name first.');
 			}
 		});
 
 		// Form validation
 		$('#createFamilyForm').on('submit', function (e) {
-			// Add was-validated class for Bootstrap validation
+			// Ensure family code is uppercase
+			const code = $('#familyCode').val();
+			$('#familyCode').val(code.toUpperCase());
+
 			if (this.checkValidity() === false) {
 				e.preventDefault();
 				e.stopPropagation();
 				$(this).addClass('was-validated');
 			} else {
-				// Form is valid - you can add AJAX submission here
-				// For now, we'll let it submit normally
+				// Form is valid - let it submit normally
 				console.log('Form is valid, submitting...');
-				// Remove this line when you have the API endpoint ready
+				// Remove this line to actually submit
 				// e.preventDefault();
 			}
 		});
@@ -358,6 +259,17 @@
 		$('#createFamilyModal').on('hidden.bs.modal', function () {
 			$('#createFamilyForm')[0].reset();
 			$('#createFamilyForm').removeClass('was-validated');
+			$('#familyCode').val('');
 		});
 	});
+
+	// Add spin animation for the regenerate button
+	const style = document.createElement('style');
+	style.textContent = `
+		@keyframes spin {
+				from { transform: rotate(0deg); }
+				to { transform: rotate(360deg); }
+		}
+`;
+	document.head.appendChild(style);
 </script>

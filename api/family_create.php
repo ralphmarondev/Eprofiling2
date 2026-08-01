@@ -16,22 +16,33 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 
 $name = trim($_POST["name"] ?? "");
 $familyCode = trim($_POST["family_code"] ?? "");
+$address = trim($_POST["address"] ?? "");
+$landline = trim($_POST["landline"] ?? "");
+
+// Debug log
+error_log("Received: name=" . $name . ", family_code=" . $familyCode);
 
 if (
     empty($name) ||
-    empty($familyCode)
+    empty($familyCode) ||
+    empty($address)
 ) {
     http_response_code(400);
 
     echo json_encode([
         "success" => false,
-        "message" => "Please complete all required fields."
+        "message" => "Please complete all required fields.",
+        "debug" => [
+            "name" => empty($name) ? "Missing" : "OK",
+            "family_code" => empty($familyCode) ? "Missing" : "OK",
+            "address" => empty($address) ? "Missing" : "OK"
+        ]
     ]);
 
     exit;
 }
 
-// Check family code
+// Check if family code exists
 $stmt = $mysqli->prepare("
     SELECT id
     FROM family
@@ -43,7 +54,6 @@ $stmt->execute();
 $stmt->store_result();
 
 if ($stmt->num_rows > 0) {
-
     http_response_code(409);
 
     echo json_encode([
@@ -58,21 +68,27 @@ if ($stmt->num_rows > 0) {
 
 $stmt->close();
 
-// Insert family
+// Insert family - adjust columns based on your actual database schema
 $stmt = $mysqli->prepare("
     INSERT INTO family
     (
         family_code,
-        name
+        name,
+        address,
+        landline,
+        status,
+        created_at
     )
     VALUES
-    (?, ?)
+    (?, ?, ?, ?, 'active', NOW())
 ");
 
 $stmt->bind_param(
-    "ss",
+    "ssss",
     $familyCode,
-    $name
+    $name,
+    $address,
+    $landline
 );
 
 if ($stmt->execute()) {
@@ -87,7 +103,10 @@ if ($stmt->execute()) {
         "family" => [
             "id" => $familyId,
             "family_code" => $familyCode,
-            "name" => $name
+            "name" => $name,
+            "address" => $address,
+            "landline" => $landline,
+            "status" => "active"
         ]
     ]);
 
@@ -97,7 +116,7 @@ if ($stmt->execute()) {
 
     echo json_encode([
         "success" => false,
-        "message" => "Unable to create family."
+        "message" => "Unable to create family: " . $stmt->error
     ]);
 }
 
