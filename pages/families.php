@@ -37,44 +37,8 @@
 					</tr>
 				</thead>
 				<tbody>
-					<!-- Sample data - replace with database queries -->
 					<tr>
-						<td>1</td>
-						<td><span class="badge bg-secondary">FAM-SANTOS</span></td>
-						<td><strong>Santos Family</strong></td>
-						<td>Juan Santos</td>
-						<td><span class="badge bg-success">Approved</span></td>
-						<td>2026-01-15</td>
-						<td>
-							<button class="btn btn-sm btn-outline-primary" title="View">
-								<i class="bi bi-eye"></i>
-							</button>
-							<button class="btn btn-sm btn-outline-warning" title="Edit">
-								<i class="bi bi-pencil"></i>
-							</button>
-							<button class="btn btn-sm btn-outline-danger" title="Delete">
-								<i class="bi bi-trash"></i>
-							</button>
-						</td>
-					</tr>
-					<tr>
-						<td>2</td>
-						<td><span class="badge bg-secondary">FAM-REYES</span></td>
-						<td><strong>Reyes Family</strong></td>
-						<td>Maria Reyes</td>
-						<td><span class="badge bg-warning">Pending</span></td>
-						<td>2026-01-20</td>
-						<td>
-							<button class="btn btn-sm btn-outline-primary" title="View">
-								<i class="bi bi-eye"></i>
-							</button>
-							<button class="btn btn-sm btn-outline-warning" title="Edit">
-								<i class="bi bi-pencil"></i>
-							</button>
-							<button class="btn btn-sm btn-outline-danger" title="Delete">
-								<i class="bi bi-trash"></i>
-							</button>
-						</td>
+						<td colspan="12" class="text-center text-muted">No family found</td>
 					</tr>
 				</tbody>
 			</table>
