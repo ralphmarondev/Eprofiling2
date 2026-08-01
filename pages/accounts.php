@@ -105,7 +105,7 @@
 									<button class="btn btn-sm btn-outline-warning" title="Edit" data-bs-toggle="modal" data-bs-target="#updateAccountModal")>
 										<i class="bi bi-pencil"></i>
 									</button>
-									<button class="btn btn-sm btn-outline-danger" title="Delete">
+									<button class="btn btn-sm btn-outline-danger" title="Delete" data-bs-toggle="modal" data-bs-target="#deleteAccountModal")>
 										<i class="bi bi-trash"></i>
 									</button>
 								</td>';
@@ -389,6 +389,77 @@
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
 					<button type="submit" class="btn btn-primary">
 						<i class="bi bi-pencil me-1"></i> Update Account
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="deleteAccountModalLabel">
+					<i class="bi bi-trash-fill me-2"></i>Delete Account
+				</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+
+			<form id="deleteFamilyForm" method="POST" action="api/account_delete.php">
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12 mb-3">
+							<label for="deleteAccountUsername" class="form-label fw-semibold">
+								Account Username
+							</label>
+							<input type="text" class="form-control" id="deleteAccountUsername" name="delete_account_username" placeholder="Account username"
+								readonly>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-6 mb-3">
+							<label for="deleteAccountRole" class="form-label fw-semibold">
+								Account Role
+							</label>
+							<input type="text" class="form-control" id="deleteAccountRole" name="delete_account_role" placeholder="Account Role"
+								readonly>
+						</div>
+
+						<div class="col-md-6 mb-3">
+							<label for="deleteAccountRole" class="form-label fw-semibold">
+								Account Member
+							</label>
+							<input type="text" class="form-control" id="deleteAccountMember" name="delete_account_member" placeholder="Account Member"
+								readonly>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-6 mb-3">
+							<label for="deleteAccountEmail" class="form-label fw-semibold">
+								Email Address
+							</label>
+							<input type="email" class="form-control" id="deleteAccountEmail" name="delete_account_email" placeholder="username@example.com" readonly>
+						</div>
+						<div class="col-md-6 mb-3">
+							<label for="status" class="form-label fw-semibold">
+								Status
+							</label>
+							<input type="text" class="form-control" id="deleteAccountStatus" name="delete_account_status" placeholder="Account Status"
+								readonly>
+						</div>
+					</div>
+				</div>
+
+				<input type="hidden" id="deleteAccountID" name="delete_account_id">
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+					<button type="submit" class="btn btn-danger">
+						<i class="bi bi-trash me-1"></i> Delete Family
 					</button>
 				</div>
 			</form>
