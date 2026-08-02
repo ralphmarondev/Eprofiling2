@@ -415,16 +415,13 @@
 	fetch('api/accounts_fetch_roles.php')
 		.then(res => res.json())
 		.then(roles => {
-			const options = $.map(roles, function(role) {
-				return $('<option>', {
-					value: role.id,
-					text: role.name
-				});
-			});
+			const optionsHtml = roles.map(role =>
+				`<option value="${role.id}">${role.name}</option>`
+			).join('');
 
-			$('#updateAccountRole').append(options);
-			$('#searchAccountRole').append(options);
-		})
+			$('#searchAccountRole').append(optionsHtml);
+			$('#updateAccountRole').append(optionsHtml);
+		});
 
 	//Populate Members Dropdown Table
 	fetch('api/accounts_fetch_members.php')
