@@ -221,7 +221,7 @@
 					<div class="row">
 						<div class="col-md-6 mb-3">
 							<label for="changePasswordAccountPassword" class="form-label fw-semibold">
-								Password <span class="text-danger">*</span>
+								New Password <span class="text-danger">*</span>
 							</label>
 							<input type="password" class="form-control" id="changePasswordAccountPassword" name="change_password_account_password" required>
 						</div>
@@ -363,7 +363,7 @@
 										<i class="bi bi-pencil"></i>
 									</button>
 									<button class="btn btn-sm btn-outline-success" title="Password" data-bs-toggle="modal" data-bs-target="#changePasswordAccountModal"
-									onclick="updatePopulateForm('${account.id}','${account.username}')">
+									onclick="changePasswordPopulateForm('${account.id}','${account.username}')">
 										<i class="bi bi-person-gear"></i>
 									</button>
 									<button class="btn btn-sm btn-outline-danger" title="Delete" data-bs-toggle="modal" data-bs-target="#deleteAccountModal")>
@@ -432,5 +432,10 @@
 		$('#updateAccountEmail').val(accountEmail);
 		$('#updateAccountStatus').val(accountIsDeleted);
 		$('#updateAccountID').val(accountID);
+	}
+
+	//Change Password Stuff
+	function changePasswordPopulateForm(accountID, accountUsername) {
+		$('#changePasswordAccountUsername').val(accountUsername);
 	}
 </script>
