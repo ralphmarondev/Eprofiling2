@@ -9,12 +9,8 @@
 				<input type="text" class="form-control" placeholder="Search accounts..." id="searchAccount">
 			</div>
 			<div class="col-md-4">
-				<select class="form-select" id="searchAccountRole" required>
+				<select class="form-select" id="searchAccountRole">
 					<option value="">Search role...</option>
-					<option value="1">Administrator</option>
-					<option value="2">Staff</option>
-					<option value="3">Family Head</option>
-					<option value="4">User</option>
 				</select>
 			</div>
 			<div class="col-md-4 text-md-end">
@@ -427,6 +423,7 @@
 			});
 
 			$('#updateAccountRole').append(options);
+			$('#searchAccountRole').append(options);
 		})
 
 	//Populate Members Dropdown Table
