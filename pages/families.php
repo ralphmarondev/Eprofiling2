@@ -1405,6 +1405,96 @@
 	</div>
 </div>
 
+<!-- Delete Family Modal -->
+<div class="modal fade" id="deleteFamilyModal" tabindex="-1" aria-labelledby="deleteFamilyModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog modal-xl">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="deleteFamilyModalLabel">
+					<i class="bi bi-trash3 me-2"></i>Delete Family
+				</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body" style="padding: 30px 30px 20px 30px;">
+				<div class="alert alert-warning">
+					<i class="bi bi-info-circle me-2"></i>
+					<strong>Warning:</strong> This action cannot be undone. All related data including members, accounts, and
+					beneficiary records will be permanently deleted.
+				</div>
+
+				<div class="card">
+					<div class="card-body">
+						<h6 class="card-title fw-semibold mb-3">
+							<i class="bi bi-info-circle me-2"></i>Family Information
+						</h6>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label fw-semibold text-muted">Family Code</label>
+									<input type="text" class="form-control" id="delete_familyCode" readonly>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label fw-semibold text-muted">Family Name</label>
+									<input type="text" class="form-control" id="delete_familyName" readonly>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label fw-semibold text-muted">Head of Family</label>
+									<input type="text" class="form-control" id="delete_headName" readonly>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label fw-semibold text-muted">Status</label>
+									<input type="text" class="form-control" id="delete_status" readonly>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label fw-semibold text-muted">Household Number</label>
+									<input type="text" class="form-control" id="delete_householdNumber" readonly>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="mb-3">
+									<label class="form-label fw-semibold text-muted">Registration Status</label>
+									<input type="text" class="form-control" id="delete_registrationStatus" readonly>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="mt-4">
+					<label class="fw-semibold">
+						Type the <strong>Family Code</strong> to confirm deletion:
+					</label>
+					<div class="input-group mt-2">
+						<span class="input-group-text"><i class="bi bi-key"></i></span>
+						<input type="text" class="form-control" id="delete_confirmInput" placeholder="Enter family code here"
+							autocomplete="off">
+					</div>
+					<small class="text-muted mt-1 d-block">
+						Family code: <strong id="delete_confirmCodeDisplay">-</strong>
+					</small>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+					<i class="bi bi-x-circle me-1"></i> Cancel
+				</button>
+				<button type="button" class="btn btn-danger" id="delete_confirmBtn" disabled>
+					<i class="bi bi-trash3 me-1"></i> Delete Family
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <style>
 	/* Vertical Steps Styles - Improved */
 	.modal-body {
@@ -2347,15 +2437,6 @@
 		return '<span class="badge bg-secondary">Unknown</span>';
 	}
 
-
-
-	function deleteFamily(id) {
-		if (confirm('Are you sure you want to delete this family?')) {
-			console.log('Delete family:', id);
-			// TODO: Implement delete functionality
-		}
-	}
-
 	function showError(message) {
 		console.error(message);
 	}
@@ -2873,5 +2954,230 @@
 
 		// Initialize update step UI
 		updateStepUI();
+	});
+
+	// ============================================
+	// DELETE FAMILY FUNCTIONS
+	// ============================================
+
+	function deleteFamily(id) {
+		console.log('Delete family with ID:', id);
+
+		// Show loading
+		Swal.fire({
+			title: 'Loading...',
+			text: 'Please wait while we fetch the family details.',
+			allowOutsideClick: false,
+			didOpen: () => {
+				Swal.showLoading();
+			}
+		});
+
+		$.ajax({
+			url: 'api/family_view.php?id=' + id,
+			method: 'GET',
+			dataType: 'json',
+			success: function (response) {
+				console.log('API Response:', response);
+				Swal.close();
+
+				if (response.success && response.data) {
+					const data = response.data;
+
+					// Populate delete modal with readonly inputs
+					$('#delete_familyCode').val(data.family_code || '-');
+					$('#delete_familyName').val(data.family_name || '-');
+					$('#delete_headName').val(
+						(data.first_name || '') + ' ' + (data.last_name || '')
+					);
+					$('#delete_status').val(formatStatus(data.status));
+					$('#delete_householdNumber').val(data.household_number || '-');
+					$('#delete_registrationStatus').val(formatRegistrationStatus(data.registration_status));
+
+					// Store family code for confirmation display
+					$('#delete_confirmCodeDisplay').text(data.family_code || '-');
+
+					// Store family ID
+					$('#deleteFamilyModal').data('family-id', id);
+					$('#deleteFamilyModal').data('family-code', data.family_code);
+
+					// Reset confirmation input
+					$('#delete_confirmInput').val('');
+					$('#delete_confirmBtn').prop('disabled', true);
+
+					// Show modal
+					$('#deleteFamilyModal').modal('show');
+				} else {
+					Swal.fire({
+						icon: 'error',
+						title: 'Error',
+						text: response.message || 'Failed to load family details.',
+						confirmButtonText: 'OK'
+					});
+				}
+			},
+			error: function (xhr, status, error) {
+				console.error('AJAX Error:', {
+					status: status,
+					error: error,
+					response: xhr.responseText
+				});
+				Swal.close();
+
+				Swal.fire({
+					icon: 'error',
+					title: 'Error',
+					text: 'Failed to load family details. Please try again.',
+					confirmButtonText: 'OK'
+				});
+			}
+		});
+	}
+
+	// Helper functions for formatting
+	function formatStatus(status) {
+		const statuses = {
+			'active': 'Active',
+			'inactive': 'Inactive'
+		};
+		return statuses[status] || status || '-';
+	}
+
+	function formatRegistrationStatus(status) {
+		const statuses = {
+			'pending': 'Pending',
+			'approved': 'Approved',
+			'rejected': 'Rejected'
+		};
+		return statuses[status] || status || '-';
+	}
+
+	// ============================================
+	// DELETE MODAL EVENT BINDINGS
+	// ============================================
+
+	$(document).ready(function () {
+		// Enable/disable delete button based on confirmation input
+		$('#delete_confirmInput').on('input', function () {
+			const inputValue = $(this).val();
+			const familyCode = $('#deleteFamilyModal').data('family-code');
+
+			if (inputValue === familyCode) {
+				$('#delete_confirmBtn').prop('disabled', false);
+			} else {
+				$('#delete_confirmBtn').prop('disabled', true);
+			}
+		});
+
+		// Handle Enter key on confirmation input
+		$('#delete_confirmInput').on('keypress', function (e) {
+			if (e.key === 'Enter') {
+				const inputValue = $(this).val();
+				const familyCode = $('#deleteFamilyModal').data('family-code');
+
+				if (inputValue === familyCode) {
+					$('#delete_confirmBtn').click();
+				}
+			}
+		});
+
+		// Delete button click handler
+		$('#delete_confirmBtn').on('click', function () {
+			const familyId = $('#deleteFamilyModal').data('family-id');
+			const familyCode = $('#deleteFamilyModal').data('family-code');
+
+			if (!familyId) {
+				Swal.fire({
+					icon: 'error',
+					title: 'Error',
+					text: 'Family ID not found.',
+					confirmButtonText: 'OK'
+				});
+				return;
+			}
+
+			// Close the modal
+			$('#deleteFamilyModal').modal('hide');
+
+			// Show confirmation dialog
+			Swal.fire({
+				icon: 'warning',
+				title: 'Delete Family?',
+				html: `
+								You are about to delete <strong>${familyCode}</strong>. 
+								This action cannot be undone!
+						`,
+				showCancelButton: true,
+				confirmButtonColor: '#d33',
+				cancelButtonColor: '#6c757d',
+				confirmButtonText: 'Yes, delete it!',
+				cancelButtonText: 'Cancel'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					// Show loading
+					Swal.fire({
+						title: 'Deleting...',
+						text: 'Please wait while we delete the family.',
+						allowOutsideClick: false,
+						didOpen: () => {
+							Swal.showLoading();
+						}
+					});
+
+					// Call delete API
+					$.ajax({
+						url: 'api/family_delete.php',
+						method: 'POST',
+						data: { family_id: familyId },
+						dataType: 'json',
+						success: function (response) {
+							Swal.close();
+
+							if (response.success) {
+								Swal.fire({
+									icon: 'success',
+									title: 'Deleted!',
+									text: response.message,
+									confirmButtonText: 'OK'
+								}).then(() => {
+									// Reload the family list
+									loadFamilies();
+								});
+							} else {
+								Swal.fire({
+									icon: 'error',
+									title: 'Error',
+									text: response.message || 'Failed to delete family.',
+									confirmButtonText: 'OK'
+								});
+							}
+						},
+						error: function (xhr, status, error) {
+							console.error('AJAX Error:', {
+								status: status,
+								error: error,
+								response: xhr.responseText
+							});
+							Swal.close();
+
+							Swal.fire({
+								icon: 'error',
+								title: 'Error',
+								text: 'Failed to delete family. Please try again.',
+								confirmButtonText: 'OK'
+							});
+						}
+					});
+				}
+			});
+		});
+
+		// Reset delete modal when closed
+		$('#deleteFamilyModal').on('hidden.bs.modal', function () {
+			$('#delete_confirmInput').val('');
+			$('#delete_confirmBtn').prop('disabled', true);
+			$('#deleteFamilyModal').data('family-id', null);
+			$('#deleteFamilyModal').data('family-code', null);
+		});
 	});
 </script>
