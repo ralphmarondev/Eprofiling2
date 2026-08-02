@@ -568,128 +568,40 @@
 	}
 
 	//Change Password Stuff
-	function changePasswordPopulateForm(accountID, accountUsername) {
-		$('#changePasswordAccountUsername').val(accountUsername);
-		$('#changePasswordAccountID').val(accountID);
-	}
+	<?php if (in_array($_SESSION["role_id"], [1, 2])): ?>
 
-	$('#changePasswordAccountForm').on('submit', function(event) {
-		event.preventDefault();
-
-		const changePasswordFormData = new FormData(this);
-		const changePasswordFormProps = Object.fromEntries(changePasswordFormData);
-
-		const changePasswordSubmitButton = $('#changePasswordSubmitButton');
-		changePasswordSubmitButton.prop('disabled', true).html('<i class="bi bi-hourglass-split me-1"></i> Updating...');
-
-		const formData = $(this).serialize();
-
-		if (changePasswordFormProps.change_password_account_password === changePasswordFormProps.change_password_account_confirm_password) {
-			if (changePasswordFormProps.change_password_account_password.length < 8) {
-				$('#changePasswordWarning').text("New password must have at least 8 characters.");
-			} else {
-				changePassword(formData)
-			}
-			changePasswordSubmitButton.prop('disabled', false).html('<i class="bi bi-pencil me-1"></i> Change Password');
-		} else {
-			$('#changePasswordWarning').text("Passwords do not match.");
-			changePasswordSubmitButton.prop('disabled', false).html('<i class="bi bi-pencil me-1"></i> Change Password');
+		function changePasswordPopulateForm(accountID, accountUsername) {
+			$('#changePasswordAccountUsername').val(accountUsername);
+			$('#changePasswordAccountID').val(accountID);
 		}
-	});
 
-	function changePassword(formData) {
-		$.ajax({
-			url: 'api/account_update_password.php',
-			method: 'POST',
-			data: formData,
-			dataType: 'json',
-			success: function(response) {
-				if (response.success) {
-					Swal.fire({
-						icon: 'success',
-						title: 'Success!',
-						text: response.message,
-						confirmButtonText: 'OK'
-					}).then(() => {
-						$('#changePasswordAccountModal').hide();
-						$('.modal-backdrop').remove();
-						$('body').removeClass('modal-open');
-						$('body').css('padding-right', '');
-					});
+		$('#changePasswordAccountForm').on('submit', function(event) {
+			event.preventDefault();
+
+			const changePasswordFormData = new FormData(this);
+			const changePasswordFormProps = Object.fromEntries(changePasswordFormData);
+
+			const changePasswordSubmitButton = $('#changePasswordSubmitButton');
+			changePasswordSubmitButton.prop('disabled', true).html('<i class="bi bi-hourglass-split me-1"></i> Updating...');
+
+			const formData = $(this).serialize();
+
+			if (changePasswordFormProps.change_password_account_password === changePasswordFormProps.change_password_account_confirm_password) {
+				if (changePasswordFormProps.change_password_account_password.length < 8) {
+					$('#changePasswordWarning').text("New password must have at least 8 characters.");
 				} else {
-					Swal.fire({
-						icon: 'error',
-						title: 'Update Failed',
-						text: response.message,
-						confirmButtonText: 'OK'
-					});
+					changePassword(formData)
 				}
-			},
-			error: function(xhr) {
-				const response = xhr.responseJSON;
-				Swal.fire({
-					icon: 'error',
-					title: 'Error',
-					text: response?.message || 'An error occurred. Please try again.',
-					confirmButtonText: 'OK'
-				});
+				changePasswordSubmitButton.prop('disabled', false).html('<i class="bi bi-pencil me-1"></i> Change Password');
+			} else {
+				$('#changePasswordWarning').text("Passwords do not match.");
+				changePasswordSubmitButton.prop('disabled', false).html('<i class="bi bi-pencil me-1"></i> Change Password');
 			}
 		});
-	}
 
-	//Delete Account Stuff
-	function deletePopulateForm(accountID, accountUsername, accountRole, accountMemberFullName, accountEmail, accountIsDeleted) {
-		$('#deleteAccountUsername').val(accountUsername);
-		$('#deleteAccountRole').val(accountRole);
-		if (accountMemberFullName == 'null') {
-			$('#deleteAccountMember').val('Not Available');
-		} else {
-			$('#deleteAccountMember').val(accountMemberFullName);
-		}
-
-		$('#deleteAccountEmail').val(accountEmail);
-
-		if (accountIsDeleted == 0) {
-			$('#deleteAccountStatus').val('Active');
-		} else {
-			$('#deleteAccountStatus').val('Inactive');
-		}
-
-		$('#deleteAccountID').val(accountID);
-	}
-
-	$('#deleteAccountForm').on('submit', function(event) {
-		event.preventDefault();
-
-		const deleteAccountFormData = new FormData(this);
-		const deleteAccountFormProps = Object.fromEntries(deleteAccountFormData);
-
-		const deleteAccountSubmitButton = $('#deleteAccountSubmitButton');
-		deleteAccountSubmitButton.prop('disabled', true).html('<i class="bi bi-hourglass-split me-1"></i> Deleting...');
-
-		const formData = $(this).serialize();
-
-		console.log(formData);
-
-		// Confirm Deletion
-		Swal.fire({
-			title: "Are you sure?",
-			text: "You won't be able to revert this!",
-			icon: "warning",
-			showCancelButton: true,
-			confirmButtonColor: "#3085d6",
-			cancelButtonColor: "#d33",
-			confirmButtonText: "Yes, delete it!"
-		}).then((result) => {
-			if (result.isConfirmed) {
-				deleteAccount(formData);
-			}
-			deleteAccountSubmitButton.prop('disabled', false).html('<i class="bi bi-trash me-1"></i> Delete Account');
-		});
-
-		function deleteAccount(formData) {
+		function changePassword(formData) {
 			$.ajax({
-				url: 'api/account_delete.php',
+				url: 'api/account_update_password.php',
 				method: 'POST',
 				data: formData,
 				dataType: 'json',
@@ -701,16 +613,15 @@
 							text: response.message,
 							confirmButtonText: 'OK'
 						}).then(() => {
-							$('#deleteAccountModal').hide();
+							$('#changePasswordAccountModal').hide();
 							$('.modal-backdrop').remove();
 							$('body').removeClass('modal-open');
 							$('body').css('padding-right', '');
-							loadAccounts();
 						});
 					} else {
 						Swal.fire({
 							icon: 'error',
-							title: 'Deletion Failed',
+							title: 'Update Failed',
 							text: response.message,
 							confirmButtonText: 'OK'
 						});
@@ -727,5 +638,101 @@
 				}
 			});
 		}
-	});
+	<?php endif; ?>
+
+
+	//Delete Account Stuff
+	<?php if (in_array($_SESSION["role_id"], [1, 2])): ?>
+
+		function deletePopulateForm(accountID, accountUsername, accountRole, accountMemberFullName, accountEmail, accountIsDeleted) {
+			$('#deleteAccountUsername').val(accountUsername);
+			$('#deleteAccountRole').val(accountRole);
+			if (accountMemberFullName == 'null') {
+				$('#deleteAccountMember').val('Not Available');
+			} else {
+				$('#deleteAccountMember').val(accountMemberFullName);
+			}
+
+			$('#deleteAccountEmail').val(accountEmail);
+
+			if (accountIsDeleted == 0) {
+				$('#deleteAccountStatus').val('Active');
+			} else {
+				$('#deleteAccountStatus').val('Inactive');
+			}
+
+			$('#deleteAccountID').val(accountID);
+		}
+
+		$('#deleteAccountForm').on('submit', function(event) {
+			event.preventDefault();
+
+			const deleteAccountFormData = new FormData(this);
+			const deleteAccountFormProps = Object.fromEntries(deleteAccountFormData);
+
+			const deleteAccountSubmitButton = $('#deleteAccountSubmitButton');
+			deleteAccountSubmitButton.prop('disabled', true).html('<i class="bi bi-hourglass-split me-1"></i> Deleting...');
+
+			const formData = $(this).serialize();
+
+			console.log(formData);
+
+			// Confirm Deletion
+			Swal.fire({
+				title: "Are you sure?",
+				text: "You won't be able to revert this!",
+				icon: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#3085d6",
+				cancelButtonColor: "#d33",
+				confirmButtonText: "Yes, delete it!"
+			}).then((result) => {
+				if (result.isConfirmed) {
+					deleteAccount(formData);
+				}
+				deleteAccountSubmitButton.prop('disabled', false).html('<i class="bi bi-trash me-1"></i> Delete Account');
+			});
+
+			function deleteAccount(formData) {
+				$.ajax({
+					url: 'api/account_delete.php',
+					method: 'POST',
+					data: formData,
+					dataType: 'json',
+					success: function(response) {
+						if (response.success) {
+							Swal.fire({
+								icon: 'success',
+								title: 'Success!',
+								text: response.message,
+								confirmButtonText: 'OK'
+							}).then(() => {
+								$('#deleteAccountModal').hide();
+								$('.modal-backdrop').remove();
+								$('body').removeClass('modal-open');
+								$('body').css('padding-right', '');
+								loadAccounts();
+							});
+						} else {
+							Swal.fire({
+								icon: 'error',
+								title: 'Deletion Failed',
+								text: response.message,
+								confirmButtonText: 'OK'
+							});
+						}
+					},
+					error: function(xhr) {
+						const response = xhr.responseJSON;
+						Swal.fire({
+							icon: 'error',
+							title: 'Error',
+							text: response?.message || 'An error occurred. Please try again.',
+							confirmButtonText: 'OK'
+						});
+					}
+				});
+			}
+		});
+	<?php endif; ?>
 </script>
