@@ -25,13 +25,20 @@ try {
 	$householdType = trim($_POST["household_type"] ?? "");
 	$housingOwnership = trim($_POST["housing_ownership"] ?? "");
 	$contactNumber = trim($_POST["contact_number"] ?? "");
-	$houseNo = trim($_POST["house_no"] ?? "");
-	$barangay = trim($_POST["barangay"] ?? "");
-	$municipality = trim($_POST["municipality"] ?? "");
-	$province = trim($_POST["province"] ?? "");
+	$address = trim($_POST["address"] ?? "");
 
-	// Status with default 'pending'
-	$status = trim($_POST["status"] ?? "pending");
+	// Get individual address fields if full address not provided
+	if (empty($address)) {
+		$houseNo = trim($_POST["house_no"] ?? "");
+		$barangay = trim($_POST["barangay"] ?? "");
+		$municipality = trim($_POST["municipality"] ?? "");
+		$province = trim($_POST["province"] ?? "");
+		$address = trim($houseNo . ", " . $barangay . ", " . $municipality . ", " . $province);
+	}
+
+	// Status with default 'pending' registration
+	$status = trim($_POST["status"] ?? "active");
+	$registrationStatus = trim($_POST["registration_status"] ?? "pending");
 
 	// Validate status if provided
 	if (!empty($_POST["status"])) {
@@ -48,17 +55,14 @@ try {
 	if (empty($familyCode)) {
 		throw new Exception("Family code is required.");
 	}
-	if (empty($houseNo)) {
-		throw new Exception("House number/street is required.");
+	if (empty($address)) {
+		throw new Exception("Address is required.");
 	}
-	if (empty($barangay)) {
-		throw new Exception("Barangay is required.");
+	if (empty($householdType)) {
+		throw new Exception("Household type is required.");
 	}
-	if (empty($municipality)) {
-		throw new Exception("Municipality/City is required.");
-	}
-	if (empty($province)) {
-		throw new Exception("Province is required.");
+	if (empty($housingOwnership)) {
+		throw new Exception("Housing ownership is required.");
 	}
 
 	// ============================================
@@ -74,6 +78,15 @@ try {
 	$civilStatus = trim($_POST["civil_status"] ?? "");
 	$nationality = trim($_POST["nationality"] ?? "");
 	$religion = trim($_POST["religion"] ?? "");
+	$occupation = trim($_POST["occupation"] ?? "");
+	$educationalAttainment = trim($_POST["educational_attainment"] ?? "");
+	$isVoter = isset($_POST["is_voter"]) ? (int) $_POST["is_voter"] : 0;
+	$isIndigenous = isset($_POST["is_indigenous"]) ? (int) $_POST["is_indigenous"] : 0;
+	$indigenousGroup = trim($_POST["indigenous_group"] ?? "");
+
+	// Is head is always true for this registration
+	$isHead = 1;
+	$relationshipToHead = 'head';
 
 	// Validate required member fields
 	if (empty($firstName)) {
@@ -98,8 +111,24 @@ try {
 		throw new Exception("Nationality is required.");
 	}
 
+	// Validate indigenous group if indigenous is yes
+	if ($isIndigenous == 1 && empty($indigenousGroup)) {
+		throw new Exception("Indigenous group is required when the member is part of an indigenous group.");
+	}
+
 	// ============================================
-	// STEP 3: Get Account Data
+	// STEP 3: Get Beneficiary Data
+	// ============================================
+	$isBeneficiary = isset($_POST["is_beneficiary"]) ? (int) $_POST["is_beneficiary"] : 0;
+	$programIds = trim($_POST["program_ids"] ?? "");
+
+	// Validate beneficiary programs if beneficiary is yes
+	if ($isBeneficiary == 1 && empty($programIds)) {
+		throw new Exception("At least one beneficiary program must be selected.");
+	}
+
+	// ============================================
+	// STEP 4: Get Account Data
 	// ============================================
 	$username = trim($_POST["username"] ?? "");
 	$email = trim($_POST["email"] ?? "");
@@ -116,11 +145,16 @@ try {
 		throw new Exception("Password must be at least 6 characters.");
 	}
 
+	// Validate username format (alphanumeric and underscore only)
+	if (!preg_match('/^[a-zA-Z0-9_]{3,}$/', $username)) {
+		throw new Exception("Username must be at least 3 characters and contain only letters, numbers, and underscore.");
+	}
+
 	// ============================================
-	// STEP 4: Check for Duplicates
+	// STEP 5: Check for Duplicates
 	// ============================================
 
-	// Check if family code exists (fixed table name: families)
+	// Check if family code exists
 	$stmt = $mysqli->prepare("SELECT id FROM families WHERE family_code = ?");
 	$stmt->bind_param("s", $familyCode);
 	$stmt->execute();
@@ -153,10 +187,8 @@ try {
 	}
 
 	// ============================================
-	// STEP 5: Insert Family (fixed table name and columns)
+	// STEP 6: Insert Family
 	// ============================================
-	$address = trim($houseNo . ", " . $barangay . ", " . $municipality . ", " . $province);
-
 	$stmt = $mysqli->prepare("
         INSERT INTO families (
             family_code,
@@ -168,11 +200,11 @@ try {
             address,
             status,
             registration_status
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending')
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     ");
 
 	$stmt->bind_param(
-		"ssssssss",
+		"sssssssss",
 		$familyCode,
 		$familyName,
 		$householdNumber,
@@ -180,7 +212,8 @@ try {
 		$housingOwnership,
 		$contactNumber,
 		$address,
-		$status
+		$status,
+		$registrationStatus
 	);
 
 	if (!$stmt->execute()) {
@@ -191,11 +224,8 @@ try {
 	$stmt->close();
 
 	// ============================================
-	// STEP 6: Insert Member (Head of Family)
+	// STEP 7: Insert Member (Head of Family)
 	// ============================================
-	$isHead = 1;
-	$relationshipToHead = 'head';
-
 	$stmt = $mysqli->prepare("
         INSERT INTO members (
             family_id,
@@ -209,13 +239,18 @@ try {
             civil_status,
             nationality,
             religion,
+            occupation,
+            educational_attainment,
             is_head,
-            relationship_to_head
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            relationship_to_head,
+            is_voter,
+            is_indigenous,
+            indigenous_group
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ");
 
 	$stmt->bind_param(
-		"issssssssssis",
+		"issssssssssssissss",
 		$familyId,
 		$firstName,
 		$middleName,
@@ -227,8 +262,13 @@ try {
 		$civilStatus,
 		$nationality,
 		$religion,
+		$occupation,
+		$educationalAttainment,
 		$isHead,
-		$relationshipToHead
+		$relationshipToHead,
+		$isVoter,
+		$isIndigenous,
+		$indigenousGroup
 	);
 
 	if (!$stmt->execute()) {
@@ -239,10 +279,35 @@ try {
 	$stmt->close();
 
 	// ============================================
-	// STEP 7: Insert Account (fixed column names)
+	// STEP 8: Insert Beneficiary Programs
 	// ============================================
-	$roleId = 3; // Default FamilyAdmin role
+	if ($isBeneficiary == 1 && !empty($programIds)) {
+		$programIdArray = array_map('trim', explode(',', $programIds));
+
+		$stmt = $mysqli->prepare("
+            INSERT INTO member_beneficiaries (
+                member_id,
+                program_id
+            ) VALUES (?, ?)
+        ");
+
+		foreach ($programIdArray as $programId) {
+			if (!empty($programId) && is_numeric($programId)) {
+				$stmt->bind_param("ii", $memberId, $programId);
+				if (!$stmt->execute()) {
+					throw new Exception("Failed to add beneficiary program: " . $stmt->error);
+				}
+			}
+		}
+		$stmt->close();
+	}
+
+	// ============================================
+	// STEP 9: Insert Account
+	// ============================================
+	$roleId = 3; // Default family_admin role
 	$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+	$isDeleted = 0;
 
 	$stmt = $mysqli->prepare("
         INSERT INTO accounts (
@@ -250,17 +315,19 @@ try {
             email,
             password_hash,
             member_id,
-            role_id
-        ) VALUES (?, ?, ?, ?, ?)
+            role_id,
+            is_deleted
+        ) VALUES (?, ?, ?, ?, ?, ?)
     ");
 
 	$stmt->bind_param(
-		"sssii",
+		"ssssii",
 		$username,
 		$email,
 		$hashedPassword,
 		$memberId,
-		$roleId
+		$roleId,
+		$isDeleted
 	);
 
 	if (!$stmt->execute()) {
@@ -271,19 +338,8 @@ try {
 	$stmt->close();
 
 	// ============================================
-	// STEP 8: Update Family with Head of Family (optional - skip if column doesn't exist)
+	// STEP 10: Commit Transaction
 	// ============================================
-	// Note: Only run this if you've added head_of_family_id to families table
-	// For now, we'll skip this to avoid errors
-
-	/*
-	$stmt = $mysqli->prepare("UPDATE families SET head_of_family_id = ? WHERE id = ?");
-	$stmt->bind_param("ii", $memberId, $familyId);
-	$stmt->execute();
-	$stmt->close();
-	*/
-
-	// Commit transaction
 	$mysqli->commit();
 
 	// ============================================
@@ -298,9 +354,11 @@ try {
 			"family_code" => $familyCode,
 			"family_name" => $familyName,
 			"status" => $status,
-			"registration_status" => "pending",
+			"registration_status" => $registrationStatus,
 			"member_id" => $memberId,
 			"member_name" => trim($firstName . " " . ($middleName ? $middleName . " " : "") . $lastName),
+			"is_beneficiary" => $isBeneficiary,
+			"programs_selected" => $isBeneficiary == 1 ? count(explode(',', $programIds)) : 0,
 			"account_id" => $accountId,
 			"username" => $username
 		]
