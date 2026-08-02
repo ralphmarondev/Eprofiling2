@@ -22,7 +22,7 @@
 					<i class="bi bi-funnel"></i> Filter
 				</button>
 				<button class="btn btn-outline-secondary btn-sm">
-					<i class="bi bi-arrow-repeat"></i> Refresh
+					<i class="bi bi-arrow-repeat" onclick="loadAccounts()"></i> Refresh
 				</button>
 			</div>
 		</div>
