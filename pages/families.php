@@ -565,6 +565,312 @@
 	</div>
 </div>
 
+<!-- View Family Modal - Read Only -->
+<div class="modal fade" id="viewFamilyModal" tabindex="-1" aria-labelledby="viewFamilyModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-xl">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="viewFamilyModalLabel">
+					<i class="bi bi-eye me-2"></i>Family Information
+				</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+
+			<div class="modal-body">
+				<div class="row g-0">
+					<!-- Left Side: Tabs/Sections -->
+					<div class="col-md-3">
+						<div class="steps-vertical">
+							<div class="step-item active" data-section="1">
+								<div class="step-indicator">
+									<span class="step-number">1</span>
+								</div>
+								<div class="step-info">
+									<span class="step-title">Family Info</span>
+								</div>
+							</div>
+							<div class="step-connector"></div>
+							<div class="step-item" data-section="2">
+								<div class="step-indicator">
+									<span class="step-number">2</span>
+								</div>
+								<div class="step-info">
+									<span class="step-title">Address</span>
+								</div>
+							</div>
+							<div class="step-connector"></div>
+							<div class="step-item" data-section="3">
+								<div class="step-indicator">
+									<span class="step-number">3</span>
+								</div>
+								<div class="step-info">
+									<span class="step-title">Head Details</span>
+								</div>
+							</div>
+							<div class="step-connector"></div>
+							<div class="step-item" data-section="4">
+								<div class="step-indicator">
+									<span class="step-number">4</span>
+								</div>
+								<div class="step-info">
+									<span class="step-title">Beneficiary</span>
+								</div>
+							</div>
+							<div class="step-connector"></div>
+							<div class="step-item" data-section="5">
+								<div class="step-indicator">
+									<span class="step-number">5</span>
+								</div>
+								<div class="step-info">
+									<span class="step-title">Account</span>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Divider Line -->
+					<div class="col-md-1 d-none d-md-block p-0">
+						<div class="step-divider"></div>
+					</div>
+
+					<!-- Right Side: Content -->
+					<div class="col-md-8">
+						<div class="step-content-wrapper">
+							<!-- Section 1: Family Information -->
+							<div class="step-content active" data-section="1">
+								<h6 class="fw-semibold mb-3">
+									<i class="bi bi-info-circle me-2"></i>Family Information
+								</h6>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="mb-3">
+											<label class="form-label fw-semibold text-muted">Family Code</label>
+											<p class="form-control-plaintext" id="view_familyCode">-</p>
+										</div>
+										<div class="mb-3">
+											<label class="form-label fw-semibold text-muted">Family Name</label>
+											<p class="form-control-plaintext" id="view_familyName">-</p>
+										</div>
+										<div class="mb-3">
+											<label class="form-label fw-semibold text-muted">Household Number</label>
+											<p class="form-control-plaintext" id="view_householdNumber">-</p>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="mb-3">
+											<label class="form-label fw-semibold text-muted">Household Type</label>
+											<p class="form-control-plaintext" id="view_householdType">-</p>
+										</div>
+										<div class="mb-3">
+											<label class="form-label fw-semibold text-muted">Housing Ownership</label>
+											<p class="form-control-plaintext" id="view_housingOwnership">-</p>
+										</div>
+										<div class="mb-3">
+											<label class="form-label fw-semibold text-muted">Contact Number</label>
+											<p class="form-control-plaintext" id="view_contactNumber">-</p>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="mb-3">
+											<label class="form-label fw-semibold text-muted">Status</label>
+											<p class="form-control-plaintext" id="view_status">-</p>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="mb-3">
+											<label class="form-label fw-semibold text-muted">Registration Status</label>
+											<p class="form-control-plaintext" id="view_registrationStatus">-</p>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Section 2: Address -->
+							<div class="step-content" data-section="2" style="display: none;">
+								<h6 class="fw-semibold mb-3">
+									<i class="bi bi-geo-alt me-2"></i>Address Details
+								</h6>
+								<div class="mb-3">
+									<label class="form-label fw-semibold text-muted">Complete Address</label>
+									<p class="form-control-plaintext" id="view_address">-</p>
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="mb-3">
+											<label class="form-label fw-semibold text-muted">Barangay</label>
+											<p class="form-control-plaintext" id="view_barangay">-</p>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="mb-3">
+											<label class="form-label fw-semibold text-muted">Municipality/City</label>
+											<p class="form-control-plaintext" id="view_municipality">-</p>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="mb-3">
+											<label class="form-label fw-semibold text-muted">Province</label>
+											<p class="form-control-plaintext" id="view_province">-</p>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="mb-3">
+											<label class="form-label fw-semibold text-muted">House No./Street</label>
+											<p class="form-control-plaintext" id="view_houseNo">-</p>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Section 3: Head Details -->
+							<div class="step-content" data-section="3" style="display: none;">
+								<h6 class="fw-semibold mb-3">
+									<i class="bi bi-person-badge me-2"></i>Head of Family Information
+								</h6>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="mb-3">
+											<label class="form-label fw-semibold text-muted">First Name</label>
+											<p class="form-control-plaintext" id="view_firstName">-</p>
+										</div>
+										<div class="mb-3">
+											<label class="form-label fw-semibold text-muted">Middle Name</label>
+											<p class="form-control-plaintext" id="view_middleName">-</p>
+										</div>
+										<div class="mb-3">
+											<label class="form-label fw-semibold text-muted">Last Name</label>
+											<p class="form-control-plaintext" id="view_lastName">-</p>
+										</div>
+										<div class="mb-3">
+											<label class="form-label fw-semibold text-muted">Suffix</label>
+											<p class="form-control-plaintext" id="view_suffix">-</p>
+										</div>
+										<div class="mb-3">
+											<label class="form-label fw-semibold text-muted">Religion</label>
+											<p class="form-control-plaintext" id="view_religion">-</p>
+										</div>
+										<div class="mb-3">
+											<label class="form-label fw-semibold text-muted">Relationship to Head</label>
+											<p class="form-control-plaintext" id="view_relationshipToHead">-</p>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="mb-3">
+											<label class="form-label fw-semibold text-muted">Sex</label>
+											<p class="form-control-plaintext" id="view_sex">-</p>
+										</div>
+										<div class="mb-3">
+											<label class="form-label fw-semibold text-muted">Date of Birth</label>
+											<p class="form-control-plaintext" id="view_dateOfBirth">-</p>
+										</div>
+										<div class="mb-3">
+											<label class="form-label fw-semibold text-muted">Place of Birth</label>
+											<p class="form-control-plaintext" id="view_placeOfBirth">-</p>
+										</div>
+										<div class="mb-3">
+											<label class="form-label fw-semibold text-muted">Civil Status</label>
+											<p class="form-control-plaintext" id="view_civilStatus">-</p>
+										</div>
+										<div class="mb-3">
+											<label class="form-label fw-semibold text-muted">Nationality</label>
+											<p class="form-control-plaintext" id="view_nationality">-</p>
+										</div>
+										<div class="mb-3">
+											<label class="form-label fw-semibold text-muted">Occupation</label>
+											<p class="form-control-plaintext" id="view_occupation">-</p>
+										</div>
+										<div class="mb-3">
+											<label class="form-label fw-semibold text-muted">Educational Attainment</label>
+											<p class="form-control-plaintext" id="view_educationalAttainment">-</p>
+										</div>
+										<div class="mb-3">
+											<label class="form-label fw-semibold text-muted">Registered Voter</label>
+											<p class="form-control-plaintext" id="view_isVoter">-</p>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!-- Section 4: Beneficiary -->
+							<div class="step-content" data-section="4" style="display: none;">
+								<h6 class="fw-semibold mb-3">
+									<i class="bi bi-gift me-2"></i>Beneficiary Information
+								</h6>
+								<div class="mb-3">
+									<label class="form-label fw-semibold text-muted">Is a Beneficiary?</label>
+									<p class="form-control-plaintext" id="view_isBeneficiary">-</p>
+								</div>
+								<div id="view_beneficiaryPrograms">
+									<div class="mb-3">
+										<label class="form-label fw-semibold text-muted">Enrolled Programs</label>
+										<div id="view_programsList">
+											<p class="text-muted">No programs enrolled</p>
+										</div>
+									</div>
+								</div>
+								<div class="mb-3">
+									<label class="form-label fw-semibold text-muted">Indigenous Group</label>
+									<p class="form-control-plaintext" id="view_isIndigenous">-</p>
+								</div>
+								<div id="view_indigenousGroupContainer">
+									<div class="mb-3">
+										<label class="form-label fw-semibold text-muted">Indigenous Group Name</label>
+										<p class="form-control-plaintext" id="view_indigenousGroup">-</p>
+									</div>
+								</div>
+							</div>
+
+							<!-- Section 5: Account -->
+							<div class="step-content" data-section="5" style="display: none;">
+								<h6 class="fw-semibold mb-3">
+									<i class="bi bi-person-lock me-2"></i>Account Information
+								</h6>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="mb-3">
+											<label class="form-label fw-semibold text-muted">Username</label>
+											<p class="form-control-plaintext" id="view_username">-</p>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="mb-3">
+											<label class="form-label fw-semibold text-muted">Email</label>
+											<p class="form-control-plaintext" id="view_email">-</p>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="mb-3">
+											<label class="form-label fw-semibold text-muted">Role</label>
+											<p class="form-control-plaintext" id="view_role">-</p>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="mb-3">
+											<label class="form-label fw-semibold text-muted">Account Status</label>
+											<p class="form-control-plaintext" id="view_accountStatus">-</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+					<i class="bi bi-x-circle me-1"></i> Close
+				</button>
+				<button type="button" class="btn btn-primary" onclick="editFamilyFromView()">
+					<i class="bi bi-pencil me-1"></i> Edit
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <style>
 	/* Vertical Steps Styles - Improved */
 	.modal-body {
@@ -836,6 +1142,9 @@
 
 <script>
 	$(document).ready(function () {
+		// ============================================
+		// CREATE FAMILY MODAL
+		// ============================================
 		let currentStep = 1;
 		const totalSteps = 5;
 		let selectedPrograms = [];
@@ -877,13 +1186,11 @@
 		$('#isBeneficiary').on('change', function () {
 			if ($(this).val() === '1') {
 				$('#beneficiaryProgramsContainer').slideDown();
-				// Load programs if not loaded yet
 				if ($('#beneficiaryList').children().length === 0) {
 					loadBeneficiaryPrograms();
 				}
 			} else {
 				$('#beneficiaryProgramsContainer').slideUp();
-				// Clear selected programs
 				selectedPrograms = [];
 				$('#beneficiaryList .form-check-input').prop('checked', false);
 				$('#beneficiaryList .beneficiary-item').removeClass('selected');
@@ -919,21 +1226,20 @@
 
 			programs.forEach(function (program) {
 				const item = `
-					<div class="beneficiary-item" data-id="${program.id}">
-						<div class="form-check">
-							<input class="form-check-input" type="checkbox" id="program_${program.id}" 
-								value="${program.id}">
-							<label class="form-check-label" for="program_${program.id}">
-								${program.name}
-							</label>
-							<span class="program-desc">${program.description || ''}</span>
-						</div>
-					</div>
-				`;
+								<div class="beneficiary-item" data-id="${program.id}">
+										<div class="form-check">
+												<input class="form-check-input" type="checkbox" id="program_${program.id}" 
+														value="${program.id}">
+												<label class="form-check-label" for="program_${program.id}">
+														${program.name}
+												</label>
+												<span class="program-desc">${program.description || ''}</span>
+										</div>
+								</div>
+						`;
 				container.append(item);
 			});
 
-			// Add event listeners
 			container.find('.form-check-input').on('change', function () {
 				const id = parseInt($(this).val());
 				const name = $(this).closest('.beneficiary-item').find('.form-check-label').text().trim();
@@ -1006,7 +1312,7 @@
 
 		// Navigation functions
 		function updateStepUI() {
-			$('.step-item').each(function () {
+			$('.step-item[data-step]').each(function () {
 				const stepNum = parseInt($(this).data('step'));
 				$(this).removeClass('active completed');
 				if (stepNum === currentStep) {
@@ -1016,7 +1322,7 @@
 				}
 			});
 
-			$('.step-content').each(function () {
+			$('.step-content[data-step]').each(function () {
 				const stepNum = parseInt($(this).data('step'));
 				$(this).toggle(stepNum === currentStep);
 			});
@@ -1040,7 +1346,6 @@
 				}
 			});
 
-			// Special validation for step 4 - if beneficiary is Yes, must select at least one program
 			if (step === 4) {
 				const isBeneficiary = $('#isBeneficiary').val();
 				if (isBeneficiary === '1' && selectedPrograms.length === 0) {
@@ -1068,7 +1373,6 @@
 		}
 
 		$('#nextStepBtn').on('click', function () {
-			// Combine address before moving to next step
 			if (currentStep === 2) {
 				combineAddress();
 			}
@@ -1091,7 +1395,7 @@
 			}
 		});
 
-		$('.step-item').on('click', function () {
+		$('.step-item[data-step]').on('click', function () {
 			const stepNum = parseInt($(this).data('step'));
 			if (stepNum <= currentStep) {
 				currentStep = stepNum;
@@ -1102,8 +1406,6 @@
 		// Form submission
 		$('#createFamilyForm').on('submit', function (e) {
 			e.preventDefault();
-
-			// Combine address before submission
 			combineAddress();
 
 			let allValid = true;
@@ -1191,11 +1493,29 @@
 			updateStepUI();
 		});
 
+		// ============================================
+		// VIEW MODAL SECTION NAVIGATION
+		// ============================================
+		$('.step-item[data-section]').on('click', function () {
+			const sectionNum = parseInt($(this).data('section'));
+
+			// Update active state
+			$('.step-item[data-section]').removeClass('active');
+			$(this).addClass('active');
+
+			// Show corresponding content
+			$('.step-content[data-section]').hide();
+			$(`.step-content[data-section="${sectionNum}"]`).show();
+		});
+
 		// Initialize
 		updateStepUI();
 	});
 
-	// Family list functions
+	// ============================================
+	// FAMILY LIST FUNCTIONS
+	// ============================================
+
 	function loadFamilies() {
 		$.ajax({
 			url: 'api/family_list.php',
@@ -1220,39 +1540,251 @@
 
 		if (families.length === 0) {
 			tbody.html(`
-				<tr>
-					<td colspan="6" class="text-center text-muted">
-						<i class="bi bi-inbox me-2"></i>No families registered yet
-					</td>
-				</tr>
-			`);
+						<tr>
+								<td colspan="6" class="text-center text-muted">
+										<i class="bi bi-inbox me-2"></i>No families registered yet
+								</td>
+						</tr>
+				`);
 			return;
 		}
 
 		families.forEach((family, index) => {
 			const statusBadge = getStatusBadge(family.status);
 			const row = `
-				<tr>
-					<td>${index + 1}</td>
-					<td><span class="badge bg-secondary">${family.family_code}</span></td>
-					<td><strong>${family.family_name}</strong></td>
-					<td>${family.head_name}</td>
-					<td>${statusBadge}</td>
-					<td>
-						<button class="btn btn-sm btn-outline-primary" title="View" onclick="viewFamily(${family.id})">
-							<i class="bi bi-eye"></i>
-						</button>
-						<button class="btn btn-sm btn-outline-warning" title="Edit" onclick="editFamily(${family.id})">
-							<i class="bi bi-pencil"></i>
-						</button>
-						<button class="btn btn-sm btn-outline-danger" title="Delete" onclick="deleteFamily(${family.id})">
-							<i class="bi bi-trash"></i>
-						</button>
-					</td>
-				</tr>
-			`;
+						<tr>
+								<td>${index + 1}</td>
+								<td><span class="badge bg-secondary">${family.family_code}</span></td>
+								<td><strong>${family.family_name}</strong></td>
+								<td>${family.head_name}</td>
+								<td>${statusBadge}</td>
+								<td>
+										<button class="btn btn-sm btn-outline-primary" title="View" onclick="viewFamily(${family.id})">
+												<i class="bi bi-eye"></i>
+										</button>
+										<button class="btn btn-sm btn-outline-warning" title="Edit" onclick="editFamily(${family.id})">
+												<i class="bi bi-pencil"></i>
+										</button>
+										<button class="btn btn-sm btn-outline-danger" title="Delete" onclick="deleteFamily(${family.id})">
+												<i class="bi bi-trash"></i>
+										</button>
+								</td>
+						</tr>
+				`;
 			tbody.append(row);
 		});
+	}
+
+	function filterFamilies(searchTerm) {
+		$('.table tbody tr').each(function () {
+			const text = $(this).text().toLowerCase();
+			$(this).toggle(text.indexOf(searchTerm) > -1);
+		});
+	}
+
+	// ============================================
+	// VIEW FAMILY FUNCTIONS
+	// ============================================
+
+	function viewFamily(id) {
+		console.log('Viewing family with ID:', id);
+
+		Swal.fire({
+			title: 'Loading...',
+			text: 'Please wait while we fetch the family details.',
+			allowOutsideClick: false,
+			didOpen: () => {
+				Swal.showLoading();
+			}
+		});
+
+		$.ajax({
+			url: 'api/family_view.php?id=' + id,
+			method: 'GET',
+			dataType: 'json',
+			success: function (response) {
+				console.log('API Response:', response);
+				Swal.close();
+
+				if (response.success && response.data) {
+					populateViewModal(response.data);
+					$('#viewFamilyModal').modal('show');
+				} else {
+					Swal.fire({
+						icon: 'error',
+						title: 'Error',
+						text: response.message || 'Failed to load family details.',
+						confirmButtonText: 'OK'
+					});
+				}
+			},
+			error: function (xhr, status, error) {
+				console.error('AJAX Error:', {
+					status: status,
+					error: error,
+					response: xhr.responseText
+				});
+				Swal.close();
+
+				Swal.fire({
+					icon: 'error',
+					title: 'Error',
+					text: 'Failed to load family details. Please try again.',
+					confirmButtonText: 'OK'
+				});
+			}
+		});
+	}
+
+	function populateViewModal(data) {
+		console.log('Populating view modal with data:', data);
+
+		if (!data) {
+			console.error('No data provided to populateViewModal');
+			return;
+		}
+
+		// SECTION 1: FAMILY INFORMATION
+		$('#view_familyCode').text(data.family_code || '-');
+		$('#view_familyName').text(data.family_name || '-');
+		$('#view_householdNumber').text(data.household_number || '-');
+		$('#view_householdType').text(formatHouseholdType(data.household_type));
+		$('#view_housingOwnership').text(formatHousingOwnership(data.housing_ownership));
+		$('#view_contactNumber').text(data.contact_number || '-');
+		$('#view_status').html(getStatusBadge(data.status));
+		$('#view_registrationStatus').html(getRegistrationBadge(data.registration_status));
+
+		// SECTION 2: ADDRESS
+		$('#view_address').text(data.address || '-');
+		$('#view_barangay').text(data.barangay || '-');
+		$('#view_municipality').text(data.municipality || '-');
+		$('#view_province').text(data.province || '-');
+		$('#view_houseNo').text(data.house_no || '-');
+
+		// SECTION 3: HEAD DETAILS
+		$('#view_firstName').text(data.first_name || '-');
+		$('#view_middleName').text(data.middle_name || '-');
+		$('#view_lastName').text(data.last_name || '-');
+		$('#view_suffix').text(data.suffix || '-');
+		$('#view_sex').text(formatSex(data.sex));
+		$('#view_dateOfBirth').text(formatDate(data.date_of_birth));
+		$('#view_placeOfBirth').text(data.place_of_birth || '-');
+		$('#view_civilStatus').text(formatCivilStatus(data.civil_status));
+		$('#view_nationality').text(data.nationality || '-');
+		$('#view_religion').text(data.religion || '-');
+		$('#view_occupation').text(data.occupation || '-');
+		$('#view_educationalAttainment').text(data.educational_attainment || '-');
+		$('#view_relationshipToHead').text(formatRelationship(data.relationship_to_head));
+		$('#view_isVoter').text(data.is_voter ? 'Yes' : 'No');
+
+		// SECTION 4: BENEFICIARY
+		$('#view_isBeneficiary').text(data.is_beneficiary ? 'Yes' : 'No');
+
+		if (data.is_beneficiary && data.programs && data.programs.length > 0) {
+			let programsHtml = '';
+			data.programs.forEach(function (program) {
+				programsHtml += `
+								<div class="selected-program-item" style="padding: 6px 10px; margin-bottom: 4px; background: #f8f9fa; border-radius: 4px; border-left: 3px solid #198754;">
+										<i class="bi bi-check-circle-fill text-success me-1"></i>
+										<strong>${program.name}</strong>
+										<small class="text-muted d-block ms-4">${program.description || ''}</small>
+								</div>
+						`;
+			});
+			$('#view_programsList').html(programsHtml);
+		} else {
+			$('#view_programsList').html('<p class="text-muted mb-0">No programs enrolled</p>');
+		}
+
+		// Indigenous
+		$('#view_isIndigenous').text(data.is_indigenous ? 'Yes' : 'No');
+		if (data.is_indigenous) {
+			$('#view_indigenousGroup').text(data.indigenous_group || '-');
+			$('#view_indigenousGroupContainer').show();
+		} else {
+			$('#view_indigenousGroupContainer').hide();
+		}
+
+		// SECTION 5: ACCOUNT
+		$('#view_username').text(data.username || '-');
+		$('#view_email').text(data.email || '-');
+		$('#view_role').text(data.role_name || '-');
+		$('#view_accountStatus').html(getAccountStatusBadge(data.account_status));
+
+		// Store family ID for edit button
+		$('#viewFamilyModal').data('family-id', data.id);
+
+		console.log('View modal populated successfully');
+	}
+
+	function editFamilyFromView() {
+		const familyId = $('#viewFamilyModal').data('family-id');
+		$('#viewFamilyModal').modal('hide');
+		editFamily(familyId);
+	}
+
+	// ============================================
+	// HELPER FUNCTIONS
+	// ============================================
+
+	function formatHouseholdType(type) {
+		const types = {
+			'nuclear': 'Nuclear',
+			'extended': 'Extended',
+			'single_parent': 'Single Parent',
+			'childless': 'Childless'
+		};
+		return types[type] || type || '-';
+	}
+
+	function formatHousingOwnership(type) {
+		const types = {
+			'owned': 'Owned',
+			'rented': 'Rented',
+			'shared': 'Shared',
+			'government': 'Government',
+			'informal_settler': 'Informal Settler'
+		};
+		return types[type] || type || '-';
+	}
+
+	function formatSex(sex) {
+		if (!sex) return '-';
+		return sex.charAt(0).toUpperCase() + sex.slice(1);
+	}
+
+	function formatDate(date) {
+		if (!date || date === '-') return '-';
+		try {
+			const d = new Date(date);
+			return d.toLocaleDateString('en-US', {
+				year: 'numeric',
+				month: 'long',
+				day: 'numeric'
+			});
+		} catch (e) {
+			return date;
+		}
+	}
+
+	function formatCivilStatus(status) {
+		const statuses = {
+			'single': 'Single',
+			'married': 'Married',
+			'widowed': 'Widowed',
+			'separated': 'Separated',
+			'divorced': 'Divorced'
+		};
+		return statuses[status] || status || '-';
+	}
+
+	function formatRelationship(rel) {
+		const relationships = {
+			'head': 'Head',
+			'spouse': 'Spouse',
+			'child': 'Child'
+		};
+		return relationships[rel] || rel || '-';
 	}
 
 	function getStatusBadge(status) {
@@ -1263,24 +1795,33 @@
 		return badges[status] || '<span class="badge bg-secondary">Unknown</span>';
 	}
 
-	function filterFamilies(searchTerm) {
-		$('.table tbody tr').each(function () {
-			const text = $(this).text().toLowerCase();
-			$(this).toggle(text.indexOf(searchTerm) > -1);
-		});
+	function getRegistrationBadge(status) {
+		const badges = {
+			'pending': '<span class="badge bg-warning">Pending</span>',
+			'approved': '<span class="badge bg-success">Approved</span>',
+			'rejected': '<span class="badge bg-danger">Rejected</span>'
+		};
+		return badges[status] || '<span class="badge bg-secondary">Unknown</span>';
 	}
 
-	function viewFamily(id) {
-		console.log('View family:', id);
+	function getAccountStatusBadge(status) {
+		if (status === 'Active') {
+			return '<span class="badge bg-success">Active</span>';
+		} else if (status === 'Deleted') {
+			return '<span class="badge bg-danger">Deleted</span>';
+		}
+		return '<span class="badge bg-secondary">Unknown</span>';
 	}
 
 	function editFamily(id) {
 		console.log('Edit family:', id);
+		// TODO: Implement edit functionality
 	}
 
 	function deleteFamily(id) {
 		if (confirm('Are you sure you want to delete this family?')) {
 			console.log('Delete family:', id);
+			// TODO: Implement delete functionality
 		}
 	}
 
