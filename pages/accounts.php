@@ -241,7 +241,7 @@
 
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-						<button type="submit" class="btn btn-primary">
+						<button type="submit" class="btn btn-primary" id="changePasswordSubmitButton">
 							<i class="bi bi-pencil me-1"></i> Change Password
 						</button>
 					</div>
@@ -330,8 +330,6 @@
 	// On load 
 	$(document).ready(function() {
 		loadAccounts();
-
-
 	});
 	// populate table
 	function loadAccounts() {
@@ -416,59 +414,6 @@
 			accountDataTable.append(text);
 		});
 	}
-
-
-	// fetch('api/accounts_select_all.php')
-	// 	.then(res => res.json())
-	// 	.then(accounts => {
-	// 		var text = "";
-	// 		accounts.forEach(account => {
-	// 			text += "<tr>";
-	// 			text += `<td>${account.id}</td>`
-	// 			text += `<td>${account.username}</td>`
-	// 			if (account.role_id == 1) {
-	// 				text += `<td><span class="badge bg-success">${account.role_name}</span></td>`;
-	// 			} else if (account.role_id == 2) {
-	// 				text += `<td><span class="badge bg-primary">${account.role_name}</span></td>`;
-	// 			} else if (account.role_id == 3) {
-	// 				text += `<td><span class="badge bg-info">${account.role_name}</span></td>`;
-	// 			} else if (account.role_id == 4) {
-	// 				text += `<td><span class="badge bg-secondary">${account.role_name}</span></td>`;
-	// 			} else {
-	// 				text += `<td><span class="badge bg-dark">${account.role_name}</span></td>`;
-	// 			}
-
-	// 			if (account.is_deleted == 0) {
-	// 				text += '<td><span class="badge bg-success">Active</span></td>';
-	// 			} else {
-	// 				{
-	// 					text += '<td><span class="badge bg-secondary">Inactive</span></td>';
-	// 				}
-	// 			}
-
-	// 			text += `<td>
-	// 								<button class="btn btn-sm btn-outline-primary" title="View" data-bs-toggle="modal" data-bs-target="#viewAccountModal" 
-	// 								onclick="viewPopulateForm('${account.username}', '${account.role_name}', '${account.member_id}', '${account.member_full_name}', '${account.email}', '${account.is_deleted}')">
-	// 									<i class="bi bi-eye" ></i>
-	// 								</button>
-	// 								<button class="btn btn-sm btn-outline-warning" title="Edit" data-bs-toggle="modal" data-bs-target="#updateAccountModal"
-	// 								onclick="updatePopulateForm('${account.id}','${account.username}', '${account.id}', '${account.member_id}', '${account.member_full_name}', '${account.email}', '${account.is_deleted}')">
-	// 									<i class="bi bi-pencil"></i>
-	// 								</button>
-	// 								<button class="btn btn-sm btn-outline-success" title="Password" data-bs-toggle="modal" data-bs-target="#changePasswordAccountModal"
-	// 								onclick="changePasswordPopulateForm('${account.id}','${account.username}')">
-	// 									<i class="bi bi-person-gear"></i>
-	// 								</button>
-	// 								<button class="btn btn-sm btn-outline-danger" title="Remove" data-bs-toggle="modal" data-bs-target="#deleteAccountModal"
-	// 								onclick="deletePopulateForm('${account.id}', '${account.username}', '${account.role_name}', '${account.member_full_name}', '${account.email}', '${account.is_deleted}')">
-	// 									<i class="bi bi-trash"></i>
-	// 								</button>
-	// 							</td>`
-	// 			text += "</tr>";
-	// 		})
-	// 		$('#accounts_data').html(text)
-	// 	})
-	// 	.catch(err => console.error(err))
 
 	//Populate Role Dropdown Table
 	fetch('api/accounts_fetch_roles.php')
@@ -575,7 +520,6 @@
 				updateAccountSubmitButton.prop('disabled', false).html('<i class="bi bi-check-circle me-1"></i> Update Account');
 			}
 		});
-
 	});
 
 	//Change Password Stuff
@@ -590,16 +534,60 @@
 		const changePasswordFormData = new FormData(this);
 		const changePasswordFormProps = Object.fromEntries(changePasswordFormData);
 
+		const changePasswordSubmitButton = $('#changePasswordSubmitButton');
+		changePasswordSubmitButton.prop('disabled', true).html('<i class="bi bi-hourglass-split me-1"></i> Updating...');
+
+		const formData = $(this).serialize();
+
 		if (changePasswordFormProps.change_password_account_password === changePasswordFormProps.change_password_account_confirm_password) {
-			Swal.fire({
-				icon: "success",
-				title: "Success",
-				text: "You have successfully changed your password!",
-			});
+			if (changePasswordFormProps.change_password_account_password.length < 8) {
+				$('#changePasswordWarning').text("New password must have at least 8 characters.");
+			} else {
+				changePassword(formData)
+			}
+			changePasswordSubmitButton.prop('disabled', false).html('<i class="bi bi-pencil me-1"></i> Change Password');
 		} else {
 			$('#changePasswordWarning').text("Passwords do not match.");
+			changePasswordSubmitButton.prop('disabled', false).html('<i class="bi bi-pencil me-1"></i> Change Password');
 		}
 	});
+
+	function changePassword(formData) {
+		$.ajax({
+			url: 'api/account_update_password.php',
+			method: 'POST',
+			data: formData,
+			dataType: 'json',
+			success: function(response) {
+				if (response.success) {
+					Swal.fire({
+						icon: 'success',
+						title: 'Success!',
+						text: response.message,
+						confirmButtonText: 'OK'
+					}).then(() => {
+						$('#changePasswordAccountModal').modal('hide');
+					});
+				} else {
+					Swal.fire({
+						icon: 'error',
+						title: 'Update Failed',
+						text: response.message,
+						confirmButtonText: 'OK'
+					});
+				}
+			},
+			error: function(xhr) {
+				const response = xhr.responseJSON;
+				Swal.fire({
+					icon: 'error',
+					title: 'Error',
+					text: response?.message || 'An error occurred. Please try again.',
+					confirmButtonText: 'OK'
+				});
+			}
+		});
+	}
 
 	//Delete Account Stuff
 	function deletePopulateForm(accountID, accountUsername, accountRole, accountMemberFullName, accountEmail, accountIsDeleted) {
