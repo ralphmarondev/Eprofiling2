@@ -245,6 +245,7 @@
 							<i class="bi bi-pencil me-1"></i> Change Password
 						</button>
 					</div>
+				</div>
 			</form>
 		</div>
 	</div>
@@ -261,8 +262,7 @@
 				</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
-
-			<form id="deleteFamilyForm" method="POST" action="api/account_delete.php">
+			<form id="deleteAccountForm" method="POST" action="api/account_delete.php">
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-md-12 mb-3">
@@ -271,6 +271,7 @@
 							</label>
 							<input type="text" class="form-control" id="deleteAccountUsername" name="delete_account_username" placeholder="Account username"
 								readonly>
+							<div class="invalid-feedback">Please enter a username.</div>
 						</div>
 					</div>
 
@@ -309,12 +310,10 @@
 					</div>
 				</div>
 
-				<input type="hidden" id="deleteAccountID" name="delete_account_id">
-
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
 					<button type="submit" class="btn btn-danger">
-						<i class="bi bi-trash me-1"></i> Delete Family
+						<i class="bi bi-trash me-1"></i> Delete Account
 					</button>
 				</div>
 			</form>
@@ -370,7 +369,7 @@
 									onclick="changePasswordPopulateForm('${account.id}','${account.username}')">
 										<i class="bi bi-person-gear"></i>
 									</button>
-									<button class="btn btn-sm btn-outline-danger" title="Delete" data-bs-toggle="modal" data-bs-target="#deleteAccountModal")>
+									<button class="btn btn-sm btn-outline-danger" title="Remove" data-bs-toggle="modal" data-bs-target="#deleteAccountModal")>
 										<i class="bi bi-trash"></i>
 									</button>
 								</td>`
@@ -453,8 +452,6 @@
 		const changePasswordFormData = new FormData(changePasswordForm);
 		const changePasswordFormProps = Object.fromEntries(changePasswordFormData);
 
-		console.log(changePasswordFormProps);
-
 		if (changePasswordFormProps.change_password_account_password === changePasswordFormProps.change_password_account_confirm_password) {
 			Swal.fire({
 				icon: "success",
@@ -462,8 +459,28 @@
 				text: "You have successfully changed your password!",
 			});
 		} else {
-			$('#changePasswordWarning').val("Passwords do not match.");
-			console.log('nuh uh')
+			$('#changePasswordWarning').text("Passwords do not match.");
 		}
 	});
+
+	// Delete Account Stuff
+	// function deletePopulateForm(accountID, accountUsername, accountRole, accountMemberFullName, accountMemberName, accountEmail, accountIsDeleted) {
+	// 	$('#deleteAccountUsername').val(accountUsername);
+	// 	$('#deleteAccountRole').val(accountRole);
+	// 	if (accountMemberFullName == 'null') {
+	// 		$('#deleteAccountMember').val('Not Available');
+	// 	} else {
+	// 		$('#deleteAccountMember').val(accountMemberFullName);
+	// 	}
+
+	// 	$('#deleteAccountEmail').val(accountEmail);
+
+	// 	if (accountIsDeleted == 0) {
+	// 		$('#deleteAccountStatus').val('Active');
+	// 	} else {
+	// 		$('#deleteAccountStatus').val('Inactive');
+	// 	}
+
+	// 	$('#deleteAccountID').val(accountID);
+	// }
 </script>
