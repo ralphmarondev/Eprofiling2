@@ -42,6 +42,7 @@
 	</div>
 </div>
 
+
 <!-- View Account Modal -->
 <div class="modal fade" id="viewAccountModal" tabindex="-1" aria-labelledby="viewAccountModalLabel"
 	aria-hidden="true">
@@ -188,136 +189,177 @@
 	</div>
 </div>
 
-<!-- Change Password Modal -->
-<div class="modal fade" id="changePasswordAccountModal" tabindex="-1" aria-labelledby="changePasswordAccountModalLabel"
-	aria-hidden="true">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="changePasswordAccountModalLabel">
-					<i class="bi bi-person-fill-gear me-2"></i>Change Password
-				</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<!-- Admin and staff only can change passwords and delete accounts -->
+
+<?php if (in_array($_SESSION["role_id"], [1, 2])): ?>
+	<!-- Change Password Modal -->
+	<div class="modal fade" id="changePasswordAccountModal" tabindex="-1" aria-labelledby="changePasswordAccountModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="changePasswordAccountModalLabel">
+						<i class="bi bi-person-fill-gear me-2"></i>Change Password
+					</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+
+				<form id="changePasswordAccountForm" method="POST" action="api/account_changePassword.php">
+					<div class="modal-body">
+						<!-- Account Information -->
+						<div class="row">
+							<div class="col-md-12 mb-3">
+								<label for="changePasswordAccountUsername" class="form-label fw-semibold">
+									Account Username <span class="text-danger">*</span>
+								</label>
+								<input type="text" class="form-control" id="changePasswordAccountUsername" name="change_password_account_username" placeholder="Enter account username"
+									readonly>
+								<div class="invalid-feedback">Please enter a username.</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-6 mb-3">
+								<label for="changePasswordAccountPassword" class="form-label fw-semibold">
+									New Password <span class="text-danger">*</span>
+								</label>
+								<input type="password" class="form-control" id="changePasswordAccountPassword" name="change_password_account_password" required>
+							</div>
+							<div class="col-md-6 mb-3">
+								<label for="changePasswordAccountPassword" class="form-label fw-semibold">
+									Confirm Password <span class="text-danger">*</span>
+								</label>
+								<input type="password" class="form-control" id="changePasswordAccountPasswordConfirm" name="change_password_account_confirm_password" required>
+							</div>
+						</div>
+
+						<input type="hidden" id="changePasswordAccountID" name="change_password_account_id">
+
+						<div class="row">
+							<p id="changePasswordWarning" class="text-danger"></p>
+						</div>
+
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+							<button type="submit" class="btn btn-primary" id="changePasswordSubmitButton">
+								<i class="bi bi-pencil me-1"></i> Change Password
+							</button>
+						</div>
+					</div>
+				</form>
 			</div>
-
-			<form id="changePasswordAccountForm" method="POST" action="api/account_changePassword.php">
+		</div>
+	</div>
+<?php else: ?>
+	<div class="modal fade" id="changePasswordAccountModal" tabindex="-1" aria-labelledby="changePasswordAccountModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-danger">
+					<h1 class="modal-title fs-5 text-white" id="changePasswordAccountModalLabel"><i class="bi bi-exclamation-triangle-fill"></i> Warning</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
 				<div class="modal-body">
-					<!-- Account Information -->
-					<div class="row">
-						<div class="col-md-12 mb-3">
-							<label for="changePasswordAccountUsername" class="form-label fw-semibold">
-								Account Username <span class="text-danger">*</span>
-							</label>
-							<input type="text" class="form-control" id="changePasswordAccountUsername" name="change_password_account_username" placeholder="Enter account username"
-								readonly>
-							<div class="invalid-feedback">Please enter a username.</div>
+					You are not authorized to access this.
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+<?php endif; ?>
+
+
+<!-- Delete Account Modal -->
+<?php if (in_array($_SESSION["role_id"], [1, 2])): ?>
+	<div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="deleteAccountModalLabel">
+						<i class="bi bi-trash-fill me-2"></i>Delete Account
+					</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<form id="deleteAccountForm" method="POST" action="api/account_delete.php">
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-md-12 mb-3">
+								<label for="deleteAccountUsername" class="form-label fw-semibold">
+									Account Username
+								</label>
+								<input type="text" class="form-control" id="deleteAccountUsername" name="delete_account_username" placeholder="Account username"
+									readonly>
+								<div class="invalid-feedback">Please enter a username.</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-6 mb-3">
+								<label for="deleteAccountRole" class="form-label fw-semibold">
+									Account Role
+								</label>
+								<input type="text" class="form-control" id="deleteAccountRole" name="delete_account_role" placeholder="Account Role"
+									readonly>
+							</div>
+
+							<div class="col-md-6 mb-3">
+								<label for="deleteAccountRole" class="form-label fw-semibold">
+									Account Member
+								</label>
+								<input type="text" class="form-control" id="deleteAccountMember" name="delete_account_member" placeholder="Account Member"
+									readonly>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-6 mb-3">
+								<label for="deleteAccountEmail" class="form-label fw-semibold">
+									Email Address
+								</label>
+								<input type="email" class="form-control" id="deleteAccountEmail" name="delete_account_email" placeholder="username@example.com" readonly>
+							</div>
+							<div class="col-md-6 mb-3">
+								<label for="status" class="form-label fw-semibold">
+									Status
+								</label>
+								<input type="text" class="form-control" id="deleteAccountStatus" name="delete_account_status" placeholder="Account Status"
+									readonly>
+							</div>
 						</div>
 					</div>
 
-					<div class="row">
-						<div class="col-md-6 mb-3">
-							<label for="changePasswordAccountPassword" class="form-label fw-semibold">
-								New Password <span class="text-danger">*</span>
-							</label>
-							<input type="password" class="form-control" id="changePasswordAccountPassword" name="change_password_account_password" required>
-						</div>
-						<div class="col-md-6 mb-3">
-							<label for="changePasswordAccountPassword" class="form-label fw-semibold">
-								Confirm Password <span class="text-danger">*</span>
-							</label>
-							<input type="password" class="form-control" id="changePasswordAccountPasswordConfirm" name="change_password_account_confirm_password" required>
-						</div>
-					</div>
-
-					<input type="hidden" id="changePasswordAccountID" name="change_password_account_id">
-
-					<div class="row">
-						<p id="changePasswordWarning" class="text-danger"></p>
-					</div>
+					<input type="hidden" id="deleteAccountID" name="delete_account_id">
 
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-						<button type="submit" class="btn btn-primary" id="changePasswordSubmitButton">
-							<i class="bi bi-pencil me-1"></i> Change Password
+						<button type="submit" class="btn btn-danger" id="deleteAccountSubmitButton">
+							<i class="bi bi-trash me-1"></i> Delete Account
 						</button>
 					</div>
-				</div>
-			</form>
-		</div>
-	</div>
-</div>
-
-<!-- Delete Account Modal -->
-<div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel"
-	aria-hidden="true">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="deleteAccountModalLabel">
-					<i class="bi bi-trash-fill me-2"></i>Delete Account
-				</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</form>
 			</div>
-			<form id="deleteAccountForm" method="POST" action="api/account_delete.php">
-				<div class="modal-body">
-					<div class="row">
-						<div class="col-md-12 mb-3">
-							<label for="deleteAccountUsername" class="form-label fw-semibold">
-								Account Username
-							</label>
-							<input type="text" class="form-control" id="deleteAccountUsername" name="delete_account_username" placeholder="Account username"
-								readonly>
-							<div class="invalid-feedback">Please enter a username.</div>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col-md-6 mb-3">
-							<label for="deleteAccountRole" class="form-label fw-semibold">
-								Account Role
-							</label>
-							<input type="text" class="form-control" id="deleteAccountRole" name="delete_account_role" placeholder="Account Role"
-								readonly>
-						</div>
-
-						<div class="col-md-6 mb-3">
-							<label for="deleteAccountRole" class="form-label fw-semibold">
-								Account Member
-							</label>
-							<input type="text" class="form-control" id="deleteAccountMember" name="delete_account_member" placeholder="Account Member"
-								readonly>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col-md-6 mb-3">
-							<label for="deleteAccountEmail" class="form-label fw-semibold">
-								Email Address
-							</label>
-							<input type="email" class="form-control" id="deleteAccountEmail" name="delete_account_email" placeholder="username@example.com" readonly>
-						</div>
-						<div class="col-md-6 mb-3">
-							<label for="status" class="form-label fw-semibold">
-								Status
-							</label>
-							<input type="text" class="form-control" id="deleteAccountStatus" name="delete_account_status" placeholder="Account Status"
-								readonly>
-						</div>
-					</div>
-				</div>
-
-				<input type="hidden" id="deleteAccountID" name="delete_account_id">
-
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-					<button type="submit" class="btn btn-danger" id="deleteAccountSubmitButton">
-						<i class="bi bi-trash me-1"></i> Delete Account
-					</button>
-				</div>
-			</form>
 		</div>
 	</div>
-</div>
+<?php else: ?>
+	<div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-danger">
+					<h1 class="modal-title fs-5 text-white" id="deleteAccountModalLabel"><i class="bi bi-exclamation-triangle-fill"></i> Warning</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					You are not authorized to access this.
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+<?php endif; ?>
 
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
