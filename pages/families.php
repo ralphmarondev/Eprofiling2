@@ -836,11 +836,11 @@
 			</div>
 
 			<div class="modal-footer">
+				<button type="button" class="btn btn-info" onclick="viewFamilyTree()">
+					<i class="bi bi-tree me-1"></i> View Family Tree
+				</button>
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
 					<i class="bi bi-x-circle me-1"></i> Close
-				</button>
-				<button type="button" class="btn btn-primary" onclick="editFamilyFromView()">
-					<i class="bi bi-pencil me-1"></i> Edit
 				</button>
 			</div>
 		</div>
@@ -2237,86 +2237,86 @@
 	}
 
 	function populateViewModal(data) {
-    console.log('Populating view modal with data:', data);
+		console.log('Populating view modal with data:', data);
 
-    if (!data) {
-        console.error('No data provided to populateViewModal');
-        return;
-    }
+		if (!data) {
+			console.error('No data provided to populateViewModal');
+			return;
+		}
 
-    // SECTION 1: FAMILY INFORMATION
-    $('#view_familyCode').val(data.family_code || '-');
-    $('#view_familyName').val(data.family_name || '-');
-    $('#view_householdNumber').val(data.household_number || '-');
-    $('#view_householdType').val(formatHouseholdType(data.household_type));
-    $('#view_housingOwnership').val(formatHousingOwnership(data.housing_ownership));
-    $('#view_contactNumber').val(data.contact_number || '-');
-    $('#view_status').val(formatStatus(data.status));
-    $('#view_registrationStatus').val(formatRegistrationStatus(data.registration_status));
+		// SECTION 1: FAMILY INFORMATION
+		$('#view_familyCode').val(data.family_code || '-');
+		$('#view_familyName').val(data.family_name || '-');
+		$('#view_householdNumber').val(data.household_number || '-');
+		$('#view_householdType').val(formatHouseholdType(data.household_type));
+		$('#view_housingOwnership').val(formatHousingOwnership(data.housing_ownership));
+		$('#view_contactNumber').val(data.contact_number || '-');
+		$('#view_status').val(formatStatus(data.status));
+		$('#view_registrationStatus').val(formatRegistrationStatus(data.registration_status));
 
-    // SECTION 2: ADDRESS
-    $('#view_address').val(data.address || '-');
-    $('#view_barangay').val(data.barangay || '-');
-    $('#view_municipality').val(data.municipality || '-');
-    $('#view_province').val(data.province || '-');
-    $('#view_houseNo').val(data.house_no || '-');
+		// SECTION 2: ADDRESS
+		$('#view_address').val(data.address || '-');
+		$('#view_barangay').val(data.barangay || '-');
+		$('#view_municipality').val(data.municipality || '-');
+		$('#view_province').val(data.province || '-');
+		$('#view_houseNo').val(data.house_no || '-');
 
-    // SECTION 3: HEAD DETAILS
-    $('#view_firstName').val(data.first_name || '-');
-    $('#view_middleName').val(data.middle_name || '-');
-    $('#view_lastName').val(data.last_name || '-');
-    $('#view_suffix').val(data.suffix || '-');
-    $('#view_sex').val(formatSex(data.sex));
-    $('#view_dateOfBirth').val(formatDate(data.date_of_birth));
-    $('#view_placeOfBirth').val(data.place_of_birth || '-');
-    $('#view_civilStatus').val(formatCivilStatus(data.civil_status));
-    $('#view_nationality').val(data.nationality || '-');
-    $('#view_religion').val(data.religion || '-');
-    $('#view_occupation').val(data.occupation || '-');
-    $('#view_educationalAttainment').val(data.educational_attainment || '-');
-    $('#view_relationshipToHead').val(formatRelationship(data.relationship_to_head));
-    $('#view_isVoter').val(data.is_voter ? 'Yes' : 'No');
+		// SECTION 3: HEAD DETAILS
+		$('#view_firstName').val(data.first_name || '-');
+		$('#view_middleName').val(data.middle_name || '-');
+		$('#view_lastName').val(data.last_name || '-');
+		$('#view_suffix').val(data.suffix || '-');
+		$('#view_sex').val(formatSex(data.sex));
+		$('#view_dateOfBirth').val(formatDate(data.date_of_birth));
+		$('#view_placeOfBirth').val(data.place_of_birth || '-');
+		$('#view_civilStatus').val(formatCivilStatus(data.civil_status));
+		$('#view_nationality').val(data.nationality || '-');
+		$('#view_religion').val(data.religion || '-');
+		$('#view_occupation').val(data.occupation || '-');
+		$('#view_educationalAttainment').val(data.educational_attainment || '-');
+		$('#view_relationshipToHead').val(formatRelationship(data.relationship_to_head));
+		$('#view_isVoter').val(data.is_voter ? 'Yes' : 'No');
 
-    // SECTION 4: BENEFICIARY
-    $('#view_isBeneficiary').val(data.is_beneficiary ? 'Yes' : 'No');
+		// SECTION 4: BENEFICIARY
+		$('#view_isBeneficiary').val(data.is_beneficiary ? 'Yes' : 'No');
 
-    if (data.is_beneficiary && data.programs && data.programs.length > 0) {
-        let programsHtml = '';
-        data.programs.forEach(function (program) {
-            programsHtml += `
-                <div class="selected-program-item" style="padding: 6px 10px; margin-bottom: 4px; background: #f8f9fa; border-radius: 4px; border-left: 3px solid #198754;">
-                    <i class="bi bi-check-circle-fill text-success me-1"></i>
-                    <strong>${program.name}</strong>
-                    <small class="text-muted d-block ms-4">${program.description || ''}</small>
-                </div>
-            `;
-        });
-        $('#view_programsList').html(programsHtml);
-    } else {
-        $('#view_programsList').html('<p class="text-muted mb-0">No programs enrolled</p>');
-    }
+		if (data.is_beneficiary && data.programs && data.programs.length > 0) {
+			let programsHtml = '';
+			data.programs.forEach(function (program) {
+				programsHtml += `
+								<div class="selected-program-item" style="padding: 6px 10px; margin-bottom: 4px; background: #f8f9fa; border-radius: 4px; border-left: 3px solid #198754;">
+										<i class="bi bi-check-circle-fill text-success me-1"></i>
+										<strong>${program.name}</strong>
+										<small class="text-muted d-block ms-4">${program.description || ''}</small>
+								</div>
+						`;
+			});
+			$('#view_programsList').html(programsHtml);
+		} else {
+			$('#view_programsList').html('<p class="text-muted mb-0">No programs enrolled</p>');
+		}
 
-    // Indigenous
-    $('#view_isIndigenous').val(data.is_indigenous ? 'Yes' : 'No');
-    if (data.is_indigenous) {
-        $('#view_indigenousGroup').val(data.indigenous_group || '-');
-        $('#view_indigenousGroupContainer').show();
-    } else {
-        $('#view_indigenousGroupContainer').hide();
-    }
+		// Indigenous
+		$('#view_isIndigenous').val(data.is_indigenous ? 'Yes' : 'No');
+		if (data.is_indigenous) {
+			$('#view_indigenousGroup').val(data.indigenous_group || '-');
+			$('#view_indigenousGroupContainer').show();
+		} else {
+			$('#view_indigenousGroupContainer').hide();
+		}
 
-    // SECTION 5: ACCOUNT
-    $('#view_username').val(data.username || '-');
-    $('#view_email').val(data.email || '-');
-    $('#view_role').val(data.role_name || '-');
-    $('#view_accountStatus').val(data.account_status || '-');
+		// SECTION 5: ACCOUNT
+		$('#view_username').val(data.username || '-');
+		$('#view_email').val(data.email || '-');
+		$('#view_role').val(data.role_name || '-');
+		$('#view_accountStatus').val(data.account_status || '-');
 
-    // Store family ID for edit button
-    $('#viewFamilyModal').data('family-id', data.id);
+		// Store family ID for edit button
+		$('#viewFamilyModal').data('family-id', data.id);
 
-    console.log('View modal populated successfully');
-}
-	
+		console.log('View modal populated successfully');
+	}
+
 	function editFamilyFromView() {
 		const familyId = $('#viewFamilyModal').data('family-id');
 		$('#viewFamilyModal').modal('hide');
@@ -3156,4 +3156,22 @@
 			$('#deleteFamilyModal').data('family-code', null);
 		});
 	});
+
+	// for view modal :)
+	function viewFamilyTree() {
+		const familyId = $('#viewFamilyModal').data('family-id');
+		if (familyId) {
+			// Close the view modal
+			$('#viewFamilyModal').modal('hide');
+			// Navigate to family tree page with family ID
+			window.location.href = `?page=family_tree&family_id=${familyId}`;
+		} else {
+			Swal.fire({
+				icon: 'error',
+				title: 'Error',
+				text: 'Family ID not found.',
+				confirmButtonText: 'OK'
+			});
+		}
+	}
 </script>

@@ -15,7 +15,8 @@ $allowed_pages = [
 	'members',
 	'accounts',
 	'reports',
-	'settings'
+	'settings',
+	'family_tree'
 ];
 
 // Validate page
@@ -30,7 +31,8 @@ $page_titles = [
 	'members' => 'Members',
 	'accounts' => 'Accounts',
 	'reports' => 'Reports',
-	'settings' => 'Settings'
+	'settings' => 'Settings',
+	'family_tree' => 'Family Tree'
 ];
 ?>
 
