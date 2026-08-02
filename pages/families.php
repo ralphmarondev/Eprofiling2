@@ -576,284 +576,260 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 
-			<div class="modal-body">
-				<div class="row g-0">
-					<!-- Left Side: Tabs/Sections -->
-					<div class="col-md-3">
-						<div class="steps-vertical">
-							<div class="step-item active" data-section="1">
-								<div class="step-indicator">
-									<span class="step-number">1</span>
-								</div>
-								<div class="step-info">
-									<span class="step-title">Family Info</span>
-								</div>
-							</div>
-							<div class="step-connector"></div>
-							<div class="step-item" data-section="2">
-								<div class="step-indicator">
-									<span class="step-number">2</span>
-								</div>
-								<div class="step-info">
-									<span class="step-title">Address</span>
-								</div>
-							</div>
-							<div class="step-connector"></div>
-							<div class="step-item" data-section="3">
-								<div class="step-indicator">
-									<span class="step-number">3</span>
-								</div>
-								<div class="step-info">
-									<span class="step-title">Head Details</span>
-								</div>
-							</div>
-							<div class="step-connector"></div>
-							<div class="step-item" data-section="4">
-								<div class="step-indicator">
-									<span class="step-number">4</span>
-								</div>
-								<div class="step-info">
-									<span class="step-title">Beneficiary</span>
-								</div>
-							</div>
-							<div class="step-connector"></div>
-							<div class="step-item" data-section="5">
-								<div class="step-indicator">
-									<span class="step-number">5</span>
-								</div>
-								<div class="step-info">
-									<span class="step-title">Account</span>
-								</div>
-							</div>
+			<div class="modal-body" style="padding: 30px 30px 20px 30px; max-height: 70vh; overflow-y: auto;">
+				<!-- Section 1: Family Information -->
+				<h6 class="fw-semibold mb-3">
+					<i class="bi bi-info-circle me-2"></i>Family Information
+				</h6>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label fw-semibold text-muted">Family Code</label>
+							<input type="text" class="form-control" id="view_familyCode" readonly>
 						</div>
 					</div>
-
-					<!-- Divider Line -->
-					<div class="col-md-1 d-none d-md-block p-0">
-						<div class="step-divider"></div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label fw-semibold text-muted">Family Name</label>
+							<input type="text" class="form-control" id="view_familyName" readonly>
+						</div>
 					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label fw-semibold text-muted">Household Number</label>
+							<input type="text" class="form-control" id="view_householdNumber" readonly>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label fw-semibold text-muted">Household Type</label>
+							<input type="text" class="form-control" id="view_householdType" readonly>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label fw-semibold text-muted">Housing Ownership</label>
+							<input type="text" class="form-control" id="view_housingOwnership" readonly>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label fw-semibold text-muted">Contact Number</label>
+							<input type="text" class="form-control" id="view_contactNumber" readonly>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label fw-semibold text-muted">Status</label>
+							<input type="text" class="form-control" id="view_status" readonly>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label fw-semibold text-muted">Registration Status</label>
+							<input type="text" class="form-control" id="view_registrationStatus" readonly>
+						</div>
+					</div>
+				</div>
 
-					<!-- Right Side: Content -->
-					<div class="col-md-8">
-						<div class="step-content-wrapper">
-							<!-- Section 1: Family Information -->
-							<div class="step-content active" data-section="1">
-								<h6 class="fw-semibold mb-3">
-									<i class="bi bi-info-circle me-2"></i>Family Information
-								</h6>
-								<div class="row">
-									<div class="col-md-6">
-										<div class="mb-3">
-											<label class="form-label fw-semibold text-muted">Family Code</label>
-											<p class="form-control-plaintext" id="view_familyCode">-</p>
-										</div>
-										<div class="mb-3">
-											<label class="form-label fw-semibold text-muted">Family Name</label>
-											<p class="form-control-plaintext" id="view_familyName">-</p>
-										</div>
-										<div class="mb-3">
-											<label class="form-label fw-semibold text-muted">Household Number</label>
-											<p class="form-control-plaintext" id="view_householdNumber">-</p>
-										</div>
-									</div>
-									<div class="col-md-6">
-										<div class="mb-3">
-											<label class="form-label fw-semibold text-muted">Household Type</label>
-											<p class="form-control-plaintext" id="view_householdType">-</p>
-										</div>
-										<div class="mb-3">
-											<label class="form-label fw-semibold text-muted">Housing Ownership</label>
-											<p class="form-control-plaintext" id="view_housingOwnership">-</p>
-										</div>
-										<div class="mb-3">
-											<label class="form-label fw-semibold text-muted">Contact Number</label>
-											<p class="form-control-plaintext" id="view_contactNumber">-</p>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-6">
-										<div class="mb-3">
-											<label class="form-label fw-semibold text-muted">Status</label>
-											<p class="form-control-plaintext" id="view_status">-</p>
-										</div>
-									</div>
-									<div class="col-md-6">
-										<div class="mb-3">
-											<label class="form-label fw-semibold text-muted">Registration Status</label>
-											<p class="form-control-plaintext" id="view_registrationStatus">-</p>
-										</div>
-									</div>
-								</div>
-							</div>
+				<hr>
 
-							<!-- Section 2: Address -->
-							<div class="step-content" data-section="2" style="display: none;">
-								<h6 class="fw-semibold mb-3">
-									<i class="bi bi-geo-alt me-2"></i>Address Details
-								</h6>
-								<div class="mb-3">
-									<label class="form-label fw-semibold text-muted">Complete Address</label>
-									<p class="form-control-plaintext" id="view_address">-</p>
-								</div>
-								<div class="row">
-									<div class="col-md-6">
-										<div class="mb-3">
-											<label class="form-label fw-semibold text-muted">Barangay</label>
-											<p class="form-control-plaintext" id="view_barangay">-</p>
-										</div>
-									</div>
-									<div class="col-md-6">
-										<div class="mb-3">
-											<label class="form-label fw-semibold text-muted">Municipality/City</label>
-											<p class="form-control-plaintext" id="view_municipality">-</p>
-										</div>
-									</div>
-									<div class="col-md-6">
-										<div class="mb-3">
-											<label class="form-label fw-semibold text-muted">Province</label>
-											<p class="form-control-plaintext" id="view_province">-</p>
-										</div>
-									</div>
-									<div class="col-md-6">
-										<div class="mb-3">
-											<label class="form-label fw-semibold text-muted">House No./Street</label>
-											<p class="form-control-plaintext" id="view_houseNo">-</p>
-										</div>
-									</div>
-								</div>
-							</div>
+				<!-- Section 2: Address -->
+				<h6 class="fw-semibold mb-3">
+					<i class="bi bi-geo-alt me-2"></i>Address Details
+				</h6>
+				<div class="row">
+					<div class="col-md-12">
+						<div class="mb-3">
+							<label class="form-label fw-semibold text-muted">Complete Address</label>
+							<input type="text" class="form-control" id="view_address" readonly>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label fw-semibold text-muted">Barangay</label>
+							<input type="text" class="form-control" id="view_barangay" readonly>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label fw-semibold text-muted">Municipality/City</label>
+							<input type="text" class="form-control" id="view_municipality" readonly>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label fw-semibold text-muted">Province</label>
+							<input type="text" class="form-control" id="view_province" readonly>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label fw-semibold text-muted">House No./Street</label>
+							<input type="text" class="form-control" id="view_houseNo" readonly>
+						</div>
+					</div>
+				</div>
 
-							<!-- Section 3: Head Details -->
-							<div class="step-content" data-section="3" style="display: none;">
-								<h6 class="fw-semibold mb-3">
-									<i class="bi bi-person-badge me-2"></i>Head of Family Information
-								</h6>
-								<div class="row">
-									<div class="col-md-6">
-										<div class="mb-3">
-											<label class="form-label fw-semibold text-muted">First Name</label>
-											<p class="form-control-plaintext" id="view_firstName">-</p>
-										</div>
-										<div class="mb-3">
-											<label class="form-label fw-semibold text-muted">Middle Name</label>
-											<p class="form-control-plaintext" id="view_middleName">-</p>
-										</div>
-										<div class="mb-3">
-											<label class="form-label fw-semibold text-muted">Last Name</label>
-											<p class="form-control-plaintext" id="view_lastName">-</p>
-										</div>
-										<div class="mb-3">
-											<label class="form-label fw-semibold text-muted">Suffix</label>
-											<p class="form-control-plaintext" id="view_suffix">-</p>
-										</div>
-										<div class="mb-3">
-											<label class="form-label fw-semibold text-muted">Religion</label>
-											<p class="form-control-plaintext" id="view_religion">-</p>
-										</div>
-										<div class="mb-3">
-											<label class="form-label fw-semibold text-muted">Relationship to Head</label>
-											<p class="form-control-plaintext" id="view_relationshipToHead">-</p>
-										</div>
-									</div>
-									<div class="col-md-6">
-										<div class="mb-3">
-											<label class="form-label fw-semibold text-muted">Sex</label>
-											<p class="form-control-plaintext" id="view_sex">-</p>
-										</div>
-										<div class="mb-3">
-											<label class="form-label fw-semibold text-muted">Date of Birth</label>
-											<p class="form-control-plaintext" id="view_dateOfBirth">-</p>
-										</div>
-										<div class="mb-3">
-											<label class="form-label fw-semibold text-muted">Place of Birth</label>
-											<p class="form-control-plaintext" id="view_placeOfBirth">-</p>
-										</div>
-										<div class="mb-3">
-											<label class="form-label fw-semibold text-muted">Civil Status</label>
-											<p class="form-control-plaintext" id="view_civilStatus">-</p>
-										</div>
-										<div class="mb-3">
-											<label class="form-label fw-semibold text-muted">Nationality</label>
-											<p class="form-control-plaintext" id="view_nationality">-</p>
-										</div>
-										<div class="mb-3">
-											<label class="form-label fw-semibold text-muted">Occupation</label>
-											<p class="form-control-plaintext" id="view_occupation">-</p>
-										</div>
-										<div class="mb-3">
-											<label class="form-label fw-semibold text-muted">Educational Attainment</label>
-											<p class="form-control-plaintext" id="view_educationalAttainment">-</p>
-										</div>
-										<div class="mb-3">
-											<label class="form-label fw-semibold text-muted">Registered Voter</label>
-											<p class="form-control-plaintext" id="view_isVoter">-</p>
-										</div>
-									</div>
-								</div>
-							</div>
+				<hr>
 
-							<!-- Section 4: Beneficiary -->
-							<div class="step-content" data-section="4" style="display: none;">
-								<h6 class="fw-semibold mb-3">
-									<i class="bi bi-gift me-2"></i>Beneficiary Information
-								</h6>
-								<div class="mb-3">
-									<label class="form-label fw-semibold text-muted">Is a Beneficiary?</label>
-									<p class="form-control-plaintext" id="view_isBeneficiary">-</p>
-								</div>
-								<div id="view_beneficiaryPrograms">
-									<div class="mb-3">
-										<label class="form-label fw-semibold text-muted">Enrolled Programs</label>
-										<div id="view_programsList">
-											<p class="text-muted">No programs enrolled</p>
-										</div>
-									</div>
-								</div>
-								<div class="mb-3">
-									<label class="form-label fw-semibold text-muted">Indigenous Group</label>
-									<p class="form-control-plaintext" id="view_isIndigenous">-</p>
-								</div>
-								<div id="view_indigenousGroupContainer">
-									<div class="mb-3">
-										<label class="form-label fw-semibold text-muted">Indigenous Group Name</label>
-										<p class="form-control-plaintext" id="view_indigenousGroup">-</p>
-									</div>
-								</div>
-							</div>
+				<!-- Section 3: Head Details -->
+				<h6 class="fw-semibold mb-3">
+					<i class="bi bi-person-badge me-2"></i>Head of Family Information
+				</h6>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label fw-semibold text-muted">First Name</label>
+							<input type="text" class="form-control" id="view_firstName" readonly>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label fw-semibold text-muted">Middle Name</label>
+							<input type="text" class="form-control" id="view_middleName" readonly>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label fw-semibold text-muted">Last Name</label>
+							<input type="text" class="form-control" id="view_lastName" readonly>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label fw-semibold text-muted">Suffix</label>
+							<input type="text" class="form-control" id="view_suffix" readonly>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label fw-semibold text-muted">Sex</label>
+							<input type="text" class="form-control" id="view_sex" readonly>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label fw-semibold text-muted">Date of Birth</label>
+							<input type="text" class="form-control" id="view_dateOfBirth" readonly>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label fw-semibold text-muted">Place of Birth</label>
+							<input type="text" class="form-control" id="view_placeOfBirth" readonly>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label fw-semibold text-muted">Civil Status</label>
+							<input type="text" class="form-control" id="view_civilStatus" readonly>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label fw-semibold text-muted">Nationality</label>
+							<input type="text" class="form-control" id="view_nationality" readonly>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label fw-semibold text-muted">Religion</label>
+							<input type="text" class="form-control" id="view_religion" readonly>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label fw-semibold text-muted">Occupation</label>
+							<input type="text" class="form-control" id="view_occupation" readonly>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label fw-semibold text-muted">Educational Attainment</label>
+							<input type="text" class="form-control" id="view_educationalAttainment" readonly>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label fw-semibold text-muted">Relationship to Head</label>
+							<input type="text" class="form-control" id="view_relationshipToHead" readonly>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label fw-semibold text-muted">Registered Voter</label>
+							<input type="text" class="form-control" id="view_isVoter" readonly>
+						</div>
+					</div>
+				</div>
 
-							<!-- Section 5: Account -->
-							<div class="step-content" data-section="5" style="display: none;">
-								<h6 class="fw-semibold mb-3">
-									<i class="bi bi-person-lock me-2"></i>Account Information
-								</h6>
-								<div class="row">
-									<div class="col-md-6">
-										<div class="mb-3">
-											<label class="form-label fw-semibold text-muted">Username</label>
-											<p class="form-control-plaintext" id="view_username">-</p>
-										</div>
-									</div>
-									<div class="col-md-6">
-										<div class="mb-3">
-											<label class="form-label fw-semibold text-muted">Email</label>
-											<p class="form-control-plaintext" id="view_email">-</p>
-										</div>
-									</div>
-									<div class="col-md-6">
-										<div class="mb-3">
-											<label class="form-label fw-semibold text-muted">Role</label>
-											<p class="form-control-plaintext" id="view_role">-</p>
-										</div>
-									</div>
-									<div class="col-md-6">
-										<div class="mb-3">
-											<label class="form-label fw-semibold text-muted">Account Status</label>
-											<p class="form-control-plaintext" id="view_accountStatus">-</p>
-										</div>
-									</div>
-								</div>
-							</div>
+				<hr>
+
+				<!-- Section 4: Beneficiary -->
+				<h6 class="fw-semibold mb-3">
+					<i class="bi bi-gift me-2"></i>Beneficiary Information
+				</h6>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label fw-semibold text-muted">Is a Beneficiary?</label>
+							<input type="text" class="form-control" id="view_isBeneficiary" readonly>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label fw-semibold text-muted">Indigenous Group</label>
+							<input type="text" class="form-control" id="view_isIndigenous" readonly>
+						</div>
+					</div>
+				</div>
+
+				<div id="view_beneficiaryPrograms">
+					<div class="mb-3">
+						<label class="form-label fw-semibold text-muted">Enrolled Programs</label>
+						<div id="view_programsList">
+							<p class="text-muted">No programs enrolled</p>
+						</div>
+					</div>
+				</div>
+
+				<div id="view_indigenousGroupContainer">
+					<div class="mb-3">
+						<label class="form-label fw-semibold text-muted">Indigenous Group Name</label>
+						<input type="text" class="form-control" id="view_indigenousGroup" readonly>
+					</div>
+				</div>
+
+				<hr>
+
+				<!-- Section 5: Account -->
+				<h6 class="fw-semibold mb-3">
+					<i class="bi bi-person-lock me-2"></i>Account Information
+				</h6>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label fw-semibold text-muted">Username</label>
+							<input type="text" class="form-control" id="view_username" readonly>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label fw-semibold text-muted">Email</label>
+							<input type="text" class="form-control" id="view_email" readonly>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label fw-semibold text-muted">Role</label>
+							<input type="text" class="form-control" id="view_role" readonly>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="mb-3">
+							<label class="form-label fw-semibold text-muted">Account Status</label>
+							<input type="text" class="form-control" id="view_accountStatus" readonly>
 						</div>
 					</div>
 				</div>
@@ -2261,86 +2237,86 @@
 	}
 
 	function populateViewModal(data) {
-		console.log('Populating view modal with data:', data);
+    console.log('Populating view modal with data:', data);
 
-		if (!data) {
-			console.error('No data provided to populateViewModal');
-			return;
-		}
+    if (!data) {
+        console.error('No data provided to populateViewModal');
+        return;
+    }
 
-		// SECTION 1: FAMILY INFORMATION
-		$('#view_familyCode').text(data.family_code || '-');
-		$('#view_familyName').text(data.family_name || '-');
-		$('#view_householdNumber').text(data.household_number || '-');
-		$('#view_householdType').text(formatHouseholdType(data.household_type));
-		$('#view_housingOwnership').text(formatHousingOwnership(data.housing_ownership));
-		$('#view_contactNumber').text(data.contact_number || '-');
-		$('#view_status').html(getStatusBadge(data.status));
-		$('#view_registrationStatus').html(getRegistrationBadge(data.registration_status));
+    // SECTION 1: FAMILY INFORMATION
+    $('#view_familyCode').val(data.family_code || '-');
+    $('#view_familyName').val(data.family_name || '-');
+    $('#view_householdNumber').val(data.household_number || '-');
+    $('#view_householdType').val(formatHouseholdType(data.household_type));
+    $('#view_housingOwnership').val(formatHousingOwnership(data.housing_ownership));
+    $('#view_contactNumber').val(data.contact_number || '-');
+    $('#view_status').val(formatStatus(data.status));
+    $('#view_registrationStatus').val(formatRegistrationStatus(data.registration_status));
 
-		// SECTION 2: ADDRESS
-		$('#view_address').text(data.address || '-');
-		$('#view_barangay').text(data.barangay || '-');
-		$('#view_municipality').text(data.municipality || '-');
-		$('#view_province').text(data.province || '-');
-		$('#view_houseNo').text(data.house_no || '-');
+    // SECTION 2: ADDRESS
+    $('#view_address').val(data.address || '-');
+    $('#view_barangay').val(data.barangay || '-');
+    $('#view_municipality').val(data.municipality || '-');
+    $('#view_province').val(data.province || '-');
+    $('#view_houseNo').val(data.house_no || '-');
 
-		// SECTION 3: HEAD DETAILS
-		$('#view_firstName').text(data.first_name || '-');
-		$('#view_middleName').text(data.middle_name || '-');
-		$('#view_lastName').text(data.last_name || '-');
-		$('#view_suffix').text(data.suffix || '-');
-		$('#view_sex').text(formatSex(data.sex));
-		$('#view_dateOfBirth').text(formatDate(data.date_of_birth));
-		$('#view_placeOfBirth').text(data.place_of_birth || '-');
-		$('#view_civilStatus').text(formatCivilStatus(data.civil_status));
-		$('#view_nationality').text(data.nationality || '-');
-		$('#view_religion').text(data.religion || '-');
-		$('#view_occupation').text(data.occupation || '-');
-		$('#view_educationalAttainment').text(data.educational_attainment || '-');
-		$('#view_relationshipToHead').text(formatRelationship(data.relationship_to_head));
-		$('#view_isVoter').text(data.is_voter ? 'Yes' : 'No');
+    // SECTION 3: HEAD DETAILS
+    $('#view_firstName').val(data.first_name || '-');
+    $('#view_middleName').val(data.middle_name || '-');
+    $('#view_lastName').val(data.last_name || '-');
+    $('#view_suffix').val(data.suffix || '-');
+    $('#view_sex').val(formatSex(data.sex));
+    $('#view_dateOfBirth').val(formatDate(data.date_of_birth));
+    $('#view_placeOfBirth').val(data.place_of_birth || '-');
+    $('#view_civilStatus').val(formatCivilStatus(data.civil_status));
+    $('#view_nationality').val(data.nationality || '-');
+    $('#view_religion').val(data.religion || '-');
+    $('#view_occupation').val(data.occupation || '-');
+    $('#view_educationalAttainment').val(data.educational_attainment || '-');
+    $('#view_relationshipToHead').val(formatRelationship(data.relationship_to_head));
+    $('#view_isVoter').val(data.is_voter ? 'Yes' : 'No');
 
-		// SECTION 4: BENEFICIARY
-		$('#view_isBeneficiary').text(data.is_beneficiary ? 'Yes' : 'No');
+    // SECTION 4: BENEFICIARY
+    $('#view_isBeneficiary').val(data.is_beneficiary ? 'Yes' : 'No');
 
-		if (data.is_beneficiary && data.programs && data.programs.length > 0) {
-			let programsHtml = '';
-			data.programs.forEach(function (program) {
-				programsHtml += `
-								<div class="selected-program-item" style="padding: 6px 10px; margin-bottom: 4px; background: #f8f9fa; border-radius: 4px; border-left: 3px solid #198754;">
-										<i class="bi bi-check-circle-fill text-success me-1"></i>
-										<strong>${program.name}</strong>
-										<small class="text-muted d-block ms-4">${program.description || ''}</small>
-								</div>
-						`;
-			});
-			$('#view_programsList').html(programsHtml);
-		} else {
-			$('#view_programsList').html('<p class="text-muted mb-0">No programs enrolled</p>');
-		}
+    if (data.is_beneficiary && data.programs && data.programs.length > 0) {
+        let programsHtml = '';
+        data.programs.forEach(function (program) {
+            programsHtml += `
+                <div class="selected-program-item" style="padding: 6px 10px; margin-bottom: 4px; background: #f8f9fa; border-radius: 4px; border-left: 3px solid #198754;">
+                    <i class="bi bi-check-circle-fill text-success me-1"></i>
+                    <strong>${program.name}</strong>
+                    <small class="text-muted d-block ms-4">${program.description || ''}</small>
+                </div>
+            `;
+        });
+        $('#view_programsList').html(programsHtml);
+    } else {
+        $('#view_programsList').html('<p class="text-muted mb-0">No programs enrolled</p>');
+    }
 
-		// Indigenous
-		$('#view_isIndigenous').text(data.is_indigenous ? 'Yes' : 'No');
-		if (data.is_indigenous) {
-			$('#view_indigenousGroup').text(data.indigenous_group || '-');
-			$('#view_indigenousGroupContainer').show();
-		} else {
-			$('#view_indigenousGroupContainer').hide();
-		}
+    // Indigenous
+    $('#view_isIndigenous').val(data.is_indigenous ? 'Yes' : 'No');
+    if (data.is_indigenous) {
+        $('#view_indigenousGroup').val(data.indigenous_group || '-');
+        $('#view_indigenousGroupContainer').show();
+    } else {
+        $('#view_indigenousGroupContainer').hide();
+    }
 
-		// SECTION 5: ACCOUNT
-		$('#view_username').text(data.username || '-');
-		$('#view_email').text(data.email || '-');
-		$('#view_role').text(data.role_name || '-');
-		$('#view_accountStatus').html(getAccountStatusBadge(data.account_status));
+    // SECTION 5: ACCOUNT
+    $('#view_username').val(data.username || '-');
+    $('#view_email').val(data.email || '-');
+    $('#view_role').val(data.role_name || '-');
+    $('#view_accountStatus').val(data.account_status || '-');
 
-		// Store family ID for edit button
-		$('#viewFamilyModal').data('family-id', data.id);
+    // Store family ID for edit button
+    $('#viewFamilyModal').data('family-id', data.id);
 
-		console.log('View modal populated successfully');
-	}
-
+    console.log('View modal populated successfully');
+}
+	
 	function editFamilyFromView() {
 		const familyId = $('#viewFamilyModal').data('family-id');
 		$('#viewFamilyModal').modal('hide');
