@@ -308,7 +308,7 @@
 
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-					<button type="submit" class="btn btn-danger">
+					<button type="submit" class="btn btn-danger" id="deleteAccountSubmitButton">
 						<i class="bi bi-trash me-1"></i> Delete Account
 					</button>
 				</div>
@@ -616,4 +616,76 @@
 
 		$('#deleteAccountID').val(accountID);
 	}
+
+	$('#deleteAccountForm').on('submit', function(event) {
+		event.preventDefault();
+
+		const deleteAccountFormData = new FormData(this);
+		const deleteAccountFormProps = Object.fromEntries(deleteAccountFormData);
+
+		const deleteAccountSubmitButton = $('#deleteAccountSubmitButton');
+		deleteAccountSubmitButton.prop('disabled', true).html('<i class="bi bi-hourglass-split me-1"></i> Deleting...');
+
+		const formData = $(this).serialize();
+
+		// Confirm Deletion
+		Swal.fire({
+			title: "Are you sure?",
+			text: "You won't be able to revert this!",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, delete it!"
+		}).then((result) => {
+			if (result.isConfirmed) {
+				Swal.fire({
+					title: "Deleted!",
+					text: "Account has been deleted.",
+					icon: "success"
+				});
+			}
+			deleteAccountSubmitButton.prop('disabled', false).html('<i class="bi bi-trash me-1"></i> Delete Account');
+		});
+
+		function deleteAccount(formData) {
+			$.ajax({
+				url: 'api/account_delete.php',
+				method: 'DELETE',
+				data: formData,
+				dataType: 'json',
+				success: function(response) {
+					if (response.success) {
+						Swal.fire({
+							icon: 'success',
+							title: 'Success!',
+							text: response.message,
+							confirmButtonText: 'OK'
+						}).then(() => {
+							$('#deleteAccountModal').hide();
+							$('.modal-backdrop').remove();
+							$('body').removeClass('modal-open');
+							$('body').css('padding-right', '');
+						});
+					} else {
+						Swal.fire({
+							icon: 'error',
+							title: 'Deletion Failed',
+							text: response.message,
+							confirmButtonText: 'OK'
+						});
+					}
+				},
+				error: function(xhr) {
+					const response = xhr.responseJSON;
+					Swal.fire({
+						icon: 'error',
+						title: 'Error',
+						text: response?.message || 'An error occurred. Please try again.',
+						confirmButtonText: 'OK'
+					});
+				}
+			});
+		}
+	});
 </script>
