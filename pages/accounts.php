@@ -438,21 +438,21 @@
 		$('#updateAccountID').val(accountID);
 	}
 
+	$('#updateAccountForm').on('submit', function(event) {
+		event.preventDefault();
+
+	});
+
 	//Change Password Stuff
 	function changePasswordPopulateForm(accountID, accountUsername) {
 		$('#changePasswordAccountUsername').val(accountUsername);
 		$('#changePasswordAccountID').val(accountID);
 	}
 
-	// check if new password and confirm password is equal
-	var changePasswordForm = $("#changePasswordAccountForm")[0];
-
-
-
 	$('#changePasswordAccountForm').on('submit', function(event) {
 		event.preventDefault();
 
-		const changePasswordFormData = new FormData(changePasswordForm);
+		const changePasswordFormData = new FormData(this);
 		const changePasswordFormProps = Object.fromEntries(changePasswordFormData);
 
 		if (changePasswordFormProps.change_password_account_password === changePasswordFormProps.change_password_account_confirm_password) {
