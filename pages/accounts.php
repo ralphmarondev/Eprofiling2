@@ -484,6 +484,10 @@
 
 		const formData = $(this).serialize();
 
+
+	});
+
+	function updateAccount(formData) {
 		$.ajax({
 			url: 'api/account_update.php',
 			method: 'POST',
@@ -520,7 +524,7 @@
 				updateAccountSubmitButton.prop('disabled', false).html('<i class="bi bi-check-circle me-1"></i> Update Account');
 			}
 		});
-	});
+	}
 
 	//Change Password Stuff
 	function changePasswordPopulateForm(accountID, accountUsername) {
