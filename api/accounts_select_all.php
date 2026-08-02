@@ -1,8 +1,19 @@
 <?php
 require_once '../config/database.php';
 
-// Example: Querying by a specific role_id using parameters
-$sql = "SELECT 
+header("Content-Type: application/json");
+
+if ($_SERVER["REQUEST_METHOD"] !== "GET") {
+  http_response_code(405);
+  echo json_encode([
+    "success" => false,
+    "message" => "Method Not Allowed."
+  ]);
+  exit;
+}
+
+try {
+  $sql = "SELECT 
           accounts.id, 
           accounts.username, 
           accounts.email, 
@@ -16,11 +27,27 @@ $sql = "SELECT
         LEFT JOIN `members` ON accounts.member_id = members.id
         ORDER BY accounts.id;";
 
-$stmt = $mysqli->prepare($sql);
-$stmt->execute();
+  $result = $mysqli->query($sql);
 
-$result = $stmt->get_result();
-$accounts = $result->fetch_all(MYSQLI_ASSOC);
-echo json_encode($accounts);
+  if (!$result) {
+    throw new Exception("Query failed: " . $mysqli->error);
+  }
 
-$stmt->close();
+  $accounts = [];
+
+  while ($row = $result->fetch_assoc()) {
+    $accounts[] = $row;
+  }
+
+  echo json_encode([
+    "success" => true,
+    "accounts" => $accounts,
+    "total" => count($accounts)
+  ]);
+} catch (Exception $e) {
+  http_response_code(500);
+  echo json_encode([
+    "success" => false,
+    "message" => $e->getMessage()
+  ]);
+}

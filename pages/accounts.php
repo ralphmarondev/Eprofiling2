@@ -327,58 +327,148 @@
 <script src="assets/js/bootstrap.bundle.min.js"></script>
 
 <script>
+	// On load 
+	$(document).ready(function() {
+		loadAccounts();
+
+
+	});
 	// populate table
-	fetch('api/accounts_select_all.php')
-		.then(res => res.json())
-		.then(accounts => {
+	function loadAccounts() {
+		$.ajax({
+			url: 'api/accounts_select_all.php',
+			method: 'GET',
+			dataType: 'json',
+			success: function(response) {
+				if (response.success) {
+					renderAccounts(response.accounts);
+				} else {
+					showError('Failed to load accounts: ' + response.message);
+				}
+			},
+			error: function() {
+				showError('Failed to load accounts. Please try again.');
+			}
+		});
+	}
+
+	function renderAccounts(accounts) {
+		const accountDataTable = $('#accounts_data');
+		accountDataTable.empty();
+
+		if (accounts.length === 0) {
+			accountDataTable.html(`
+				<tr>
+					<td colspan="6" class="text-center text-muted">
+						<i class="bi bi-inbox me-2"></i>No accounts added yet
+					</td>
+				</tr>
+				`);
+			return;
+		}
+
+		accounts.forEach((account) => {
 			var text = "";
-			accounts.forEach(account => {
-				text += "<tr>";
-				text += `<td>${account.id}</td>`
-				text += `<td>${account.username}</td>`
-				if (account.role_id == 1) {
-					text += `<td><span class="badge bg-success">${account.role_name}</span></td>`;
-				} else if (account.role_id == 2) {
-					text += `<td><span class="badge bg-primary">${account.role_name}</span></td>`;
-				} else if (account.role_id == 3) {
-					text += `<td><span class="badge bg-info">${account.role_name}</span></td>`;
-				} else if (account.role_id == 4) {
-					text += `<td><span class="badge bg-secondary">${account.role_name}</span></td>`;
-				} else {
-					text += `<td><span class="badge bg-dark">${account.role_name}</span></td>`;
-				}
 
-				if (account.is_deleted == 0) {
-					text += '<td><span class="badge bg-success">Active</span></td>';
-				} else {
-					{
-						text += '<td><span class="badge bg-secondary">Inactive</span></td>';
-					}
-				}
+			text += "<tr>";
+			text += `<td>${account.id}</td>`
+			text += `<td>${account.username}</td>`
+			if (account.role_id == 1) {
+				text += `<td><span class="badge bg-success">${account.role_name}</span></td>`;
+			} else if (account.role_id == 2) {
+				text += `<td><span class="badge bg-primary">${account.role_name}</span></td>`;
+			} else if (account.role_id == 3) {
+				text += `<td><span class="badge bg-info">${account.role_name}</span></td>`;
+			} else if (account.role_id == 4) {
+				text += `<td><span class="badge bg-secondary">${account.role_name}</span></td>`;
+			} else {
+				text += `<td><span class="badge bg-dark">${account.role_name}</span></td>`;
+			}
 
-				text += `<td>
-									<button class="btn btn-sm btn-outline-primary" title="View" data-bs-toggle="modal" data-bs-target="#viewAccountModal" 
-									onclick="viewPopulateForm('${account.username}', '${account.role_name}', '${account.member_id}', '${account.member_full_name}', '${account.email}', '${account.is_deleted}')">
-										<i class="bi bi-eye" ></i>
-									</button>
-									<button class="btn btn-sm btn-outline-warning" title="Edit" data-bs-toggle="modal" data-bs-target="#updateAccountModal"
-									onclick="updatePopulateForm('${account.id}','${account.username}', '${account.id}', '${account.member_id}', '${account.member_full_name}', '${account.email}', '${account.is_deleted}')">
-										<i class="bi bi-pencil"></i>
-									</button>
-									<button class="btn btn-sm btn-outline-success" title="Password" data-bs-toggle="modal" data-bs-target="#changePasswordAccountModal"
-									onclick="changePasswordPopulateForm('${account.id}','${account.username}')">
-										<i class="bi bi-person-gear"></i>
-									</button>
-									<button class="btn btn-sm btn-outline-danger" title="Remove" data-bs-toggle="modal" data-bs-target="#deleteAccountModal"
-									onclick="deletePopulateForm('${account.id}', '${account.username}', '${account.role_name}', '${account.member_full_name}', '${account.email}', '${account.is_deleted}')">
-										<i class="bi bi-trash"></i>
-									</button>
-								</td>`
-				text += "</tr>";
-			})
-			$('#accounts_data').html(text)
-		})
-		.catch(err => console.error(err))
+			if (account.is_deleted == 0) {
+				text += '<td><span class="badge bg-success">Active</span></td>';
+			} else {
+				{
+					text += '<td><span class="badge bg-secondary">Inactive</span></td>';
+				}
+			}
+
+			text += `<td>
+								<button class="btn btn-sm btn-outline-primary" title="View" data-bs-toggle="modal" data-bs-target="#viewAccountModal" 
+								onclick="viewPopulateForm('${account.username}', '${account.role_name}', '${account.member_id}', '${account.member_full_name}', '${account.email}', '${account.is_deleted}')">
+									<i class="bi bi-eye" ></i>
+								</button>
+								<button class="btn btn-sm btn-outline-warning" title="Edit" data-bs-toggle="modal" data-bs-target="#updateAccountModal"
+								onclick="updatePopulateForm('${account.id}','${account.username}', '${account.id}', '${account.member_id}', '${account.member_full_name}', '${account.email}', '${account.is_deleted}')">
+									<i class="bi bi-pencil"></i>
+								</button>
+								<button class="btn btn-sm btn-outline-success" title="Password" data-bs-toggle="modal" data-bs-target="#changePasswordAccountModal"
+								onclick="changePasswordPopulateForm('${account.id}','${account.username}')">
+									<i class="bi bi-person-gear"></i>
+								</button>
+								<button class="btn btn-sm btn-outline-danger" title="Remove" data-bs-toggle="modal" data-bs-target="#deleteAccountModal"
+								onclick="deletePopulateForm('${account.id}', '${account.username}', '${account.role_name}', '${account.member_full_name}', '${account.email}', '${account.is_deleted}')">
+									<i class="bi bi-trash"></i>
+								</button>
+							</td>`
+			text += "</tr>";
+
+			accountDataTable.append(text);
+		});
+	}
+
+
+	// fetch('api/accounts_select_all.php')
+	// 	.then(res => res.json())
+	// 	.then(accounts => {
+	// 		var text = "";
+	// 		accounts.forEach(account => {
+	// 			text += "<tr>";
+	// 			text += `<td>${account.id}</td>`
+	// 			text += `<td>${account.username}</td>`
+	// 			if (account.role_id == 1) {
+	// 				text += `<td><span class="badge bg-success">${account.role_name}</span></td>`;
+	// 			} else if (account.role_id == 2) {
+	// 				text += `<td><span class="badge bg-primary">${account.role_name}</span></td>`;
+	// 			} else if (account.role_id == 3) {
+	// 				text += `<td><span class="badge bg-info">${account.role_name}</span></td>`;
+	// 			} else if (account.role_id == 4) {
+	// 				text += `<td><span class="badge bg-secondary">${account.role_name}</span></td>`;
+	// 			} else {
+	// 				text += `<td><span class="badge bg-dark">${account.role_name}</span></td>`;
+	// 			}
+
+	// 			if (account.is_deleted == 0) {
+	// 				text += '<td><span class="badge bg-success">Active</span></td>';
+	// 			} else {
+	// 				{
+	// 					text += '<td><span class="badge bg-secondary">Inactive</span></td>';
+	// 				}
+	// 			}
+
+	// 			text += `<td>
+	// 								<button class="btn btn-sm btn-outline-primary" title="View" data-bs-toggle="modal" data-bs-target="#viewAccountModal" 
+	// 								onclick="viewPopulateForm('${account.username}', '${account.role_name}', '${account.member_id}', '${account.member_full_name}', '${account.email}', '${account.is_deleted}')">
+	// 									<i class="bi bi-eye" ></i>
+	// 								</button>
+	// 								<button class="btn btn-sm btn-outline-warning" title="Edit" data-bs-toggle="modal" data-bs-target="#updateAccountModal"
+	// 								onclick="updatePopulateForm('${account.id}','${account.username}', '${account.id}', '${account.member_id}', '${account.member_full_name}', '${account.email}', '${account.is_deleted}')">
+	// 									<i class="bi bi-pencil"></i>
+	// 								</button>
+	// 								<button class="btn btn-sm btn-outline-success" title="Password" data-bs-toggle="modal" data-bs-target="#changePasswordAccountModal"
+	// 								onclick="changePasswordPopulateForm('${account.id}','${account.username}')">
+	// 									<i class="bi bi-person-gear"></i>
+	// 								</button>
+	// 								<button class="btn btn-sm btn-outline-danger" title="Remove" data-bs-toggle="modal" data-bs-target="#deleteAccountModal"
+	// 								onclick="deletePopulateForm('${account.id}', '${account.username}', '${account.role_name}', '${account.member_full_name}', '${account.email}', '${account.is_deleted}')">
+	// 									<i class="bi bi-trash"></i>
+	// 								</button>
+	// 							</td>`
+	// 			text += "</tr>";
+	// 		})
+	// 		$('#accounts_data').html(text)
+	// 	})
+	// 	.catch(err => console.error(err))
 
 	//Populate Role Dropdown Table
 	fetch('api/accounts_fetch_roles.php')
@@ -449,8 +539,6 @@
 
 		const formData = $(this).serialize();
 
-		console.log(formData);
-
 		$.ajax({
 			url: 'api/account_update.php',
 			method: 'POST',
@@ -465,7 +553,6 @@
 						confirmButtonText: 'OK'
 					}).then(() => {
 						$('#updateAccountModal').modal('hide');
-						loadFamilies();
 					});
 				} else {
 					Swal.fire({
