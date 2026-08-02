@@ -164,22 +164,6 @@
 							</label>
 							<input type="email" class="form-control" id="updateAccountEmail" name="update_account_email" placeholder="username@example.com" required>
 						</div>
-
-					</div>
-
-					<div class="row">
-						<div class="col-md-6 mb-3">
-							<label for="updateAccountPassword" class="form-label fw-semibold">
-								Password <span class="text-danger">*</span>
-							</label>
-							<input type="password" class="form-control" id="updateAccountPassword" name="update_account_password" required>
-						</div>
-						<div class="col-md-6 mb-3">
-							<label for="updateAccountPassword" class="form-label fw-semibold">
-								Confirm Password <span class="text-danger">*</span>
-							</label>
-							<input type="password" class="form-control" id="updateAccountPassword" name="update_account_confirm_password" required>
-						</div>
 					</div>
 
 					<div class="col-md-6 mb-3">
@@ -203,6 +187,60 @@
 						<i class="bi bi-pencil me-1"></i> Update Account
 					</button>
 				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<!-- Change Password Modal -->
+<div class="modal fade" id="changePasswordAccountModal" tabindex="-1" aria-labelledby="changePasswordAccountModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="changePasswordAccountModalLabel">
+					<i class="bi bi-person-fill-gear me-2"></i>Change Password
+				</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+
+			<form id="changePasswordAccountForm" method="POST" action="api/account_changePassword.php">
+				<div class="modal-body">
+					<!-- Account Information -->
+					<div class="row">
+						<div class="col-md-12 mb-3">
+							<label for="changePasswordAccountUsername" class="form-label fw-semibold">
+								Account Username <span class="text-danger">*</span>
+							</label>
+							<input type="text" class="form-control" id="changePasswordAccountUsername" name="change_password_account_username" placeholder="Enter account username"
+								readonly>
+							<div class="invalid-feedback">Please enter a username.</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-6 mb-3">
+							<label for="changePasswordAccountPassword" class="form-label fw-semibold">
+								Password <span class="text-danger">*</span>
+							</label>
+							<input type="password" class="form-control" id="changePasswordAccountPassword" name="change_password_account_password" required>
+						</div>
+						<div class="col-md-6 mb-3">
+							<label for="changePasswordAccountPassword" class="form-label fw-semibold">
+								Confirm Password <span class="text-danger">*</span>
+							</label>
+							<input type="password" class="form-control" id="changePasswordAccountPasswordConfirm" name="change_password_account_confirm_password" required>
+						</div>
+					</div>
+
+					<input type="hidden" id="changePasswordAccountID" name="change_password_account_id">
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+						<button type="submit" class="btn btn-primary">
+							<i class="bi bi-pencil me-1"></i> Change Password
+						</button>
+					</div>
 			</form>
 		</div>
 	</div>
@@ -323,6 +361,10 @@
 									<button class="btn btn-sm btn-outline-warning" title="Edit" data-bs-toggle="modal" data-bs-target="#updateAccountModal"
 									onclick="updatePopulateForm('${account.id}','${account.username}', '${account.id}', '${account.member_id}', '${account.member_full_name}', '${account.email}', '${account.is_deleted}')">
 										<i class="bi bi-pencil"></i>
+									</button>
+									<button class="btn btn-sm btn-outline-success" title="Password" data-bs-toggle="modal" data-bs-target="#changePasswordAccountModal"
+									onclick="updatePopulateForm('${account.id}','${account.username}')">
+										<i class="bi bi-person-gear"></i>
 									</button>
 									<button class="btn btn-sm btn-outline-danger" title="Delete" data-bs-toggle="modal" data-bs-target="#deleteAccountModal")>
 										<i class="bi bi-trash"></i>
