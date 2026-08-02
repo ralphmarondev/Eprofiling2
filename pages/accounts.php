@@ -437,5 +437,6 @@
 	//Change Password Stuff
 	function changePasswordPopulateForm(accountID, accountUsername) {
 		$('#changePasswordAccountUsername').val(accountUsername);
+		$('#changePasswordAccountID').val(accountID);
 	}
 </script>
