@@ -503,12 +503,9 @@
 						confirmButtonText: 'OK'
 					}).then(() => {
 						$('#updateAccountModal').hide();
-						$(document.activeElement).blur();
 						$('.modal-backdrop').remove();
 						$('body').removeClass('modal-open');
 						$('body').css('padding-right', '');
-
-
 						loadAccounts();
 					});
 				} else {
@@ -576,7 +573,10 @@
 						text: response.message,
 						confirmButtonText: 'OK'
 					}).then(() => {
-						$('#changePasswordAccountModal').modal('hide');
+						$('#changePasswordAccountModal').hide();
+						$('.modal-backdrop').remove();
+						$('body').removeClass('modal-open');
+						$('body').css('padding-right', '');
 					});
 				} else {
 					Swal.fire({
