@@ -447,7 +447,9 @@
 	// check if new password and confirm password is equal
 	var changePasswordForm = $("#changePasswordAccountForm")[0];
 
-	changePasswordForm.addEventListener('submit', function(event) {
+
+
+	$('#changePasswordAccountForm').on('submit', function(event) {
 		event.preventDefault();
 
 		const changePasswordFormData = new FormData(changePasswordForm);
