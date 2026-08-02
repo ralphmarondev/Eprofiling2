@@ -485,6 +485,7 @@
 		const formData = $(this).serialize();
 
 		updateAccount(formData);
+		updateAccountSubmitButton.prop('disabled', false).html('<i class="bi bi-check-circle me-1"></i> Update Account');
 	});
 
 	function updateAccount(formData) {
@@ -501,7 +502,14 @@
 						text: response.message,
 						confirmButtonText: 'OK'
 					}).then(() => {
-						$('#updateAccountModal').modal('hide');
+						$('#updateAccountModal').hide();
+						$(document.activeElement).blur();
+						$('.modal-backdrop').remove();
+						$('body').removeClass('modal-open');
+						$('body').css('padding-right', '');
+
+
+						loadAccounts();
 					});
 				} else {
 					Swal.fire({
@@ -510,7 +518,6 @@
 						text: response.message,
 						confirmButtonText: 'OK'
 					});
-					updateAccountSubmitButton.prop('disabled', false).html('<i class="bi bi-check-circle me-1"></i> Update Account');
 				}
 			},
 			error: function(xhr) {
@@ -521,7 +528,6 @@
 					text: response?.message || 'An error occurred. Please try again.',
 					confirmButtonText: 'OK'
 				});
-				updateAccountSubmitButton.prop('disabled', false).html('<i class="bi bi-check-circle me-1"></i> Update Account');
 			}
 		});
 	}
