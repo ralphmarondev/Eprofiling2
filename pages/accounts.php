@@ -367,7 +367,7 @@
 	function viewPopulateForm(accountUsername, accountRole, accountMemberFullName, accountMemberName, accountEmail, accountIsDeleted) {
 		$('#viewAccountUsername').val(accountUsername);
 		$('#viewAccountRole').val(accountRole);
-		if (accountMemberID == 'null') {
+		if (accountMemberFullName == 'null') {
 			$('#viewAccountMember').val('Not Available');
 		} else {
 			$('#viewAccountMember').val(accountMemberFullName);
