@@ -484,7 +484,7 @@
 
 		const formData = $(this).serialize();
 
-
+		updateAccount(formData);
 	});
 
 	function updateAccount(formData) {
