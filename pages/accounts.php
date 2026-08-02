@@ -235,6 +235,10 @@
 
 					<input type="hidden" id="changePasswordAccountID" name="change_password_account_id">
 
+					<div class="row">
+						<p id="changePasswordWarning" class="text-danger"></p>
+					</div>
+
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
 						<button type="submit" class="btn btn-primary">
@@ -439,4 +443,27 @@
 		$('#changePasswordAccountUsername').val(accountUsername);
 		$('#changePasswordAccountID').val(accountID);
 	}
+
+	// check if new password and confirm password is equal
+	var changePasswordForm = $("#changePasswordAccountForm")[0];
+
+	changePasswordForm.addEventListener('submit', function(event) {
+		event.preventDefault();
+
+		const changePasswordFormData = new FormData(changePasswordForm);
+		const changePasswordFormProps = Object.fromEntries(changePasswordFormData);
+
+		console.log(changePasswordFormProps);
+
+		if (changePasswordFormProps.change_password_account_password === changePasswordFormProps.change_password_account_confirm_password) {
+			Swal.fire({
+				icon: "success",
+				title: "Success",
+				text: "You have successfully changed your password!",
+			});
+		} else {
+			$('#changePasswordWarning').val("Passwords do not match.");
+			console.log('nuh uh')
+		}
+	});
 </script>
