@@ -369,7 +369,8 @@
 									onclick="changePasswordPopulateForm('${account.id}','${account.username}')">
 										<i class="bi bi-person-gear"></i>
 									</button>
-									<button class="btn btn-sm btn-outline-danger" title="Remove" data-bs-toggle="modal" data-bs-target="#deleteAccountModal")>
+									<button class="btn btn-sm btn-outline-danger" title="Remove" data-bs-toggle="modal" data-bs-target="#deleteAccountModal"
+									onclick="deletePopulateForm('${account.id}', '${account.username}', '${account.role_name}', '${account.member_full_name}', '${account.email}', '${account.is_deleted}')">
 										<i class="bi bi-trash"></i>
 									</button>
 								</td>`
@@ -463,24 +464,24 @@
 		}
 	});
 
-	// Delete Account Stuff
-	// function deletePopulateForm(accountID, accountUsername, accountRole, accountMemberFullName, accountMemberName, accountEmail, accountIsDeleted) {
-	// 	$('#deleteAccountUsername').val(accountUsername);
-	// 	$('#deleteAccountRole').val(accountRole);
-	// 	if (accountMemberFullName == 'null') {
-	// 		$('#deleteAccountMember').val('Not Available');
-	// 	} else {
-	// 		$('#deleteAccountMember').val(accountMemberFullName);
-	// 	}
+	//Delete Account Stuff
+	function deletePopulateForm(accountID, accountUsername, accountRole, accountMemberFullName, accountEmail, accountIsDeleted) {
+		$('#deleteAccountUsername').val(accountUsername);
+		$('#deleteAccountRole').val(accountRole);
+		if (accountMemberFullName == 'null') {
+			$('#deleteAccountMember').val('Not Available');
+		} else {
+			$('#deleteAccountMember').val(accountMemberFullName);
+		}
 
-	// 	$('#deleteAccountEmail').val(accountEmail);
+		$('#deleteAccountEmail').val(accountEmail);
 
-	// 	if (accountIsDeleted == 0) {
-	// 		$('#deleteAccountStatus').val('Active');
-	// 	} else {
-	// 		$('#deleteAccountStatus').val('Inactive');
-	// 	}
+		if (accountIsDeleted == 0) {
+			$('#deleteAccountStatus').val('Active');
+		} else {
+			$('#deleteAccountStatus').val('Inactive');
+		}
 
-	// 	$('#deleteAccountID').val(accountID);
-	// }
+		$('#deleteAccountID').val(accountID);
+	}
 </script>
