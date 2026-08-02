@@ -306,6 +306,8 @@
 					</div>
 				</div>
 
+				<input type="hidden" id="deleteAccountID" name="delete_account_id">
+
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
 					<button type="submit" class="btn btn-danger" id="deleteAccountSubmitButton">
@@ -625,6 +627,8 @@
 
 		const formData = $(this).serialize();
 
+		console.log(formData);
+
 		// Confirm Deletion
 		Swal.fire({
 			title: "Are you sure?",
@@ -636,11 +640,7 @@
 			confirmButtonText: "Yes, delete it!"
 		}).then((result) => {
 			if (result.isConfirmed) {
-				Swal.fire({
-					title: "Deleted!",
-					text: "Account has been deleted.",
-					icon: "success"
-				});
+				deleteAccount(formData);
 			}
 			deleteAccountSubmitButton.prop('disabled', false).html('<i class="bi bi-trash me-1"></i> Delete Account');
 		});
@@ -648,7 +648,7 @@
 		function deleteAccount(formData) {
 			$.ajax({
 				url: 'api/account_delete.php',
-				method: 'DELETE',
+				method: 'POST',
 				data: formData,
 				dataType: 'json',
 				success: function(response) {
@@ -663,6 +663,7 @@
 							$('.modal-backdrop').remove();
 							$('body').removeClass('modal-open');
 							$('body').css('padding-right', '');
+							loadAccounts();
 						});
 					} else {
 						Swal.fire({
