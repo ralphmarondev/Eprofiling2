@@ -871,6 +871,540 @@
 	</div>
 </div>
 
+<!-- Update Family Modal - Multi-step with Steps on Left -->
+<div class="modal fade" id="updateFamilyModal" tabindex="-1" aria-labelledby="updateFamilyModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog modal-xl">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="updateFamilyModalLabel">
+					<i class="bi bi-pencil-square me-2"></i>Update Family
+				</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+
+			<form id="updateFamilyForm" method="POST" action="api/family_update.php">
+				<input type="hidden" name="family_id" id="update_familyId">
+
+				<div class="modal-body">
+					<div class="row g-0">
+						<!-- Left Side: Steps -->
+						<div class="col-md-3">
+							<div class="steps-vertical">
+								<div class="step-item active" data-update-step="1">
+									<div class="step-indicator">
+										<span class="step-number">1</span>
+										<span class="step-check"><i class="bi bi-check"></i></span>
+									</div>
+									<div class="step-info">
+										<span class="step-title">Family Info</span>
+									</div>
+								</div>
+								<div class="step-connector"></div>
+
+								<div class="step-item" data-update-step="2">
+									<div class="step-indicator">
+										<span class="step-number">2</span>
+										<span class="step-check"><i class="bi bi-check"></i></span>
+									</div>
+									<div class="step-info">
+										<span class="step-title">Address</span>
+									</div>
+								</div>
+								<div class="step-connector"></div>
+
+								<div class="step-item" data-update-step="3">
+									<div class="step-indicator">
+										<span class="step-number">3</span>
+										<span class="step-check"><i class="bi bi-check"></i></span>
+									</div>
+									<div class="step-info">
+										<span class="step-title">Head Details</span>
+									</div>
+								</div>
+								<div class="step-connector"></div>
+
+								<div class="step-item" data-update-step="4">
+									<div class="step-indicator">
+										<span class="step-number">4</span>
+										<span class="step-check"><i class="bi bi-check"></i></span>
+									</div>
+									<div class="step-info">
+										<span class="step-title">Beneficiary</span>
+									</div>
+								</div>
+								<div class="step-connector"></div>
+
+								<div class="step-item" data-update-step="5">
+									<div class="step-indicator">
+										<span class="step-number">5</span>
+										<span class="step-check"><i class="bi bi-check"></i></span>
+									</div>
+									<div class="step-info">
+										<span class="step-title">Account</span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Divider Line -->
+						<div class="col-md-1 d-none d-md-block p-0">
+							<div class="step-divider"></div>
+						</div>
+
+						<!-- Right Side: Step Content -->
+						<div class="col-md-8">
+							<div class="step-content-wrapper">
+								<!-- Step 1: Family Information -->
+								<div class="step-content active" data-update-step="1">
+									<h6 class="fw-semibold mb-3">
+										<i class="bi bi-info-circle me-2"></i>Family Information
+									</h6>
+									<div class="row">
+										<div class="col-md-6">
+											<div class="mb-3">
+												<label for="update_familyCode" class="form-label fw-semibold">
+													Family Code <span class="text-danger">*</span>
+												</label>
+												<input type="text" class="form-control" id="update_familyCode" name="family_code" readonly>
+											</div>
+
+											<div class="mb-3">
+												<label for="update_familyName" class="form-label fw-semibold">
+													Family Name <span class="text-danger">*</span>
+												</label>
+												<input type="text" class="form-control" id="update_familyName" name="family_name"
+													placeholder="Enter family name" required>
+											</div>
+
+											<div class="mb-3">
+												<label for="update_householdNumber" class="form-label fw-semibold">
+													Household Number <span class="text-muted">(Optional)</span>
+												</label>
+												<input type="text" class="form-control" id="update_householdNumber" name="household_number"
+													placeholder="e.g., 001, 002, or 1">
+											</div>
+										</div>
+
+										<div class="col-md-6">
+											<div class="mb-3">
+												<label for="update_householdType" class="form-label fw-semibold">
+													Household Type <span class="text-danger">*</span>
+												</label>
+												<select class="form-select" id="update_householdType" name="household_type" required>
+													<option value="">Select type...</option>
+													<option value="nuclear">Nuclear</option>
+													<option value="extended">Extended</option>
+													<option value="single_parent">Single Parent</option>
+													<option value="childless">Childless</option>
+												</select>
+											</div>
+
+											<div class="mb-3">
+												<label for="update_housingOwnership" class="form-label fw-semibold">
+													Housing Ownership <span class="text-danger">*</span>
+												</label>
+												<select class="form-select" id="update_housingOwnership" name="housing_ownership" required>
+													<option value="">Select ownership...</option>
+													<option value="owned">Owned</option>
+													<option value="rented">Rented</option>
+													<option value="shared">Shared</option>
+													<option value="government">Government</option>
+													<option value="informal_settler">Informal Settler</option>
+												</select>
+											</div>
+
+											<div class="mb-3">
+												<label for="update_contactNumber" class="form-label fw-semibold">
+													Contact Number <span class="text-muted">(Optional)</span>
+												</label>
+												<input type="tel" class="form-control" id="update_contactNumber" name="contact_number"
+													placeholder="e.g., 09123456789">
+											</div>
+										</div>
+									</div>
+
+									<!-- Status and Registration Status -->
+									<div class="row mt-2">
+										<div class="col-md-6">
+											<div class="mb-3">
+												<label for="update_status" class="form-label fw-semibold">
+													Status <span class="text-danger">*</span>
+												</label>
+												<select class="form-select" id="update_status" name="status" required>
+													<option value="active">Active</option>
+													<option value="inactive">Inactive</option>
+												</select>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="mb-3">
+												<label for="update_registrationStatus" class="form-label fw-semibold">
+													Registration Status <span class="text-danger">*</span>
+												</label>
+												<select class="form-select" id="update_registrationStatus" name="registration_status" required>
+													<option value="pending">Pending</option>
+													<option value="approved">Approved</option>
+													<option value="rejected">Rejected</option>
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<!-- Step 2: Address Details -->
+								<div class="step-content" data-update-step="2" style="display: none;">
+									<h6 class="fw-semibold mb-3">
+										<i class="bi bi-geo-alt me-2"></i>Address Details
+									</h6>
+									<div class="row">
+										<div class="col-md-6">
+											<div class="mb-3">
+												<label for="update_barangay" class="form-label fw-semibold">
+													Barangay <span class="text-danger">*</span>
+												</label>
+												<input type="text" class="form-control" id="update_barangay" name="barangay"
+													placeholder="Enter barangay" required>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="mb-3">
+												<label for="update_municipality" class="form-label fw-semibold">
+													Municipality/City <span class="text-danger">*</span>
+												</label>
+												<input type="text" class="form-control" id="update_municipality" name="municipality"
+													placeholder="Enter municipality/city" required>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="mb-3">
+												<label for="update_province" class="form-label fw-semibold">
+													Province <span class="text-danger">*</span>
+												</label>
+												<input type="text" class="form-control" id="update_province" name="province"
+													placeholder="Enter province" required>
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="mb-3">
+												<label for="update_houseNo" class="form-label fw-semibold">
+													House No./Street <span class="text-danger">*</span>
+												</label>
+												<input type="text" class="form-control" id="update_houseNo" name="house_no"
+													placeholder="e.g., 123 Main St, or Blk 5 Lot 8" required>
+											</div>
+										</div>
+									</div>
+									<input type="hidden" name="address" id="update_fullAddress">
+								</div>
+
+								<!-- Step 3: Head of Family -->
+								<div class="step-content" data-update-step="3" style="display: none;">
+									<h6 class="fw-semibold mb-3">
+										<i class="bi bi-person-badge me-2"></i>Head of Family Information
+									</h6>
+									<div class="row">
+										<div class="col-md-6">
+											<div class="mb-3">
+												<label for="update_firstName" class="form-label fw-semibold">
+													First Name <span class="text-danger">*</span>
+												</label>
+												<input type="text" class="form-control" id="update_firstName" name="first_name"
+													placeholder="Enter first name" required>
+											</div>
+
+											<div class="mb-3">
+												<label for="update_middleName" class="form-label fw-semibold">
+													Middle Name <span class="text-muted">(Optional)</span>
+												</label>
+												<input type="text" class="form-control" id="update_middleName" name="middle_name"
+													placeholder="Enter middle name">
+											</div>
+
+											<div class="mb-3">
+												<label for="update_lastName" class="form-label fw-semibold">
+													Last Name <span class="text-danger">*</span>
+												</label>
+												<input type="text" class="form-control" id="update_lastName" name="last_name"
+													placeholder="Enter last name" required>
+											</div>
+
+											<div class="mb-3">
+												<label for="update_suffix" class="form-label fw-semibold">
+													Suffix <span class="text-muted">(Optional)</span>
+												</label>
+												<select class="form-select" id="update_suffix" name="suffix">
+													<option value="">None</option>
+													<option value="Jr.">Jr.</option>
+													<option value="Sr.">Sr.</option>
+													<option value="II">II</option>
+													<option value="III">III</option>
+													<option value="IV">IV</option>
+												</select>
+											</div>
+
+											<div class="mb-3">
+												<label for="update_religion" class="form-label fw-semibold">
+													Religion <span class="text-muted">(Optional)</span>
+												</label>
+												<input type="text" class="form-control" id="update_religion" name="religion"
+													placeholder="Enter religion">
+											</div>
+
+											<div class="mb-3">
+												<label for="update_relationshipToHead" class="form-label fw-semibold">
+													Relationship to Head <span class="text-danger">*</span>
+												</label>
+												<select class="form-select" id="update_relationshipToHead" name="relationship_to_head" required>
+													<option value="head">Head</option>
+												</select>
+												<small class="text-muted">This is the head of family</small>
+											</div>
+										</div>
+
+										<div class="col-md-6">
+											<div class="mb-3">
+												<label for="update_sex" class="form-label fw-semibold">
+													Sex <span class="text-danger">*</span>
+												</label>
+												<select class="form-select" id="update_sex" name="sex" required>
+													<option value="">Select sex...</option>
+													<option value="male">Male</option>
+													<option value="female">Female</option>
+												</select>
+											</div>
+
+											<div class="mb-3">
+												<label for="update_dateOfBirth" class="form-label fw-semibold">
+													Date of Birth <span class="text-danger">*</span>
+												</label>
+												<input type="date" class="form-control" id="update_dateOfBirth" name="date_of_birth" required>
+											</div>
+
+											<div class="mb-3">
+												<label for="update_placeOfBirth" class="form-label fw-semibold">
+													Place of Birth <span class="text-danger">*</span>
+												</label>
+												<input type="text" class="form-control" id="update_placeOfBirth" name="place_of_birth"
+													placeholder="City/Municipality, Province" required>
+											</div>
+
+											<div class="mb-3">
+												<label for="update_civilStatus" class="form-label fw-semibold">
+													Civil Status <span class="text-danger">*</span>
+												</label>
+												<select class="form-select" id="update_civilStatus" name="civil_status" required>
+													<option value="">Select status...</option>
+													<option value="single">Single</option>
+													<option value="married">Married</option>
+													<option value="widowed">Widowed</option>
+													<option value="separated">Separated</option>
+													<option value="divorced">Divorced</option>
+												</select>
+											</div>
+
+											<div class="mb-3">
+												<label for="update_nationality" class="form-label fw-semibold">
+													Nationality <span class="text-danger">*</span>
+												</label>
+												<input type="text" class="form-control" id="update_nationality" name="nationality"
+													placeholder="e.g., Filipino" required>
+											</div>
+
+											<div class="mb-3">
+												<label for="update_occupation" class="form-label fw-semibold">
+													Occupation <span class="text-muted">(Optional)</span>
+												</label>
+												<input type="text" class="form-control" id="update_occupation" name="occupation"
+													placeholder="Enter occupation">
+											</div>
+
+											<div class="mb-3">
+												<label for="update_educationalAttainment" class="form-label fw-semibold">
+													Educational Attainment <span class="text-muted">(Optional)</span>
+												</label>
+												<input type="text" class="form-control" id="update_educationalAttainment"
+													name="educational_attainment" placeholder="e.g., College Graduate">
+											</div>
+
+											<div class="mb-3">
+												<label for="update_isVoter" class="form-label fw-semibold">
+													Is a registered voter? <span class="text-danger">*</span>
+												</label>
+												<select class="form-select" id="update_isVoter" name="is_voter" required>
+													<option value="">Select...</option>
+													<option value="1">Yes</option>
+													<option value="0">No</option>
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<!-- Step 4: Beneficiary Programs -->
+								<div class="step-content" data-update-step="4" style="display: none;">
+									<h6 class="fw-semibold mb-3">
+										<i class="bi bi-gift me-2"></i>Beneficiary Information
+									</h6>
+
+									<div class="mb-4">
+										<label for="update_isIndigenous" class="form-label fw-semibold">
+											Is the head of family part of an Indigenous Group? <span class="text-danger">*</span>
+										</label>
+										<select class="form-select" id="update_isIndigenous" name="is_indigenous" required>
+											<option value="">Select...</option>
+											<option value="1">Yes</option>
+											<option value="0">No</option>
+										</select>
+									</div>
+
+									<div id="update_indigenousGroupContainer" style="display: none;">
+										<div class="mb-3">
+											<label for="update_indigenousGroup" class="form-label fw-semibold">
+												Indigenous Group <span class="text-danger">*</span>
+											</label>
+											<input type="text" class="form-control" id="update_indigenousGroup" name="indigenous_group"
+												placeholder="e.g., Igorot, Lumad, Mangyan" required>
+											<small class="text-muted">Please specify the indigenous group</small>
+										</div>
+									</div>
+
+									<hr class="my-4">
+
+									<div class="mb-4">
+										<label class="form-label fw-semibold">
+											Is the family head a beneficiary of any program? <span class="text-danger">*</span>
+										</label>
+										<select class="form-select" id="update_isBeneficiary" name="is_beneficiary" required>
+											<option value="">Select...</option>
+											<option value="1">Yes</option>
+											<option value="0">No</option>
+										</select>
+									</div>
+
+									<div id="update_beneficiaryProgramsContainer" style="display: none;">
+										<div class="alert alert-info">
+											<i class="bi bi-info-circle me-2"></i>
+											Select the programs the family head is enrolled in. You can select multiple programs.
+										</div>
+
+										<div class="row">
+											<div class="col-md-12">
+												<div class="mb-3">
+													<label class="form-label fw-semibold">
+														<i class="bi bi-check-square me-1"></i>Select Programs
+													</label>
+													<div class="beneficiary-list" id="update_beneficiaryList">
+														<!-- Will be populated dynamically -->
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<input type="hidden" name="program_ids" id="update_programIds" value="">
+								</div>
+
+								<!-- Step 5: Account Information -->
+								<div class="step-content" data-update-step="5" style="display: none;">
+									<h6 class="fw-semibold mb-3">
+										<i class="bi bi-person-lock me-2"></i>Account Information
+									</h6>
+									<div class="alert alert-info">
+										<i class="bi bi-info-circle me-2"></i>
+										Update account credentials for the head of family.
+									</div>
+									<div class="row">
+										<div class="col-md-6">
+											<div class="mb-3">
+												<label for="update_username" class="form-label fw-semibold">
+													Username <span class="text-danger">*</span>
+												</label>
+												<div class="input-group">
+													<span class="input-group-text"><i class="bi bi-person"></i></span>
+													<input type="text" class="form-control" id="update_username" name="username"
+														placeholder="Enter username" required>
+												</div>
+												<small class="text-muted">Minimum 3 characters, alphanumeric and underscore only</small>
+											</div>
+
+											<div class="mb-3">
+												<label for="update_email" class="form-label fw-semibold">
+													Email Address <span class="text-muted">(Optional)</span>
+												</label>
+												<div class="input-group">
+													<span class="input-group-text"><i class="bi bi-envelope"></i></span>
+													<input type="email" class="form-control" id="update_email" name="email"
+														placeholder="Enter email address (optional)">
+												</div>
+											</div>
+										</div>
+
+										<div class="col-md-6">
+											<div class="mb-3">
+												<label for="update_password" class="form-label fw-semibold">
+													New Password <span class="text-muted">(Leave blank to keep current)</span>
+												</label>
+												<div class="input-group">
+													<span class="input-group-text"><i class="bi bi-key"></i></span>
+													<input type="password" class="form-control" id="update_password" name="password"
+														placeholder="Enter new password">
+													<button type="button" class="btn btn-outline-secondary toggle-password-update"
+														data-target="update_password">
+														<i class="bi bi-eye"></i>
+													</button>
+												</div>
+												<small class="text-muted">Minimum 6 characters. Leave blank to keep current password.</small>
+											</div>
+
+											<div class="mb-3">
+												<label for="update_confirmPassword" class="form-label fw-semibold">
+													Confirm New Password
+												</label>
+												<div class="input-group">
+													<span class="input-group-text"><i class="bi bi-check-circle"></i></span>
+													<input type="password" class="form-control" id="update_confirmPassword"
+														name="confirm_password" placeholder="Confirm new password">
+													<button type="button" class="btn btn-outline-secondary toggle-password-update"
+														data-target="update_confirmPassword">
+														<i class="bi bi-eye"></i>
+													</button>
+												</div>
+											</div>
+
+											<div class="mb-3">
+												<div class="form-check">
+													<input class="form-check-input" type="checkbox" id="update_showPasswords"
+														name="show_passwords">
+													<label class="form-check-label" for="update_showPasswords">
+														Show passwords
+													</label>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-outline-secondary" id="update_prevStepBtn" style="display: none;">
+						<i class="bi bi-arrow-left me-1"></i> Previous
+					</button>
+					<button type="button" class="btn btn-primary" id="update_nextStepBtn">
+						Next <i class="bi bi-arrow-right ms-1"></i>
+					</button>
+					<button type="submit" class="btn btn-success" id="update_submitBtn" style="display: none;">
+						<i class="bi bi-check-circle me-1"></i> Update Family
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
 <style>
 	/* Vertical Steps Styles - Improved */
 	.modal-body {
@@ -1813,10 +2347,7 @@
 		return '<span class="badge bg-secondary">Unknown</span>';
 	}
 
-	function editFamily(id) {
-		console.log('Edit family:', id);
-		// TODO: Implement edit functionality
-	}
+
 
 	function deleteFamily(id) {
 		if (confirm('Are you sure you want to delete this family?')) {
@@ -1828,4 +2359,519 @@
 	function showError(message) {
 		console.error(message);
 	}
+
+	// ============================================
+	// UPDATE FAMILY FUNCTIONS
+	// ============================================
+	function editFamily(id) {
+		console.log('Edit family with ID:', id);
+
+		Swal.fire({
+			title: 'Loading...',
+			text: 'Please wait while we fetch the family details.',
+			allowOutsideClick: false,
+			didOpen: () => {
+				Swal.showLoading();
+			}
+		});
+
+		$.ajax({
+			url: 'api/family_view.php?id=' + id,
+			method: 'GET',
+			dataType: 'json',
+			success: function (response) {
+				console.log('API Response:', response);
+				Swal.close();
+
+				if (response.success && response.data) {
+					populateUpdateModal(response.data);
+					$('#updateFamilyModal').modal('show');
+				} else {
+					Swal.fire({
+						icon: 'error',
+						title: 'Error',
+						text: response.message || 'Failed to load family details.',
+						confirmButtonText: 'OK'
+					});
+				}
+			},
+			error: function (xhr, status, error) {
+				console.error('AJAX Error:', {
+					status: status,
+					error: error,
+					response: xhr.responseText
+				});
+				Swal.close();
+
+				Swal.fire({
+					icon: 'error',
+					title: 'Error',
+					text: 'Failed to load family details. Please try again.',
+					confirmButtonText: 'OK'
+				});
+			}
+		});
+	}
+
+	function populateUpdateModal(data) {
+		console.log('Populating update modal with data:', data);
+
+		if (!data) {
+			console.error('No data provided to populateUpdateModal');
+			return;
+		}
+
+		// Set family ID
+		$('#update_familyId').val(data.id);
+
+		// ============================================
+		// SECTION 1: FAMILY INFORMATION
+		// ============================================
+		$('#update_familyCode').val(data.family_code || '');
+		$('#update_familyName').val(data.family_name || '');
+		$('#update_householdNumber').val(data.household_number || '');
+		$('#update_householdType').val(data.household_type || '');
+		$('#update_housingOwnership').val(data.housing_ownership || '');
+		$('#update_contactNumber').val(data.contact_number || '');
+		$('#update_status').val(data.status || 'active');
+		$('#update_registrationStatus').val(data.registration_status || 'pending');
+
+		// ============================================
+		// SECTION 2: ADDRESS
+		// ============================================
+		$('#update_barangay').val(data.barangay || '');
+		$('#update_municipality').val(data.municipality || '');
+		$('#update_province').val(data.province || '');
+		$('#update_houseNo').val(data.house_no || '');
+
+		// ============================================
+		// SECTION 3: HEAD DETAILS
+		// ============================================
+		$('#update_firstName').val(data.first_name || '');
+		$('#update_middleName').val(data.middle_name || '');
+		$('#update_lastName').val(data.last_name || '');
+		$('#update_suffix').val(data.suffix || '');
+		$('#update_sex').val(data.sex || '');
+		$('#update_dateOfBirth').val(data.date_of_birth || '');
+		$('#update_placeOfBirth').val(data.place_of_birth || '');
+		$('#update_civilStatus').val(data.civil_status || '');
+		$('#update_nationality').val(data.nationality || '');
+		$('#update_religion').val(data.religion || '');
+		$('#update_occupation').val(data.occupation || '');
+		$('#update_educationalAttainment').val(data.educational_attainment || '');
+		$('#update_relationshipToHead').val(data.relationship_to_head || 'head');
+		$('#update_isVoter').val(data.is_voter ? '1' : '0');
+
+		// ============================================
+		// SECTION 4: BENEFICIARY
+		// ============================================
+		$('#update_isIndigenous').val(data.is_indigenous ? '1' : '0');
+		if (data.is_indigenous) {
+			$('#update_indigenousGroup').val(data.indigenous_group || '');
+			$('#update_indigenousGroupContainer').show();
+		} else {
+			$('#update_indigenousGroupContainer').hide();
+		}
+
+		$('#update_isBeneficiary').val(data.is_beneficiary ? '1' : '0');
+		if (data.is_beneficiary && data.programs && data.programs.length > 0) {
+			$('#update_beneficiaryProgramsContainer').show();
+			// Load and select programs
+			loadUpdateBeneficiaryPrograms(data.programs);
+		} else {
+			$('#update_beneficiaryProgramsContainer').hide();
+		}
+
+		// ============================================
+		// SECTION 5: ACCOUNT
+		// ============================================
+		$('#update_username').val(data.username || '');
+		$('#update_email').val(data.email || '');
+		$('#update_password').val('');
+		$('#update_confirmPassword').val('');
+
+		// Store family ID for reference
+		$('#updateFamilyModal').data('family-id', data.id);
+
+		// Reset update step to 1
+		updateCurrentStep = 1;
+		updateStepUI();
+
+		console.log('Update modal populated successfully');
+	}
+
+	// ============================================
+	// UPDATE MODAL NAVIGATION
+	// ============================================
+
+	let updateCurrentStep = 1;
+	const updateTotalSteps = 5;
+	let updateSelectedPrograms = [];
+
+	function loadUpdateBeneficiaryPrograms(selectedPrograms) {
+		$.ajax({
+			url: 'api/beneficiary_programs_list.php',
+			method: 'GET',
+			dataType: 'json',
+			success: function (response) {
+				if (response.success) {
+					renderUpdateBeneficiaryPrograms(response.programs, selectedPrograms);
+				}
+			},
+			error: function () {
+				console.error('Failed to load beneficiary programs');
+			}
+		});
+	}
+
+	function renderUpdateBeneficiaryPrograms(programs, selectedPrograms) {
+		const container = $('#update_beneficiaryList');
+		container.empty();
+
+		if (programs.length === 0) {
+			container.html('<p class="text-muted text-center">No programs available</p>');
+			return;
+		}
+
+		// Store selected program IDs for checking
+		const selectedIds = selectedPrograms.map(p => p.id);
+
+		programs.forEach(function (program) {
+			const isChecked = selectedIds.includes(program.id) ? 'checked' : '';
+			const isSelected = selectedIds.includes(program.id) ? 'selected' : '';
+
+			const item = `
+						<div class="beneficiary-item ${isSelected}" data-id="${program.id}">
+								<div class="form-check">
+										<input class="form-check-input" type="checkbox" id="update_program_${program.id}" 
+												value="${program.id}" ${isChecked}>
+										<label class="form-check-label" for="update_program_${program.id}">
+												${program.name}
+										</label>
+										<span class="program-desc">${program.description || ''}</span>
+								</div>
+						</div>
+				`;
+			container.append(item);
+		});
+
+		// Initialize selected programs
+		updateSelectedPrograms = selectedPrograms.map(p => ({ id: p.id, name: p.name }));
+
+		// Add event listeners
+		container.find('.form-check-input').on('change', function () {
+			const id = parseInt($(this).val());
+			const name = $(this).closest('.beneficiary-item').find('.form-check-label').text().trim();
+
+			if ($(this).is(':checked')) {
+				if (!updateSelectedPrograms.find(p => p.id === id)) {
+					updateSelectedPrograms.push({ id, name });
+				}
+				$(this).closest('.beneficiary-item').addClass('selected');
+			} else {
+				updateSelectedPrograms = updateSelectedPrograms.filter(p => p.id !== id);
+				$(this).closest('.beneficiary-item').removeClass('selected');
+			}
+			updateUpdateProgramIds();
+		});
+
+		// Show/hide beneficiary programs based on selection
+		updateUpdateProgramIds();
+	}
+
+	function updateUpdateProgramIds() {
+		const ids = updateSelectedPrograms.map(p => p.id).join(',');
+		$('#update_programIds').val(ids);
+	}
+
+	function updateStepUI() {
+		// Update step indicators
+		$('.step-item[data-update-step]').each(function () {
+			const stepNum = parseInt($(this).data('update-step'));
+			$(this).removeClass('active completed');
+			if (stepNum === updateCurrentStep) {
+				$(this).addClass('active');
+			} else if (stepNum < updateCurrentStep) {
+				$(this).addClass('completed');
+			}
+		});
+
+		// Update step lines
+		$('.step-item[data-update-step] + .step-connector').each(function (index) {
+			const stepNum = index + 1;
+			$(this).removeClass('completed');
+			if (stepNum < updateCurrentStep) {
+				$(this).addClass('completed');
+			}
+		});
+
+		// Show/hide step content
+		$('.step-content[data-update-step]').each(function () {
+			const stepNum = parseInt($(this).data('update-step'));
+			if (stepNum === updateCurrentStep) {
+				$(this).show();
+			} else {
+				$(this).hide();
+			}
+		});
+
+		// Update buttons
+		$('#update_prevStepBtn').toggle(updateCurrentStep > 1);
+		$('#update_nextStepBtn').toggle(updateCurrentStep < updateTotalSteps);
+		$('#update_submitBtn').toggle(updateCurrentStep === updateTotalSteps);
+	}
+
+	function validateUpdateStep(step) {
+		const content = $(`.step-content[data-update-step="${step}"]`);
+		const inputs = content.find('input[required], select[required], textarea[required]');
+		let isValid = true;
+
+		inputs.each(function () {
+			if (!this.checkValidity()) {
+				$(this).addClass('is-invalid');
+				isValid = false;
+			} else {
+				$(this).removeClass('is-invalid');
+			}
+		});
+
+		// Special validation for step 4 - if beneficiary is Yes, must select at least one program
+		if (step === 4) {
+			const isBeneficiary = $('#update_isBeneficiary').val();
+			if (isBeneficiary === '1' && updateSelectedPrograms.length === 0) {
+				$('#update_beneficiaryList').addClass('is-invalid');
+				isValid = false;
+			} else {
+				$('#update_beneficiaryList').removeClass('is-invalid');
+			}
+		}
+
+		// Special validation for step 5 - password confirmation
+		if (step === 5) {
+			const password = $('#update_password').val();
+			const confirm = $('#update_confirmPassword').val();
+			if (password && confirm && password !== confirm) {
+				$('#update_confirmPassword').addClass('is-invalid');
+				isValid = false;
+			} else {
+				$('#update_confirmPassword').removeClass('is-invalid');
+			}
+			if (password && password.length < 6) {
+				$('#update_password').addClass('is-invalid');
+				isValid = false;
+			} else {
+				$('#update_password').removeClass('is-invalid');
+			}
+		}
+
+		return isValid;
+	}
+
+	function combineUpdateAddress() {
+		const barangay = $('#update_barangay').val();
+		const municipality = $('#update_municipality').val();
+		const province = $('#update_province').val();
+		const houseNo = $('#update_houseNo').val();
+		const fullAddress = `${houseNo}, ${barangay}, ${municipality}, ${province}`;
+		$('#update_fullAddress').val(fullAddress);
+	}
+
+	// ============================================
+	// UPDATE MODAL EVENT BINDINGS
+	// ============================================
+
+	$(document).ready(function () {
+		// Toggle indigenous group field for update
+		$('#update_isIndigenous').on('change', function () {
+			if ($(this).val() === '1') {
+				$('#update_indigenousGroupContainer').slideDown();
+				$('#update_indigenousGroup').prop('required', true);
+			} else {
+				$('#update_indigenousGroupContainer').slideUp();
+				$('#update_indigenousGroup').prop('required', false).val('');
+			}
+		});
+
+		// Toggle beneficiary programs visibility for update
+		$('#update_isBeneficiary').on('change', function () {
+			if ($(this).val() === '1') {
+				$('#update_beneficiaryProgramsContainer').slideDown();
+				// Load programs if not loaded yet
+				if ($('#update_beneficiaryList').children().length === 0) {
+					loadUpdateBeneficiaryPrograms([]);
+				}
+			} else {
+				$('#update_beneficiaryProgramsContainer').slideUp();
+				updateSelectedPrograms = [];
+				$('#update_beneficiaryList .form-check-input').prop('checked', false);
+				$('#update_beneficiaryList .beneficiary-item').removeClass('selected');
+				updateUpdateProgramIds();
+			}
+		});
+
+		// Toggle password visibility for update
+		$('.toggle-password-update').on('click', function () {
+			const targetId = $(this).data('target');
+			const input = $(`#${targetId}`);
+			const icon = $(this).find('i');
+
+			if (input.attr('type') === 'password') {
+				input.attr('type', 'text');
+				icon.removeClass('bi-eye').addClass('bi-eye-slash');
+			} else {
+				input.attr('type', 'password');
+				icon.removeClass('bi-eye-slash').addClass('bi-eye');
+			}
+		});
+
+		// Show/hide all passwords for update
+		$('#update_showPasswords').on('change', function () {
+			const show = $(this).is(':checked');
+			$('#update_password, #update_confirmPassword').each(function () {
+				$(this).attr('type', show ? 'text' : 'password');
+			});
+			$('.toggle-password-update i').each(function () {
+				$(this).toggleClass('bi-eye bi-eye-slash');
+			});
+		});
+
+		// Validate password match for update
+		$('#update_confirmPassword').on('input', function () {
+			const password = $('#update_password').val();
+			const confirm = $(this).val();
+			if (password && confirm && password !== confirm) {
+				$(this).addClass('is-invalid').removeClass('is-valid');
+			} else if (password && confirm && password === confirm) {
+				$(this).removeClass('is-invalid').addClass('is-valid');
+			} else if (!password && !confirm) {
+				$(this).removeClass('is-invalid is-valid');
+			}
+		});
+
+		// Next step for update
+		$('#update_nextStepBtn').on('click', function () {
+			if (updateCurrentStep === 2) {
+				combineUpdateAddress();
+			}
+
+			if (!validateUpdateStep(updateCurrentStep)) {
+				const firstInvalid = $(`.step-content[data-update-step="${updateCurrentStep}"]`).find('.is-invalid').first();
+				if (firstInvalid.length) firstInvalid.focus();
+				return;
+			}
+			if (updateCurrentStep < updateTotalSteps) {
+				updateCurrentStep++;
+				updateStepUI();
+			}
+		});
+
+		// Previous step for update
+		$('#update_prevStepBtn').on('click', function () {
+			if (updateCurrentStep > 1) {
+				updateCurrentStep--;
+				updateStepUI();
+			}
+		});
+
+		// Step click navigation for update
+		$('.step-item[data-update-step]').on('click', function () {
+			const stepNum = parseInt($(this).data('update-step'));
+			if (stepNum <= updateCurrentStep) {
+				updateCurrentStep = stepNum;
+				updateStepUI();
+			}
+		});
+
+		// Form submission for update
+		$('#updateFamilyForm').on('submit', function (e) {
+			e.preventDefault();
+			combineUpdateAddress();
+
+			let allValid = true;
+			let firstErrorStep = 1;
+
+			for (let step = 1; step <= updateTotalSteps; step++) {
+				if (!validateUpdateStep(step)) {
+					allValid = false;
+					if (firstErrorStep === 1) firstErrorStep = step;
+				}
+			}
+
+			if (!allValid) {
+				updateCurrentStep = firstErrorStep;
+				updateStepUI();
+				const firstInvalid = $(`.step-content[data-update-step="${firstErrorStep}"]`).find('.is-invalid').first();
+				if (firstInvalid.length) firstInvalid.focus();
+				return;
+			}
+
+			const submitBtn = $('#update_submitBtn');
+			submitBtn.prop('disabled', true).html('<i class="bi bi-hourglass-split me-1"></i> Updating...');
+
+			const formData = $(this).serialize();
+
+			$.ajax({
+				url: 'api/family_update.php',
+				method: 'POST',
+				data: formData,
+				dataType: 'json',
+				success: function (response) {
+					if (response.success) {
+						Swal.fire({
+							icon: 'success',
+							title: 'Success!',
+							text: response.message,
+							confirmButtonText: 'OK'
+						}).then(() => {
+							$('#updateFamilyModal').modal('hide');
+							loadFamilies();
+						});
+					} else {
+						Swal.fire({
+							icon: 'error',
+							title: 'Update Failed',
+							text: response.message,
+							confirmButtonText: 'OK'
+						});
+						submitBtn.prop('disabled', false).html('<i class="bi bi-check-circle me-1"></i> Update Family');
+					}
+				},
+				error: function (xhr) {
+					const response = xhr.responseJSON;
+					Swal.fire({
+						icon: 'error',
+						title: 'Error',
+						text: response?.message || 'An error occurred. Please try again.',
+						confirmButtonText: 'OK'
+					});
+					submitBtn.prop('disabled', false).html('<i class="bi bi-check-circle me-1"></i> Update Family');
+				}
+			});
+		});
+
+		// Reset form when modal is closed
+		$('#updateFamilyModal').on('hidden.bs.modal', function () {
+			$('#updateFamilyForm')[0].reset();
+			$('.is-invalid').removeClass('is-invalid');
+			$('.is-valid').removeClass('is-valid');
+			$('#update_password, #update_confirmPassword').attr('type', 'password');
+			$('.toggle-password-update i').removeClass('bi-eye-slash').addClass('bi-eye');
+			$('#update_showPasswords').prop('checked', false);
+			updateSelectedPrograms = [];
+			$('#update_beneficiaryList .form-check-input').prop('checked', false);
+			$('#update_beneficiaryList .beneficiary-item').removeClass('selected');
+			$('#update_beneficiaryList').removeClass('is-invalid');
+			updateUpdateProgramIds();
+			$('#update_indigenousGroupContainer').hide();
+			$('#update_indigenousGroup').prop('required', false);
+			$('#update_beneficiaryProgramsContainer').hide();
+			$('#update_isBeneficiary').val('');
+			$('#update_isIndigenous').val('');
+			updateCurrentStep = 1;
+			updateStepUI();
+		});
+
+		// Initialize update step UI
+		updateStepUI();
+	});
 </script>
