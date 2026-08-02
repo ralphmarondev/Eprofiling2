@@ -142,7 +142,7 @@
 							<label for="updateAccountRole" class="form-label fw-semibold">
 								Account Role <span class="text-danger">*</span>
 							</label>
-							<select class="form-select" id="updateAccountRole" name="update_account_role" required>
+							<select class="form-select" id="updateAccountRole" name="update_account_role_id" required>
 								<option value="">Select role...</option>
 							</select>
 						</div>
@@ -151,7 +151,7 @@
 							<label for="updateAccountMember" class="form-label fw-semibold">
 								Account Member
 							</label>
-							<select class="form-select" id="updateAccountMember" name="update_account_status">
+							<select class="form-select" id="updateAccountMember" name="update_account_member_id">
 								<option value="">Select member...</option>
 							</select>
 						</div>
@@ -172,8 +172,8 @@
 						</label>
 						<select class="form-select" id="updateAccountStatus" name="update_account_status" required>
 							<option value="">Select status...</option>
-							<option value="1">Active</option>
-							<option value="0">Inactive</option>
+							<option value='0'>Active</option>
+							<option value='1'>Inactive</option>
 						</select>
 						<div class="invalid-feedback">Please select a status</div>
 					</div>
@@ -183,8 +183,8 @@
 
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-					<button type="submit" class="btn btn-primary">
-						<i class="bi bi-pencil me-1"></i> Update Account
+					<button type="submit" id="updateAccountSubmitButton" class="btn btn-primary">
+						<i class="bi bi-check-circle me-1"></i> Update Account
 					</button>
 				</div>
 			</form>
@@ -440,6 +440,54 @@
 
 	$('#updateAccountForm').on('submit', function(event) {
 		event.preventDefault();
+
+		const updateAccountFormData = new FormData(this);
+		const updateAccountFormProps = Object.fromEntries(updateAccountFormData);
+
+		const updateAccountSubmitButton = $('#updateAccountSubmitButton');
+		updateAccountSubmitButton.prop('disabled', true).html('<i class="bi bi-hourglass-split me-1"></i> Updating...');
+
+		const formData = $(this).serialize();
+
+		console.log(formData);
+
+		$.ajax({
+			url: 'api/account_update.php',
+			method: 'POST',
+			data: formData,
+			dataType: 'json',
+			success: function(response) {
+				if (response.success) {
+					Swal.fire({
+						icon: 'success',
+						title: 'Success!',
+						text: response.message,
+						confirmButtonText: 'OK'
+					}).then(() => {
+						$('#updateAccountModal').modal('hide');
+						loadFamilies();
+					});
+				} else {
+					Swal.fire({
+						icon: 'error',
+						title: 'Update Failed',
+						text: response.message,
+						confirmButtonText: 'OK'
+					});
+					updateAccountSubmitButton.prop('disabled', false).html('<i class="bi bi-check-circle me-1"></i> Update Account');
+				}
+			},
+			error: function(xhr) {
+				const response = xhr.responseJSON;
+				Swal.fire({
+					icon: 'error',
+					title: 'Error',
+					text: response?.message || 'An error occurred. Please try again.',
+					confirmButtonText: 'OK'
+				});
+				updateAccountSubmitButton.prop('disabled', false).html('<i class="bi bi-check-circle me-1"></i> Update Account');
+			}
+		});
 
 	});
 
