@@ -1741,7 +1741,7 @@
 <script src="assets/js/bootstrap.bundle.min.js"></script>
 
 <script>
-	$(document).ready(function () {
+	$(document).ready(function() {
 		// ============================================
 		// CREATE FAMILY MODAL
 		// ============================================
@@ -1766,13 +1766,13 @@
 		$('#familyCode').val(generateFamilyCode());
 
 		// Handle search
-		$('#searchFamily').on('keyup', function () {
+		$('#searchFamily').on('keyup', function() {
 			const searchTerm = $(this).val().toLowerCase();
 			filterFamilies(searchTerm);
 		});
 
 		// Toggle indigenous group field
-		$('#isIndigenous').on('change', function () {
+		$('#isIndigenous').on('change', function() {
 			if ($(this).val() === '1') {
 				$('#indigenousGroupContainer').slideDown();
 				$('#indigenousGroup').prop('required', true);
@@ -1783,7 +1783,7 @@
 		});
 
 		// Toggle beneficiary programs visibility
-		$('#isBeneficiary').on('change', function () {
+		$('#isBeneficiary').on('change', function() {
 			if ($(this).val() === '1') {
 				$('#beneficiaryProgramsContainer').slideDown();
 				if ($('#beneficiaryList').children().length === 0) {
@@ -1804,12 +1804,12 @@
 				url: 'api/beneficiary_programs_list.php',
 				method: 'GET',
 				dataType: 'json',
-				success: function (response) {
+				success: function(response) {
 					if (response.success) {
 						renderBeneficiaryPrograms(response.programs);
 					}
 				},
-				error: function () {
+				error: function() {
 					console.error('Failed to load beneficiary programs');
 				}
 			});
@@ -1824,7 +1824,7 @@
 				return;
 			}
 
-			programs.forEach(function (program) {
+			programs.forEach(function(program) {
 				const item = `
 								<div class="beneficiary-item" data-id="${program.id}">
 										<div class="form-check">
@@ -1840,13 +1840,16 @@
 				container.append(item);
 			});
 
-			container.find('.form-check-input').on('change', function () {
+			container.find('.form-check-input').on('change', function() {
 				const id = parseInt($(this).val());
 				const name = $(this).closest('.beneficiary-item').find('.form-check-label').text().trim();
 
 				if ($(this).is(':checked')) {
 					if (!selectedPrograms.find(p => p.id === id)) {
-						selectedPrograms.push({ id, name });
+						selectedPrograms.push({
+							id,
+							name
+						});
 					}
 					$(this).closest('.beneficiary-item').addClass('selected');
 				} else {
@@ -1873,7 +1876,7 @@
 		}
 
 		// Toggle password visibility
-		$('.toggle-password').on('click', function () {
+		$('.toggle-password').on('click', function() {
 			const targetId = $(this).data('target');
 			const input = $(`#${targetId}`);
 			const icon = $(this).find('i');
@@ -1887,18 +1890,18 @@
 			}
 		});
 
-		$('#showPasswords').on('change', function () {
+		$('#showPasswords').on('change', function() {
 			const show = $(this).is(':checked');
-			$('#password, #confirmPassword').each(function () {
+			$('#password, #confirmPassword').each(function() {
 				$(this).attr('type', show ? 'text' : 'password');
 			});
-			$('.toggle-password i').each(function () {
+			$('.toggle-password i').each(function() {
 				$(this).toggleClass('bi-eye bi-eye-slash');
 			});
 		});
 
 		// Validate password match
-		$('#confirmPassword').on('input', function () {
+		$('#confirmPassword').on('input', function() {
 			const password = $('#password').val();
 			const confirm = $(this).val();
 			if (password && confirm && password !== confirm) {
@@ -1912,7 +1915,7 @@
 
 		// Navigation functions
 		function updateStepUI() {
-			$('.step-item[data-step]').each(function () {
+			$('.step-item[data-step]').each(function() {
 				const stepNum = parseInt($(this).data('step'));
 				$(this).removeClass('active completed');
 				if (stepNum === currentStep) {
@@ -1922,7 +1925,7 @@
 				}
 			});
 
-			$('.step-content[data-step]').each(function () {
+			$('.step-content[data-step]').each(function() {
 				const stepNum = parseInt($(this).data('step'));
 				$(this).toggle(stepNum === currentStep);
 			});
@@ -1937,7 +1940,7 @@
 			const inputs = content.find('input[required], select[required], textarea[required]');
 			let isValid = true;
 
-			inputs.each(function () {
+			inputs.each(function() {
 				if (!this.checkValidity()) {
 					$(this).addClass('is-invalid');
 					isValid = false;
@@ -1972,7 +1975,7 @@
 			return isValid;
 		}
 
-		$('#nextStepBtn').on('click', function () {
+		$('#nextStepBtn').on('click', function() {
 			if (currentStep === 2) {
 				combineAddress();
 			}
@@ -1988,14 +1991,14 @@
 			}
 		});
 
-		$('#prevStepBtn').on('click', function () {
+		$('#prevStepBtn').on('click', function() {
 			if (currentStep > 1) {
 				currentStep--;
 				updateStepUI();
 			}
 		});
 
-		$('.step-item[data-step]').on('click', function () {
+		$('.step-item[data-step]').on('click', function() {
 			const stepNum = parseInt($(this).data('step'));
 			if (stepNum <= currentStep) {
 				currentStep = stepNum;
@@ -2004,7 +2007,7 @@
 		});
 
 		// Form submission
-		$('#createFamilyForm').on('submit', function (e) {
+		$('#createFamilyForm').on('submit', function(e) {
 			e.preventDefault();
 			combineAddress();
 
@@ -2036,7 +2039,7 @@
 				method: 'POST',
 				data: formData,
 				dataType: 'json',
-				success: function (response) {
+				success: function(response) {
 					if (response.success) {
 						Swal.fire({
 							icon: 'success',
@@ -2057,7 +2060,7 @@
 						submitBtn.prop('disabled', false).html('<i class="bi bi-check-circle me-1"></i> Register Family');
 					}
 				},
-				error: function (xhr) {
+				error: function(xhr) {
 					const response = xhr.responseJSON;
 					Swal.fire({
 						icon: 'error',
@@ -2071,7 +2074,7 @@
 		});
 
 		// Reset form when modal is closed
-		$('#createFamilyModal').on('hidden.bs.modal', function () {
+		$('#createFamilyModal').on('hidden.bs.modal', function() {
 			$('#createFamilyForm')[0].reset();
 			$('.is-invalid').removeClass('is-invalid');
 			$('.is-valid').removeClass('is-valid');
@@ -2096,7 +2099,7 @@
 		// ============================================
 		// VIEW MODAL SECTION NAVIGATION
 		// ============================================
-		$('.step-item[data-section]').on('click', function () {
+		$('.step-item[data-section]').on('click', function() {
 			const sectionNum = parseInt($(this).data('section'));
 
 			// Update active state
@@ -2121,14 +2124,14 @@
 			url: 'api/family_list.php',
 			method: 'GET',
 			dataType: 'json',
-			success: function (response) {
+			success: function(response) {
 				if (response.success) {
 					renderFamilies(response.families);
 				} else {
 					showError('Failed to load families: ' + response.message);
 				}
 			},
-			error: function () {
+			error: function() {
 				showError('Failed to load families. Please try again.');
 			}
 		});
@@ -2176,7 +2179,7 @@
 	}
 
 	function filterFamilies(searchTerm) {
-		$('.table tbody tr').each(function () {
+		$('.table tbody tr').each(function() {
 			const text = $(this).text().toLowerCase();
 			$(this).toggle(text.indexOf(searchTerm) > -1);
 		});
@@ -2202,7 +2205,7 @@
 			url: 'api/family_view.php?id=' + id,
 			method: 'GET',
 			dataType: 'json',
-			success: function (response) {
+			success: function(response) {
 				console.log('API Response:', response);
 				Swal.close();
 
@@ -2218,7 +2221,7 @@
 					});
 				}
 			},
-			error: function (xhr, status, error) {
+			error: function(xhr, status, error) {
 				console.error('AJAX Error:', {
 					status: status,
 					error: error,
@@ -2282,7 +2285,7 @@
 
 		if (data.is_beneficiary && data.programs && data.programs.length > 0) {
 			let programsHtml = '';
-			data.programs.forEach(function (program) {
+			data.programs.forEach(function(program) {
 				programsHtml += `
 								<div class="selected-program-item" style="padding: 6px 10px; margin-bottom: 4px; background: #f8f9fa; border-radius: 4px; border-left: 3px solid #198754;">
 										<i class="bi bi-check-circle-fill text-success me-1"></i>
@@ -2436,7 +2439,7 @@
 			url: 'api/family_view.php?id=' + id,
 			method: 'GET',
 			dataType: 'json',
-			success: function (response) {
+			success: function(response) {
 				console.log('API Response:', response);
 				Swal.close();
 
@@ -2452,7 +2455,7 @@
 					});
 				}
 			},
-			error: function (xhr, status, error) {
+			error: function(xhr, status, error) {
 				console.error('AJAX Error:', {
 					status: status,
 					error: error,
@@ -2570,12 +2573,12 @@
 			url: 'api/beneficiary_programs_list.php',
 			method: 'GET',
 			dataType: 'json',
-			success: function (response) {
+			success: function(response) {
 				if (response.success) {
 					renderUpdateBeneficiaryPrograms(response.programs, selectedPrograms);
 				}
 			},
-			error: function () {
+			error: function() {
 				console.error('Failed to load beneficiary programs');
 			}
 		});
@@ -2593,7 +2596,7 @@
 		// Store selected program IDs for checking
 		const selectedIds = selectedPrograms.map(p => p.id);
 
-		programs.forEach(function (program) {
+		programs.forEach(function(program) {
 			const isChecked = selectedIds.includes(program.id) ? 'checked' : '';
 			const isSelected = selectedIds.includes(program.id) ? 'selected' : '';
 
@@ -2613,16 +2616,22 @@
 		});
 
 		// Initialize selected programs
-		updateSelectedPrograms = selectedPrograms.map(p => ({ id: p.id, name: p.name }));
+		updateSelectedPrograms = selectedPrograms.map(p => ({
+			id: p.id,
+			name: p.name
+		}));
 
 		// Add event listeners
-		container.find('.form-check-input').on('change', function () {
+		container.find('.form-check-input').on('change', function() {
 			const id = parseInt($(this).val());
 			const name = $(this).closest('.beneficiary-item').find('.form-check-label').text().trim();
 
 			if ($(this).is(':checked')) {
 				if (!updateSelectedPrograms.find(p => p.id === id)) {
-					updateSelectedPrograms.push({ id, name });
+					updateSelectedPrograms.push({
+						id,
+						name
+					});
 				}
 				$(this).closest('.beneficiary-item').addClass('selected');
 			} else {
@@ -2643,7 +2652,7 @@
 
 	function updateStepUI() {
 		// Update step indicators
-		$('.step-item[data-update-step]').each(function () {
+		$('.step-item[data-update-step]').each(function() {
 			const stepNum = parseInt($(this).data('update-step'));
 			$(this).removeClass('active completed');
 			if (stepNum === updateCurrentStep) {
@@ -2654,7 +2663,7 @@
 		});
 
 		// Update step lines
-		$('.step-item[data-update-step] + .step-connector').each(function (index) {
+		$('.step-item[data-update-step] + .step-connector').each(function(index) {
 			const stepNum = index + 1;
 			$(this).removeClass('completed');
 			if (stepNum < updateCurrentStep) {
@@ -2663,7 +2672,7 @@
 		});
 
 		// Show/hide step content
-		$('.step-content[data-update-step]').each(function () {
+		$('.step-content[data-update-step]').each(function() {
 			const stepNum = parseInt($(this).data('update-step'));
 			if (stepNum === updateCurrentStep) {
 				$(this).show();
@@ -2683,7 +2692,7 @@
 		const inputs = content.find('input[required], select[required], textarea[required]');
 		let isValid = true;
 
-		inputs.each(function () {
+		inputs.each(function() {
 			if (!this.checkValidity()) {
 				$(this).addClass('is-invalid');
 				isValid = false;
@@ -2737,9 +2746,9 @@
 	// UPDATE MODAL EVENT BINDINGS
 	// ============================================
 
-	$(document).ready(function () {
+	$(document).ready(function() {
 		// Toggle indigenous group field for update
-		$('#update_isIndigenous').on('change', function () {
+		$('#update_isIndigenous').on('change', function() {
 			if ($(this).val() === '1') {
 				$('#update_indigenousGroupContainer').slideDown();
 				$('#update_indigenousGroup').prop('required', true);
@@ -2750,7 +2759,7 @@
 		});
 
 		// Toggle beneficiary programs visibility for update
-		$('#update_isBeneficiary').on('change', function () {
+		$('#update_isBeneficiary').on('change', function() {
 			if ($(this).val() === '1') {
 				$('#update_beneficiaryProgramsContainer').slideDown();
 				// Load programs if not loaded yet
@@ -2767,7 +2776,7 @@
 		});
 
 		// Toggle password visibility for update
-		$('.toggle-password-update').on('click', function () {
+		$('.toggle-password-update').on('click', function() {
 			const targetId = $(this).data('target');
 			const input = $(`#${targetId}`);
 			const icon = $(this).find('i');
@@ -2782,18 +2791,18 @@
 		});
 
 		// Show/hide all passwords for update
-		$('#update_showPasswords').on('change', function () {
+		$('#update_showPasswords').on('change', function() {
 			const show = $(this).is(':checked');
-			$('#update_password, #update_confirmPassword').each(function () {
+			$('#update_password, #update_confirmPassword').each(function() {
 				$(this).attr('type', show ? 'text' : 'password');
 			});
-			$('.toggle-password-update i').each(function () {
+			$('.toggle-password-update i').each(function() {
 				$(this).toggleClass('bi-eye bi-eye-slash');
 			});
 		});
 
 		// Validate password match for update
-		$('#update_confirmPassword').on('input', function () {
+		$('#update_confirmPassword').on('input', function() {
 			const password = $('#update_password').val();
 			const confirm = $(this).val();
 			if (password && confirm && password !== confirm) {
@@ -2806,7 +2815,7 @@
 		});
 
 		// Next step for update
-		$('#update_nextStepBtn').on('click', function () {
+		$('#update_nextStepBtn').on('click', function() {
 			if (updateCurrentStep === 2) {
 				combineUpdateAddress();
 			}
@@ -2823,7 +2832,7 @@
 		});
 
 		// Previous step for update
-		$('#update_prevStepBtn').on('click', function () {
+		$('#update_prevStepBtn').on('click', function() {
 			if (updateCurrentStep > 1) {
 				updateCurrentStep--;
 				updateStepUI();
@@ -2831,7 +2840,7 @@
 		});
 
 		// Step click navigation for update
-		$('.step-item[data-update-step]').on('click', function () {
+		$('.step-item[data-update-step]').on('click', function() {
 			const stepNum = parseInt($(this).data('update-step'));
 			if (stepNum <= updateCurrentStep) {
 				updateCurrentStep = stepNum;
@@ -2840,7 +2849,7 @@
 		});
 
 		// Form submission for update
-		$('#updateFamilyForm').on('submit', function (e) {
+		$('#updateFamilyForm').on('submit', function(e) {
 			e.preventDefault();
 			combineUpdateAddress();
 
@@ -2872,7 +2881,7 @@
 				method: 'POST',
 				data: formData,
 				dataType: 'json',
-				success: function (response) {
+				success: function(response) {
 					if (response.success) {
 						Swal.fire({
 							icon: 'success',
@@ -2893,7 +2902,7 @@
 						submitBtn.prop('disabled', false).html('<i class="bi bi-check-circle me-1"></i> Update Family');
 					}
 				},
-				error: function (xhr) {
+				error: function(xhr) {
 					const response = xhr.responseJSON;
 					Swal.fire({
 						icon: 'error',
@@ -2907,7 +2916,7 @@
 		});
 
 		// Reset form when modal is closed
-		$('#updateFamilyModal').on('hidden.bs.modal', function () {
+		$('#updateFamilyModal').on('hidden.bs.modal', function() {
 			$('#updateFamilyForm')[0].reset();
 			$('.is-invalid').removeClass('is-invalid');
 			$('.is-valid').removeClass('is-valid');
@@ -2953,7 +2962,7 @@
 			url: 'api/family_view.php?id=' + id,
 			method: 'GET',
 			dataType: 'json',
-			success: function (response) {
+			success: function(response) {
 				console.log('API Response:', response);
 				Swal.close();
 
@@ -2992,7 +3001,7 @@
 					});
 				}
 			},
-			error: function (xhr, status, error) {
+			error: function(xhr, status, error) {
 				console.error('AJAX Error:', {
 					status: status,
 					error: error,
@@ -3032,9 +3041,9 @@
 	// DELETE MODAL EVENT BINDINGS
 	// ============================================
 
-	$(document).ready(function () {
+	$(document).ready(function() {
 		// Enable/disable delete button based on confirmation input
-		$('#delete_confirmInput').on('input', function () {
+		$('#delete_confirmInput').on('input', function() {
 			const inputValue = $(this).val();
 			const familyCode = $('#deleteFamilyModal').data('family-code');
 
@@ -3046,7 +3055,7 @@
 		});
 
 		// Handle Enter key on confirmation input
-		$('#delete_confirmInput').on('keypress', function (e) {
+		$('#delete_confirmInput').on('keypress', function(e) {
 			if (e.key === 'Enter') {
 				const inputValue = $(this).val();
 				const familyCode = $('#deleteFamilyModal').data('family-code');
@@ -3058,7 +3067,7 @@
 		});
 
 		// Delete button click handler
-		$('#delete_confirmBtn').on('click', function () {
+		$('#delete_confirmBtn').on('click', function() {
 			const familyId = $('#deleteFamilyModal').data('family-id');
 			const familyCode = $('#deleteFamilyModal').data('family-code');
 
@@ -3104,9 +3113,11 @@
 					$.ajax({
 						url: 'api/family_delete.php',
 						method: 'POST',
-						data: { family_id: familyId },
+						data: {
+							family_id: familyId
+						},
 						dataType: 'json',
-						success: function (response) {
+						success: function(response) {
 							Swal.close();
 
 							if (response.success) {
@@ -3128,7 +3139,7 @@
 								});
 							}
 						},
-						error: function (xhr, status, error) {
+						error: function(xhr, status, error) {
 							console.error('AJAX Error:', {
 								status: status,
 								error: error,
@@ -3149,7 +3160,7 @@
 		});
 
 		// Reset delete modal when closed
-		$('#deleteFamilyModal').on('hidden.bs.modal', function () {
+		$('#deleteFamilyModal').on('hidden.bs.modal', function() {
 			$('#delete_confirmInput').val('');
 			$('#delete_confirmBtn').prop('disabled', true);
 			$('#deleteFamilyModal').data('family-id', null);

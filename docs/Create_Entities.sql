@@ -143,7 +143,8 @@ INSERT INTO beneficiary_programs (name, description) VALUES
 ('Cash Assistance', 'Emergency Cash Assistance'),
 ('Scholarship', 'Government Scholarship Program'),
 ('Farmer Assistance', 'Programs for Farmers'),
-('Fisherfolk Assistance', 'Programs for Fisherfolk');
+('Fisherfolk Assistance', 'Programs for Fisherfolk'),
+('OFW', 'Overseas Filipino Workers');
 
 -- =====================================================
 -- ACCOUNTS

@@ -36,7 +36,7 @@
 			Welcome to the Eprofiling System.
 			You are logged in as
 			<strong>
-				<?= htmlspecialchars($_SESSION["role"]); ?>
+				<?= htmlspecialchars($_SESSION["role_id"]); ?>
 			</strong>.
 		</p>
 	</div>
