@@ -108,89 +108,108 @@
 	</div>
 </div>
 
-<!-- Update Account Modal -->
-<div class="modal fade" id="updateAccountModal" tabindex="-1" aria-labelledby="updateAccountModalLabel"
-	aria-hidden="true">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="updateAccountModalLabel">
-					<i class="bi bi-pencil-fill me-2"></i>Update Account
-				</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<!-- Users can't update accounts -->
+<?php if (in_array($_SESSION["role_id"], [1, 2, 3])): ?>
+	<!-- Update Account Modal -->
+	<div class="modal fade" id="updateAccountModal" tabindex="-1" aria-labelledby="updateAccountModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="updateAccountModalLabel">
+						<i class="bi bi-pencil-fill me-2"></i>Update Account
+					</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+
+				<form id="updateAccountForm" method="POST" action="api/account_update.php">
+					<div class="modal-body">
+						<!-- Account Information -->
+						<div class="row">
+							<div class="col-md-12 mb-3">
+								<label for="updateAccountUsername" class="form-label fw-semibold">
+									Account Username <span class="text-danger">*</span>
+								</label>
+								<input type="text" class="form-control" id="updateAccountUsername" name="update_account_username" placeholder="Enter account username"
+									required>
+								<div class="invalid-feedback">Please enter a username.</div>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-6 mb-3">
+								<label for="updateAccountRole" class="form-label fw-semibold">
+									Account Role <span class="text-danger">*</span>
+								</label>
+								<select class="form-select" id="updateAccountRole" name="update_account_role_id" required>
+									<option value="">Select role...</option>
+								</select>
+							</div>
+
+							<div class="col-md-6 mb-3">
+								<label for="updateAccountMember" class="form-label fw-semibold">
+									Account Member
+								</label>
+								<select class="form-select" id="updateAccountMember" name="update_account_member_id">
+									<option value="">Select member...</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-12 md-3">
+								<label for="updateAccountEmail" class="form-label fw-semibold">
+									Email Address <span class="text-danger">*</span>
+								</label>
+								<input type="email" class="form-control" id="updateAccountEmail" name="update_account_email" placeholder="username@example.com" required>
+							</div>
+						</div>
+
+						<div class="col-md-6 mb-3">
+							<label for="update_account_status" class="form-label fw-semibold">
+								Status <span class="text-danger">*</span>
+							</label>
+							<select class="form-select" id="updateAccountStatus" name="update_account_status" required>
+								<option value="">Select status...</option>
+								<option value='0'>Active</option>
+								<option value='1'>Inactive</option>
+							</select>
+							<div class="invalid-feedback">Please select a status</div>
+						</div>
+					</div>
+
+					<input type="hidden" id="updateAccountID" name="update_account_id">
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+						<button type="submit" id="updateAccountSubmitButton" class="btn btn-primary">
+							<i class="bi bi-check-circle me-1"></i> Update Account
+						</button>
+					</div>
+				</form>
 			</div>
-
-			<form id="updateAccountForm" method="POST" action="api/account_update.php">
-				<div class="modal-body">
-					<!-- Account Information -->
-					<div class="row">
-						<div class="col-md-12 mb-3">
-							<label for="updateAccountUsername" class="form-label fw-semibold">
-								Account Username <span class="text-danger">*</span>
-							</label>
-							<input type="text" class="form-control" id="updateAccountUsername" name="update_account_username" placeholder="Enter account username"
-								required>
-							<div class="invalid-feedback">Please enter a username.</div>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col-md-6 mb-3">
-							<label for="updateAccountRole" class="form-label fw-semibold">
-								Account Role <span class="text-danger">*</span>
-							</label>
-							<select class="form-select" id="updateAccountRole" name="update_account_role_id" required>
-								<option value="">Select role...</option>
-							</select>
-						</div>
-
-						<div class="col-md-6 mb-3">
-							<label for="updateAccountMember" class="form-label fw-semibold">
-								Account Member
-							</label>
-							<select class="form-select" id="updateAccountMember" name="update_account_member_id">
-								<option value="">Select member...</option>
-							</select>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col-md-12 md-3">
-							<label for="updateAccountEmail" class="form-label fw-semibold">
-								Email Address <span class="text-danger">*</span>
-							</label>
-							<input type="email" class="form-control" id="updateAccountEmail" name="update_account_email" placeholder="username@example.com" required>
-						</div>
-					</div>
-
-					<div class="col-md-6 mb-3">
-						<label for="update_account_status" class="form-label fw-semibold">
-							Status <span class="text-danger">*</span>
-						</label>
-						<select class="form-select" id="updateAccountStatus" name="update_account_status" required>
-							<option value="">Select status...</option>
-							<option value='0'>Active</option>
-							<option value='1'>Inactive</option>
-						</select>
-						<div class="invalid-feedback">Please select a status</div>
-					</div>
-				</div>
-
-				<input type="hidden" id="updateAccountID" name="update_account_id">
-
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-					<button type="submit" id="updateAccountSubmitButton" class="btn btn-primary">
-						<i class="bi bi-check-circle me-1"></i> Update Account
-					</button>
-				</div>
-			</form>
 		</div>
 	</div>
-</div>
+<?php else: ?>
+	<div class="modal fade" id="updateAccountModal" tabindex="-1" aria-labelledby="updateAccountModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-danger">
+					<h1 class="modal-title fs-5 text-white" id="updateAccountModalLabel"><i class="bi bi-exclamation-triangle-fill"></i> Warning</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					You are not authorized to access this.
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+<?php endif; ?>
 
 <!-- Admin and staff only can change passwords and delete accounts -->
-
 <?php if (in_array($_SESSION["role_id"], [1, 2])): ?>
 	<!-- Change Password Modal -->
 	<div class="modal fade" id="changePasswordAccountModal" tabindex="-1" aria-labelledby="changePasswordAccountModalLabel"
@@ -269,9 +288,8 @@
 	</div>
 <?php endif; ?>
 
-
-<!-- Delete Account Modal -->
 <?php if (in_array($_SESSION["role_id"], [1, 2])): ?>
+	<!-- Delete Account Modal -->
 	<div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel"
 		aria-hidden="true">
 		<div class="modal-dialog modal-lg">
