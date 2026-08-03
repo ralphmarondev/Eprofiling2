@@ -19,11 +19,11 @@ try {
           accounts.email, 
           members.id AS member_id, 
           accounts.role_id,
-          role.name AS role_name,
+          roles.name AS role_name,
           CONCAT(members.first_name, ' ', members.last_name) AS member_full_name,
           accounts.is_deleted
         FROM `accounts`
-        INNER JOIN `role` ON accounts.role_id = role.id
+        INNER JOIN `roles` ON accounts.role_id = roles.id
         LEFT JOIN `members` ON accounts.member_id = members.id
         ORDER BY accounts.id;";
 
