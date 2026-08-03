@@ -2,7 +2,7 @@
 require_once '../config/database.php';
 
 // Example: Querying by a specific role_id using parameters
-$sql = "SELECT * FROM `role`";
+$sql = "SELECT * FROM `roles`";
 
 $stmt = $mysqli->prepare($sql);
 $stmt->execute();
